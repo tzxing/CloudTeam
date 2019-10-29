@@ -27,15 +27,15 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.path === "/")
-      (store.state as any).user.access_token = "";
+  if (to.path === "/logout")
+    (store.state as any).user.access_token = "";
 
-  if ((to.path !== "/" && to.path !== "/register" && to.path !== "/finished")
-      && (store.state as any).user.access_token === "") {
-      console.warn("强制转跳到登陆页");
-      next("/login");
+  if ((to.path.startsWith('/internal'))
+    && (store.state as any).user.access_token === "") {
+    console.warn("强制转跳到登陆页");
+    next("/login");
   } else {
-      next();
+    next();
   }
 });
 
