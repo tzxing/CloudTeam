@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import store from '../store';
+import Internel from './internal';
 
 Vue.use(VueRouter)
 
@@ -16,6 +17,7 @@ const routes = [
     name: 'login',
     component: () => import('../views/Login.vue')
   },
+  ...Internel
 ]
 
 const router = new VueRouter({
@@ -30,8 +32,8 @@ router.beforeEach((to, from, next) => {
 
   if ((to.path !== "/" && to.path !== "/register" && to.path !== "/finished")
       && (store.state as any).user.access_token === "") {
-      console.warn("强制转跳到根页");
-      next("/");
+      console.warn("强制转跳到登陆页");
+      next("/login");
   } else {
       next();
   }
