@@ -73,27 +73,5 @@ export default class InternationalView extends Vue {
 }
 </script>
 
-<style lang="scss">
-.text-html-details {
-  text-indent: 2em;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  p {
-    padding-bottom: 0.8em;
-  }
-
-  .details-image {
-    text-indent: 0em;
-
-    width: 50%;
-    height: auto;
-    max-height: 100%;
-  }
-}
-</style>
-
 <style lang="scss" scoped>
 </style>
