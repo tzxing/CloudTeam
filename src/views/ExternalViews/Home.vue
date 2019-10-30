@@ -48,7 +48,6 @@
           <a href="/details/cloudcontrol" class="eight-panel-label">云控制</a>
         </div>
         <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
-          
           <img src="../../assets/panels/2.png" class="eight-panel-img" />
           <span class="eight-panel-label">MPC</span>
         </div>
@@ -68,16 +67,19 @@
           <span class="eight-panel-label">MPC</span>
         </div>
         <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
-          <img src="../../assets/panels/1.png" class="eight-panel-img" />
+          <span class="eight-panel-item-color-mask" style="background-color: #BBAE99;"></span>
+          <img src="../../assets/panels/6.png" class="eight-panel-img" />
           <span class="eight-panel-label">MPC</span>
         </div>
         <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
+          <span class="eight-panel-item-color-mask" style="background-color: #00145D;"></span>
           <img src="../../assets/panels/7.png" class="eight-panel-img" />
           <span class="eight-panel-label">MPC</span>
         </div>
         <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
+          <span class="eight-panel-item-color-mask" style="background-color: #fefefe;"></span>
           <img src="../../assets/panels/8.gif" class="eight-panel-img" />
-          <span class="eight-panel-label">MPC</span>
+          <span class="eight-panel-label" style="color: #000000">MPC</span>
         </div>
       </div>
 
@@ -95,7 +97,7 @@
         </div>
         <div class="four-panel-item" style="background-color: #798b8c">
           <img src="../../assets/fourpanels/3.svg" class="four-panel-item-icon" />
-          <span class="four-panel-item-label">实验室位置</span>
+          <el-link type="info" class="four-panel-item-label" @click="position_dlg_vis = true;">实验室位置</el-link>
         </div>
         <div class="four-panel-item" style="background-color: #0c812d">
           <img src="../../assets/fourpanels/4.svg" class="four-panel-item-icon" />
@@ -120,6 +122,10 @@
         <a href="https://www.github.com/" class="links-contens-item">GitHub</a>
       </div>
     </div>
+
+    <el-dialog title="实验室位置" :visible.sync="position_dlg_vis" width="70%">
+      <img id="position-map-img" src="../../assets/position_map.jpg" />
+    </el-dialog>
   </div>
 </template>
 
@@ -129,6 +135,7 @@ import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class ExternalMain extends Vue {
   private carousel_height: number = 760;
+  private position_dlg_vis: boolean = false;
 
   public resize_carousel() {
     // 跑马灯高度自适应(根据图片高度)
@@ -269,5 +276,11 @@ export default class ExternalMain extends Vue {
       color: black;
     }
   }
+}
+
+#position-map-img {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
 }
 </style>
