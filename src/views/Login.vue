@@ -23,6 +23,7 @@ export default class LoginView extends Vue {
   private remember_me: boolean = false;
 
   public do_login() {
+    this.$store.state.user.access_token="123";
     this.$router.replace("/internal");
   }
 }
