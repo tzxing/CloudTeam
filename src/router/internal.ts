@@ -16,5 +16,9 @@ export default [{
             path: 'parkinson', name: 'parkinson',
             component: () => import("@/views/InternalViews/ParkinsonMedical/Index.vue"),
         },
+        {
+            path: 'deep_space', name: 'deep_space',
+            component: () => import("@/views/InternalViews/DeepSpace/Index.vue"),
+        },
     ],
 }]
