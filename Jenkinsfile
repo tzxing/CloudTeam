@@ -27,7 +27,7 @@ pipeline {
         }
         stage('Remove Unused docker image') {
             steps{
-                sh "docker rmi $registry:$BUILD_NUMBER"
+                sh "docker rmi harbor.cloudcontrolsystems.cn/ccs/ccs-frontend:$BUILD_NUMBER"
             }
         }
     }
