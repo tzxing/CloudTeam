@@ -48,7 +48,7 @@ router.beforeEach((to, from, next) => {
 
   if ((to.path.startsWith('/internal'))
     && (store.state as any).user.access_token === "") {
-    console.warn("强制转跳到登陆页");
+    // console.warn("强制转跳到登陆页");
     next("/login");
   } else {
     next();
