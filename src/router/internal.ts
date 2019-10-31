@@ -12,5 +12,9 @@ export default [{
             path: 'smartcar', name: 'smartcar',
             component: () => import("@/views/InternalViews/SmartCar/Index.vue"),
         },
+        {
+            path: 'parkinson', name: 'parkinson',
+            component: () => import("@/views/InternalViews/ParkinsonMedical/Index.vue"),
+        },
     ],
 }]
