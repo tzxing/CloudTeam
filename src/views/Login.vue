@@ -56,6 +56,10 @@ export default class LoginView extends Vue {
       margin-bottom: 15px;
     }
 
+    .el-checkbox {
+      align-self: flex-start;
+    }
+
     #buttons {
       width: 100%;
       display: grid;
