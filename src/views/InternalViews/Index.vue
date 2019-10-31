@@ -22,7 +22,7 @@
           <i></i>
         </div>
         <div class="label-block" style="grid-area: c;">
-          <h2>内部系统</h2>
+          <h1>内部系统</h1>
           <div>欢迎你，请选择要进入的功能模块</div>
         </div>
         <div
@@ -162,6 +162,20 @@ export default class InternalIndexView extends Vue {
         height: 100%;
         text-align: start;
         padding-left: 2em;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+
+        & > h1 {
+          font-size: 2rem;
+          margin: 0px 0px 21px 0px;
+        }
+
+        & > div {
+          font-size: 1.3em;
+        }
       }
     }
   }
