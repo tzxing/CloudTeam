@@ -8,5 +8,9 @@ export default [{
             path: 'workflow', name: 'workflow',
             component: () => import("@/views/InternalViews/Workflow/Index.vue"),
         },
+        {
+            path: 'smartcar', name: 'smartcar',
+            component: () => import("@/views/InternalViews/SmartCar/Index.vue"),
+        },
     ],
 }]
