@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <el-card id="login-components">
+    <div id="login-components">
       <el-input v-model="username" placeholder="用户名"></el-input>
       <el-input v-model="password" placeholder="密码"></el-input>
       <el-checkbox v-model="remember_me" style="align-self: flex-start;">记住登陆</el-checkbox>
@@ -8,7 +8,7 @@
         <el-button type="primary" @click="do_login">登陆</el-button>
         <el-button>注册</el-button>
       </div>
-    </el-card>
+    </div>
   </div>
 </template>
 
@@ -23,7 +23,7 @@ export default class LoginView extends Vue {
   private remember_me: boolean = false;
 
   public do_login() {
-    this.$store.state.user.access_token="123";
+    this.$store.state.user.access_token = "123";
     this.$router.replace("/internal");
   }
 }
@@ -43,9 +43,11 @@ export default class LoginView extends Vue {
     position: absolute;
     top: 50%;
     transform: translate(0, -50%);
-    right: 5vw;
+    right: 4vw;
     width: 290px;
-    padding: 30px 20px;
+    padding: 40px 20px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    background-color: white;
 
     display: flex;
     flex-direction: column;
