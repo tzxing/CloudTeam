@@ -43,43 +43,60 @@
       <div class="section-title">研究方向</div>
       <div id="eight-panel-nav">
         <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
-          <span class="eight-panel-item-color-mask" style="background-color: #397ABF;"></span>
           <img src="../../assets/panels/1.png" class="eight-panel-img" />
-          <a href="/details/cloudcontrol" class="eight-panel-label">云控制</a>
+          <div class="eight-panel-label" style="background-color: #397ABF;">
+            <a href="/details/cloudcontrol">智能云控制系统</a>
+            <i></i>
+          </div>
         </div>
         <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
           <img src="../../assets/panels/2.png" class="eight-panel-img" />
-          <span class="eight-panel-label">MPC</span>
+          <div class="eight-panel-label" style="background-color: #0f7a34;">
+            <a href="/details/cloudcontrol">无人机无人车空地协同</a>
+            <i></i>
+          </div>
         </div>
         <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
-          <span class="eight-panel-item-color-mask" style="background-color: #EBC34B;"></span>
           <img src="../../assets/panels/3.png" class="eight-panel-img" />
-          <span class="eight-panel-label">MPC</span>
+          <div class="eight-panel-label" style="background-color: #EBC34B;">
+            <a href="/details/cloudcontrol">智能制造数字孪生</a>
+            <i></i>
+          </div>
         </div>
         <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
-          <span class="eight-panel-item-color-mask" style="background-color: #684931;"></span>
           <img src="../../assets/panels/4.png" class="eight-panel-img" />
-          <span class="eight-panel-label">MPC</span>
+          <div class="eight-panel-label" style="background-color: #684931;">
+            <a href="/details/cloudcontrol">深空探测火星着陆</a>
+            <i></i>
+          </div>
         </div>
         <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
-          <span class="eight-panel-item-color-mask" style="background-color: #5144C4;"></span>
           <img src="../../assets/panels/5.png" class="eight-panel-img" />
-          <span class="eight-panel-label">MPC</span>
+          <div class="eight-panel-label" style="background-color: #174058;">
+            <a href="/details/cloudcontrol">智能遥操作机器人</a>
+            <i></i>
+          </div>
         </div>
         <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
-          <span class="eight-panel-item-color-mask" style="background-color: #BBAE99;"></span>
           <img src="../../assets/panels/6.png" class="eight-panel-img" />
-          <span class="eight-panel-label">MPC</span>
+          <div class="eight-panel-label" style="background-color: #BBAE99;">
+            <a href="/details/cloudcontrol">人工智能专用芯片</a>
+            <i></i>
+          </div>
         </div>
         <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
-          <span class="eight-panel-item-color-mask" style="background-color: #00145D;"></span>
           <img src="../../assets/panels/7.png" class="eight-panel-img" />
-          <span class="eight-panel-label">MPC</span>
+          <div class="eight-panel-label" style="background-color: #00145D;">
+            <a href="/details/cloudcontrol">网络信息安全防护</a>
+            <i></i>
+          </div>
         </div>
         <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
-          <span class="eight-panel-item-color-mask" style="background-color: #fefefe;"></span>
           <img src="../../assets/panels/8.gif" class="eight-panel-img" />
-          <span class="eight-panel-label" style="color: #000000">MPC</span>
+          <div class="eight-panel-label" style="background-color: #fefefe;">
+            <a href="/details/cloudcontrol" style="color: #000000;">模型预测控制</a>
+            <i style="background-color: #000000;"></i>
+          </div>
         </div>
       </div>
 
@@ -191,38 +208,52 @@ export default class ExternalMain extends Vue {
       position: relative;
       overflow: hidden;
 
-      .eight-panel-item-color-mask {
-        width: 100%;
-        height: 0%;
-        opacity: 0;
-      }
-
       .eight-panel-label {
         visibility: hidden;
+        height: 0px;
+      }
+
+      & > i {
+        background-color: white;
+        height: 1px;
+        width: 30px;
+        margin: 10px 0px;
       }
     }
 
     .eight-panel-item:hover {
       overflow: hidden;
 
-      .eight-panel-item-color-mask {
+      .eight-panel-label {
         position: absolute;
-        left: 0px;
         top: 0px;
+        left: 0px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        visibility: visible;
+
         width: 100%;
         height: 100%;
-        opacity: 0.9;
-        transition: all 0.2s linear;
-      }
 
-      .eight-panel-label {
-        text-decoration-line: none;
-        visibility: visible;
-        color: white;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
+        opacity: 0.93;
+        transition: all 0.2s linear;
+
+        & > a {
+          color: white;
+          text-decoration-line: none;
+        }
+
+        & > i {
+          background-color: white;
+          height: 1px;
+          width: 60px;
+          margin: 12px 0px;
+
+          transition: all 0.5s linear;
+        }
       }
     }
 
