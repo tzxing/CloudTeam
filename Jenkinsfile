@@ -12,7 +12,7 @@ pipeline {
         stage('Building image') {
             steps{
                     script {
-                        customImage = docker.build("harbor.cloudcontrolsystems.cn/ccs/ccs-frontend:$BUILD_NUMBER")
+                        customImage = docker.build("harbor.cloudcontrolsystems.cn/ccs/ccs-frontend:latest")
                     }
             }
         }
@@ -27,7 +27,7 @@ pipeline {
         }
         stage('Remove Unused docker image') {
             steps{
-                sh "docker rmi harbor.cloudcontrolsystems.cn/ccs/ccs-frontend:$BUILD_NUMBER"
+                sh "docker rmi harbor.cloudcontrolsystems.cn/ccs/ccs-frontend:latest"
             }
         }
     }
