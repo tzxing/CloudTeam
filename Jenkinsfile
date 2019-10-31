@@ -12,7 +12,7 @@ pipeline {
         stage('Building image') {
             steps{
                     script {
-                        customImage = docker.build(registry + "ccs-frontend:$BUILD_NUMBER")
+                        customImage = docker.build("harbor.cloudcontrolsystems.cn/ccs/ccs-frontend:$BUILD_NUMBER")
                     }
             }
         }
