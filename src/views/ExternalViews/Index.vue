@@ -7,7 +7,7 @@
       <router-view />
     </el-main>
     <el-footer height="117px">
-      <div>information</div>
+      <div>京ICP备19050641号</div>
     </el-footer>
   </el-container>
 </template>
