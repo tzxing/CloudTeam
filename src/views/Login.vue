@@ -23,6 +23,11 @@ export default class LoginView extends Vue {
   private remember_me: boolean = false;
 
   public async do_login() {
+    if(this.username === "" || this.password==="") {
+      this.$message.warning("用户名和密码不能为空");
+      return;
+    }
+    
     try {
       const access_token = await this.$axios.post("users/login", {
         id: this.username,
