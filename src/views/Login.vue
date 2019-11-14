@@ -24,7 +24,6 @@ export default class LoginView extends Vue {
 
   public async do_login() {
     try {
-      console.log(this.$axios)
       const access_token = await this.$axios.post("users/login", {
         id: this.username,
         passwd: this.password
