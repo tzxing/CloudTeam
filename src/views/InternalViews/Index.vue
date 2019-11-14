@@ -91,6 +91,7 @@ export default class InternalIndexView extends Vue {
 .container {
   background-image: url("../../assets/internal_index_background.jpg");
   background-repeat: repeat;
+  min-height: 100vh;
 
   display: flex;
   flex-direction: column;
