@@ -22,9 +22,18 @@ export default class LoginView extends Vue {
   private password: string = "";
   private remember_me: boolean = false;
 
-  public do_login() {
-    this.$store.state.user.access_token = "123";
-    this.$router.replace("/internal");
+  public async do_login() {
+    try {
+      console.log(this.$axios)
+      const access_token = await this.$axios.post("users/login", {
+        id: this.username,
+        passwd: this.password
+      });
+      this.$store.state.user.access_token = access_token;
+      this.$router.replace("/internal");
+    } catch (e) {
+      this.$message.error("登陆失败，请检查用户名和密码后再试！");
+    }
   }
 }
 </script>
