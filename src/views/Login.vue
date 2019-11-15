@@ -28,16 +28,19 @@ export default class LoginView extends Vue {
       return;
     }
     
-    try {
-      const access_token = await this.$axios.post("users/login", {
-        id: this.username,
-        passwd: this.password
-      });
-      this.$store.state.user.access_token = access_token;
-      this.$router.replace("/internal");
-    } catch (e) {
-      this.$message.error("登陆失败，请检查用户名和密码后再试！");
-    }
+    // try {
+    //   const access_token = await this.$axios.post("users/login", {
+    //     id: this.username,
+    //     passwd: this.password
+    //   });
+    //   this.$store.state.user.access_token = access_token;
+    //   this.$router.replace("/internal");
+    // } catch (e) {
+    //   this.$message.error("登陆失败，请检查用户名和密码后再试！");
+    // }
+
+    this.$store.state.user.access_token = "dfbfgyhfgbhdbdbdj"
+    this.$router.replace("/internal")
   }
 }
 </script>
