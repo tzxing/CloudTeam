@@ -2,7 +2,7 @@
   <div class="login-container">
     <div id="login-components">
       <el-input v-model="username" placeholder="用户名"></el-input>
-      <el-input v-model="password" placeholder="密码"></el-input>
+      <el-input v-model="password" placeholder="密码" show-password></el-input>
       <el-checkbox v-model="remember_me" style="align-self: flex-start;">记住登陆</el-checkbox>
       <div id="buttons">
         <el-button type="primary" @click="do_login">登陆</el-button>
