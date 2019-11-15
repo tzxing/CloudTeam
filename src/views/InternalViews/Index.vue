@@ -96,6 +96,10 @@ export default class InternalIndexView extends Vue {
   display: flex;
   flex-direction: column;
 
+  h1 {
+    text-align: center;
+  }
+
   #logo-title {
     height: 150px;
     margin: 20px 5px;
