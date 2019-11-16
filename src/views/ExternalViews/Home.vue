@@ -42,56 +42,56 @@
       -->
       <div class="section-title">研究方向</div>
       <div id="eight-panel-nav">
-        <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
+        <div class="eight-panel-item">
           <img src="../../assets/panels/1.png" class="eight-panel-img" />
           <div class="eight-panel-label" style="background-color: #397ABF;">
             <a href="/details/cloudcontrol">智能云控制系统</a>
             <i></i>
           </div>
         </div>
-        <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
+        <div class="eight-panel-item">
           <img src="../../assets/panels/2.png" class="eight-panel-img" />
           <div class="eight-panel-label" style="background-color: #0f7a34;">
             <a href="/details/cloudcontrol">无人机无人车空地协同</a>
             <i></i>
           </div>
         </div>
-        <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
+        <div class="eight-panel-item">
           <img src="../../assets/panels/3.png" class="eight-panel-img" />
           <div class="eight-panel-label" style="background-color: #EBC34B;">
             <a href="/details/cloudcontrol">智能制造数字孪生</a>
             <i></i>
           </div>
         </div>
-        <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
+        <div class="eight-panel-item">
           <img src="../../assets/panels/4.png" class="eight-panel-img" />
           <div class="eight-panel-label" style="background-color: #684931;">
             <a href="/details/cloudcontrol">深空探测火星着陆</a>
             <i></i>
           </div>
         </div>
-        <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
+        <div class="eight-panel-item">
           <img src="../../assets/panels/5.png" class="eight-panel-img" />
           <div class="eight-panel-label" style="background-color: #174058;">
             <a href="/details/cloudcontrol">智能遥操作机器人</a>
             <i></i>
           </div>
         </div>
-        <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
+        <div class="eight-panel-item">
           <img src="../../assets/panels/6.png" class="eight-panel-img" />
           <div class="eight-panel-label" style="background-color: #BBAE99;">
             <a href="/details/cloudcontrol">人工智能专用芯片</a>
             <i></i>
           </div>
         </div>
-        <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
+        <div class="eight-panel-item">
           <img src="../../assets/panels/7.png" class="eight-panel-img" />
           <div class="eight-panel-label" style="background-color: #00145D;">
             <a href="/details/cloudcontrol">网络信息安全防护</a>
             <i></i>
           </div>
         </div>
-        <div :xs="12" :sm="12" :md="6" :lg="6" :xl="6" class="eight-panel-item">
+        <div class="eight-panel-item">
           <img src="../../assets/panels/8.gif" class="eight-panel-img" />
           <div class="eight-panel-label" style="background-color: #fefefe;">
             <a href="/details/cloudcontrol" style="color: #000000;">模型预测控制</a>
@@ -162,6 +162,7 @@ export default class ExternalMain extends Vue {
 
   public mounted() {
     window.addEventListener("resize", this.resize_carousel, false);
+    this.resize_carousel();
   }
 
   public beforeDestory() {
@@ -186,22 +187,38 @@ export default class ExternalMain extends Vue {
 
   #four-panel-nav {
     display: flex;
-    justify-content: space-between;
-    margin: 60px 0;
-    width: 1232px;
+
+    @media screen and (max-width: 700px) {
+      flex-direction: column;
+      margin: 20px auto;
+    }
+
+    @media screen and (min-width: 700px) {
+      justify-content: space-between;
+      margin: 60px 0;
+      width: 1232px;
+    }
 
     div {
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
       width: 300px;
       height: 207px;
+      margin: 5px 0px;
     }
   }
 
   #eight-panel-nav {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     display: grid;
-    grid-template-columns: repeat(4, 308px);
-    grid-template-rows: 272px 272px;
+    @media screen and (max-width: 700px) {
+      grid-template-columns: 11em 11em;
+      grid-template-rows: repeat(4, 11em);
+    }
+    @media screen and (min-width: 700px) {
+      grid-template-columns: repeat(4, 308px);
+      grid-template-rows: 272px 272px;
+    }
+
     margin: 0 auto;
 
     .eight-panel-item {
@@ -288,23 +305,30 @@ export default class ExternalMain extends Vue {
   }
 }
 
-#links-area {
-  width: 100%;
-  height: 38px;
-  background-color: #f1f8f6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  #links-contents {
-    flex-basis: 1232px;
+@media screen and (max-width: 700px) {
+  #links-area {
+    display: none;
+  }
+}
+@media screen and (min-width: 700px) {
+  #links-area {
+    width: 100%;
+    height: 38px;
+    background-color: #f1f8f6;
     display: flex;
+    justify-content: center;
     align-items: center;
-    height: 100%;
 
-    .links-contens-item {
-      text-decoration-line: none;
-      color: black;
+    #links-contents {
+      flex-basis: 1232px;
+      display: flex;
+      align-items: center;
+      height: 100%;
+
+      .links-contens-item {
+        text-decoration-line: none;
+        color: black;
+      }
     }
   }
 }

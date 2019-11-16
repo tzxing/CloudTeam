@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header height="104px">
+    <el-header>
       <TopBar></TopBar>
     </el-header>
     <el-main>
@@ -31,6 +31,13 @@ export default class ExternalMain extends Vue {
 <style lang="scss" scoped>
 .el-header {
   padding: 0;
+  @media screen and (min-width: 700px) {
+    height: 104px !important;
+  }
+
+  @media screen and (max-width: 700px) {
+    height: 2em !important;
+  }
 }
 
 .el-main {
