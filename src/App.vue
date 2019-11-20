@@ -36,6 +36,7 @@ body {
     width: 50%;
     height: auto;
     max-height: 100%;
+    margin-bottom: 0.8em;
   }
 }
 </style>
