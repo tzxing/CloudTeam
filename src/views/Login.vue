@@ -3,9 +3,9 @@
     <div id="login-components">
       <el-input v-model="username" placeholder="用户名"></el-input>
       <el-input v-model="password" placeholder="密码" show-password></el-input>
-      <el-checkbox v-model="remember_me" style="align-self: flex-start;">记住登陆</el-checkbox>
+      <el-checkbox v-model="remember_me" style="align-self: flex-start;">记住登录</el-checkbox>
       <div id="buttons">
-        <el-button type="primary" @click="do_login">登陆</el-button>
+        <el-button type="primary" @click="do_login">登录</el-button>
         <el-button>注册</el-button>
       </div>
     </div>
@@ -23,24 +23,26 @@ export default class LoginView extends Vue {
   private remember_me: boolean = false;
 
   public async do_login() {
-    if(this.username === "" || this.password==="") {
+    if (this.username === "" || this.password === "") {
       this.$message.warning("用户名和密码不能为空");
       return;
     }
-    
-    // try {
-    //   const access_token = await this.$axios.post("users/login", {
-    //     id: this.username,
-    //     passwd: this.password
-    //   });
-    //   this.$store.state.user.access_token = access_token;
-    //   this.$router.replace("/internal");
-    // } catch (e) {
-    //   this.$message.error("登陆失败，请检查用户名和密码后再试！");
-    // }
 
-    this.$store.state.user.access_token = "dfbfgyhfgbhdbdbdj"
-    this.$router.replace("/internal")
+    try {
+      const user_login_data = new FormData();
+      user_login_data.set("username", this.username);
+      user_login_data.set("password", this.password);
+      const {
+        data: { access_token }
+      } = await this.$axios.post("users/login", user_login_data);
+      this.$store.state.user.access_token = access_token;
+      this.$router.replace("/internal");
+    } catch (e) {
+      this.$message.error("登录失败，请检查用户名和密码后再试！");
+    }
+
+    // this.$store.state.user.access_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsInVzZXJuYW1lIjoiaGFoYSIsImVtYWlsIjoiMTIzIiwicm9sZSI6MX0.SPjFd-QZ9TG9QHdA0_3Dz4hclw0PRUOBOqP401IlXQI"
+    // this.$router.replace("/internal")
   }
 }
 </script>
