@@ -48,7 +48,11 @@
           <div>帕金森医疗平台</div>
           <i></i>
         </div>
-        <div class="function-block" style="grid-area: g;">Waiting……</div>
+        <div
+          class="function-block"
+          style="grid-area: g;"
+          @click="jump_to('/internal/general_computing')"
+        >高性能计算平台</div>
       </div>
     </div>
   </div>
