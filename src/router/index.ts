@@ -12,7 +12,7 @@ import ExternalConnect from '../views/ExternalViews/Connect.vue'
 
 import Internel from './internal';
 
-Vue.use(VueRouter)
+if (!(window as any).VueRouter) Vue.use(VueRouter)
 
 const routes = [
   {
