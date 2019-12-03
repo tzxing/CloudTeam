@@ -90,11 +90,11 @@ export default class TaskListView extends Vue {
     const wsuri = `api/gp/${task.id}/log?access_token=${this.$store.state.user.access_token}`; //ws地址
     this.websock = new WebSocket(wsuri);
     this.websock.onmessage = e => {
-      console.log(e.data);
+      // console.log(e.data);
     };
 
     this.websock.onclose = e => {
-      console.log("connection closed (" + e.code + ")");
+      // console.log("connection closed (" + e.code + ")");
     };
   }
 }

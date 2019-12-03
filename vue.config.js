@@ -60,7 +60,6 @@ module.exports = {
         devServer: {
             // 为了使WebpackCdnPlugin插件能再调试模式下正常工作，必须编码实现读取node_modules
             setup: (app) => {
-                console.log(__dirname)
                 app.use('/node_modules/',
                     express.static(path.join(__dirname, 'node_modules')));
             },
