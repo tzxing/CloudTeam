@@ -188,14 +188,14 @@ export default class BaseTableView extends Vue {
     this.delVisible = true;
   }
   delAll() {
-    let reList = JSON.parse(JSON.stringify(this.tableData));
-    let delIdList = []; // 要删除的id，便于后台做删除
-    for (let item of this.checkOptions) {
-      reList.splice(reList.findIndex((v: any) => v.id === item.id), 1);
-      delIdList.push(item.id);
-    }
-    this.tableData = reList;
-    this.$message.success(`删除Id ${JSON.stringify(delIdList)} `);
+    // let reList = JSON.parse(JSON.stringify(this.tableData));
+    // let delIdList = []; // 要删除的id，便于后台做删除
+    // for (let item of this.checkOptions) {
+    //   reList.splice(reList.findIndex((v: any) => v.id === item.id), 1);
+    //   delIdList.push(item.id);
+    // }
+    // this.tableData = reList;
+    // this.$message.success(`删除Id ${JSON.stringify(delIdList)} `);
   }
   // 保存编辑
   saveEdit() {

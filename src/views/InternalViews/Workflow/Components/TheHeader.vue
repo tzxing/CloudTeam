@@ -19,7 +19,7 @@ export default class TheHeadView extends Vue {
   name = "";
 
   logout() {
-    this.$store.user.access_token="";
+    (this.$store as any).user.access_token="";
     this.$router.push("/internal");
   }
 }
