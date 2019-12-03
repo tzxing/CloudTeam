@@ -5,6 +5,14 @@ const path = require('path')
 
 module.exports = {
     productionSourceMap: false,
+    chainWebpack: (config) => {
+        config
+            .plugin('html')
+            .tap(args => {
+                args[0].is_production = isProduction;
+                return args;
+            })
+    },
     configureWebpack: {
         devtool: 'source-map',
         plugins: [
@@ -33,13 +41,13 @@ module.exports = {
                         var: 'ELEMENT',
                         path: 'index.js',
                         style: 'theme-chalk/index.css',
-                        devUrl:':name/lib/:path'
+                        devUrl: ':name/lib/:path'
                     },
                     {
                         name: 'animate.css',
                         style: 'animate.min.css',
                         cssOnly: true,
-                        devUrl:':name/:path'
+                        devUrl: ':name/:path'
                     }
                 ],
                 publicPath: '/node_modules',
