@@ -93,4 +93,7 @@ export default class OurGroupView extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.el-container {
+  min-width: 1200px;
+}
 </style>

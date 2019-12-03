@@ -25,7 +25,11 @@ interface ItemDetails {
 }
 
 // TODO: 以后数据要从后端获取
-const __items: string[] = ["智能无人集群系统会议", "研究室参展IROS 2019", "香港人工智能研讨会"];
+const __items: string[] = [
+  "智能无人集群系统会议",
+  "研究室参展IROS 2019",
+  "香港人工智能研讨会"
+];
 const __details: ItemDetails[] = [
   {
     name: "智能无人集群系统会议",
@@ -82,4 +86,7 @@ export default class InternationalView extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.el-container {
+  min-width: 1200px;
+}
 </style>

@@ -172,6 +172,8 @@ export default class ExternalMain extends Vue {
 </script>
 
 <style lang="scss" scoped>
+$respective-width: 1248px;
+
 #show-area {
   display: flex;
   flex-direction: column;
@@ -188,12 +190,12 @@ export default class ExternalMain extends Vue {
   #four-panel-nav {
     display: flex;
 
-    @media screen and (max-width: 700px) {
+    @media screen and (max-width: $respective-width) {
       flex-direction: column;
       margin: 20px auto;
     }
 
-    @media screen and (min-width: 700px) {
+    @media screen and (min-width: $respective-width) {
       justify-content: space-between;
       margin: 60px 0;
       width: 1232px;
@@ -210,11 +212,11 @@ export default class ExternalMain extends Vue {
   #eight-panel-nav {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     display: grid;
-    @media screen and (max-width: 700px) {
+    @media screen and (max-width: $respective-width) {
       grid-template-columns: 11em 11em;
       grid-template-rows: repeat(4, 11em);
     }
-    @media screen and (min-width: 700px) {
+    @media screen and (min-width: $respective-width) {
       grid-template-columns: repeat(4, 308px);
       grid-template-rows: 272px 272px;
     }
@@ -305,12 +307,12 @@ export default class ExternalMain extends Vue {
   }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: $respective-width) {
   #links-area {
     display: none;
   }
 }
-@media screen and (min-width: 700px) {
+@media screen and (min-width: $respective-width) {
   #links-area {
     width: 100%;
     height: 38px;
