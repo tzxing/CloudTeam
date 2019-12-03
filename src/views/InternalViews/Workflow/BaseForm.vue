@@ -95,7 +95,7 @@ export default class BaseFormView extends Vue {
   }
 
   uploadFile() {
-    console.log(this.ruleForm.file);
+    // console.log(this.ruleForm.file);
     //这里是重点，将文件转化为formdata数据上传
     // Api.Upload(this.ruleForm).then(res => {
     //   if (res == "success") {
