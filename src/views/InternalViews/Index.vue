@@ -1,58 +1,47 @@
 <template>
   <div class="container">
+    
     <div id="logo-title">
       <h1>云控制一体化服务平台</h1>
     </div>
+
     <div id="functions-area">
       <div id="functions">
-        <div
-          class="function-block"
-          style="grid-area: a; background-color: rgb(155, 53, 196);"
-          @click="jump_to('/internal/workflow')"
-        >
-          <div>工作流调度</div>
-          <i></i>
-        </div>
-        <div
-          class="function-block"
-          style="grid-area: b; background-color: #e5ca8f;"
-          @click="jump_to('/internal/smartcar')"
-        >
-          <div>智能小车</div>
-          <i></i>
-        </div>
+        <FunctionBlock
+          style="grid-area: a;"
+          background_color="rgb(155, 53, 196)"
+          url="/internal/workflow"
+        >工作流调度</FunctionBlock>
+
+        <FunctionBlock
+          style="grid-area: b;"
+          background_color="#e5ca8f"
+          url="/internal/smartcar"
+        >智能小车</FunctionBlock>
+
         <div class="label-block" style="grid-area: c;">
           <h1>内部系统</h1>
           <div>欢迎你，请选择要进入的功能模块</div>
         </div>
-        <div
-          class="function-block"
-          style="grid-area: d; background-color: #55a5aa;"
-          @click="jump_to('/internal/deep_space')"
-        >
-          <div>深空探测</div>
-          <i></i>
-        </div>
-        <div
-          class="function-block"
-          style="grid-area: e; background-color: #ffffff; cursor: default;"
-        >
+
+        <FunctionBlock
+          style="grid-area: d;"
+          background_color="#55a5aa"
+          url="/internal/deep_space"
+        >深空探测</FunctionBlock>
+
+        <FunctionBlock style="grid-area: e;" background_color="#ffffff" cursor="default">
           <p>现在时间是</p>
           <p>{{current_time_string}}</p>
-        </div>
-        <div
-          class="function-block"
-          style="grid-area: f; background-color: #01763a;"
-          @click="jump_to('/internal/parkinson')"
-        >
-          <div>帕金森医疗平台</div>
-          <i></i>
-        </div>
-        <div
-          class="function-block"
-          style="grid-area: g;"
-          @click="jump_to('/internal/general_computing')"
-        >高性能计算平台</div>
+        </FunctionBlock>
+
+        <FunctionBlock
+          style="grid-area: f;"
+          background_color="#01763a"
+          url="/internal/parkinson"
+        >帕金森医疗平台</FunctionBlock>
+
+        <FunctionBlock style="grid-area: g;" url="/internal/general_computing">高性能计算平台</FunctionBlock>
       </div>
     </div>
   </div>
@@ -60,8 +49,13 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import FunctionBlock from "./components/FunctionBlock.vue";
 
-@Component({})
+@Component({
+  components: {
+    FunctionBlock
+  }
+})
 export default class InternalIndexView extends Vue {
   private current_time_string: string = "";
   private timer!: number;
@@ -124,47 +118,8 @@ export default class InternalIndexView extends Vue {
       grid-template-rows: repeat(2, 160px);
       grid-template-areas:
         "a b c c"
-        "d e f g";
-
-      .function-block {
-        width: 100%;
-        height: 100%;
-        border-radius: 5px;
-        overflow: hidden;
-        box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.2);
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        cursor: pointer;
-        font-size: 1.1em;
-
-        & > i {
-          height: 1px;
-          width: 0px;
-          transition: all 0.2s linear;
-        }
-
-        & > div {
-          color: white;
-        }
-
-        & > p {
-          margin: 0px 10px 5px 10px;
-        }
-      }
-
-      .function-block:hover {
-        & > i {
-          background-color: white;
-          height: 1px;
-          width: 4em;
-          margin: 10px 0px;
-          transition: all 0.2s linear;
-        }
-      }
+        "d e f g"
+        "h i j k";
 
       .label-block {
         width: 100%;
