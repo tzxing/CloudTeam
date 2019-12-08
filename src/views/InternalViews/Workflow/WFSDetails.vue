@@ -1,19 +1,28 @@
 <template>
   <div class="container">
-    <el-card class="box-card">
-      <div slot="header">
-        <span>工作流详情页</span>
-      </div>
+    <!-- <el-page-header @back="goBack" content="详情页面">
+    </el-page-header> -->
+
+  <el-breadcrumb separator-class="el-icon-arrow-right">
+  <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+  <el-breadcrumb-item :to="{path:'/internal/workflow'}">工作流管理</el-breadcrumb-item>
+  <el-breadcrumb-item :to="{path:'/internal/workflow/wflistable'}">工作流列表</el-breadcrumb-item>
+  <el-breadcrumb-item >工作流详情</el-breadcrumb-item>
+  </el-breadcrumb>
+      
+    <el-aside>
       <div>
-          <el-row>
-                <el-col :span="6">
-                    <div class="grid-content bg-purple">
-                        <el-input v-model="username" placeholder="workflow_id"></el-input>
-                    </div>
-                </el-col>
-                <el-col :span="18"><div class="grid-content bg-purple-light"></div></el-col>
-            </el-row>
-        </div>
+        <span>工作流名称：{{wfsname}}</span>
+      </div>
+    </el-aside>
+
+    <el-main>
+      <div>
+          暂定为空
+      </div>
+    </el-main>
+
+  </div>
         
 </template>
 
@@ -21,8 +30,21 @@
     import { Component, Vue } from "vue-property-decorator";
     import FunctionBlock from "./components/FunctionBlock.vue";
 
-    export
 
+
+
+    @Component({})
+    export default class wfsdetails extends Vue {
+
+
+      
+      private wfsname:string = "";
+      // this.wfsname = this.$route.params.name
+
+    goBack() {
+        console.log('go back');
+      }
+}
 
 </script>
 

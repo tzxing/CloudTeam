@@ -13,7 +13,7 @@
             <el-button type="text">运行</el-button>
             <el-button type="text">修改</el-button>
             <el-button type="text">复制</el-button>
-            <el-button @click="handleClick(scope.row)" type="text">详细信息</el-button>
+            <el-button @click="to_wfsdetails(scope.row)">详细信息</el-button>
             <el-button type="text">删除</el-button>
             <el-button type="text">共享</el-button>
           </template>
@@ -28,10 +28,10 @@
         <el-table-column prop="date" label="创建日期" sortable width="150"></el-table-column>
         <el-table-column prop="name" label="工作流名称" width="120"></el-table-column>
         <el-table-column label="操作" width="180" align="center">
-          <template >
+          <template slot-scope="scope">
             <el-button type="text" >运行</el-button>
             <el-button type="text" >复制</el-button>
-            <el-button type="text" >详细信息</el-button>
+            <el-button type="text" @click="to_wfsdetails(scope.row)">详细信息</el-button>
             <el-button type="text" >取消共享</el-button>
           </template>
         </el-table-column>
@@ -84,13 +84,39 @@
 </template> 
 
 <script lang="ts">
-  export default {
-    // methods: {
-    //   handleClick(row) {
-    //     console.log(row);
-    //   }
-    // },
+  // export default{
+  //   // methods: {
+  //   //   handleClick(row) {
+  //   //     console.log(row);
+  //   //   }
+  //   // }
 
+  //   data() {
+  //     return {
+  //       tableData: [{
+  //         date: '2016-05-02',
+  //         name: '工作流-1'
+  //       }, 
+  //       {
+  //         date: '2016-05-02',
+  //         name: '工作流-2'
+  //       }, 
+  //       {
+  //         date: '2016-05-02',
+  //         name: '工作流-3'
+  //       }, 
+  //       {
+  //         date: '2016-05-02',
+  //         name: '工作流-4'
+  //       }]
+  //     }
+  //   }
+
+  // }
+//import * as Api from '@/api/api'
+import { Component, Vue } from "vue-property-decorator";
+  @Component({})
+  export default class details extends Vue{
     data() {
       return {
         tableData: [{
@@ -111,9 +137,13 @@
         }]
       }
     }
+    name:string = "bai"
+      public to_wfsdetails(row:string){
+        this.$router.push({path:"/internal/workflow/wfsdetails",query:{'name':name}})
+    }
   }
-//import * as Api from '@/api/api'
 
-import { Component, Vue } from "vue-property-decorator";
+
+
 
 </script>
