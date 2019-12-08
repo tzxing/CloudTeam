@@ -1,6 +1,6 @@
 <template>
-  <div class="wf-node-wrapper" :class="[_style_type]">
-    <div class="wf-node-text">{{label}}</div>
+  <div class="wf-node-wrapper" :id="id" :class="[_style_type]">
+    <div class="wf-node-text"><span>{{label}}</span></div>
   </div>
 </template>
 
@@ -29,11 +29,11 @@ export default class WorkflowChartNode extends Vue {
   }
 
   public mounted() {
-    console.log(this.jsp_instance)
     this.jsp_instance.draggable(this.id);
     this.jsp_instance.addEndpoint(this.id, {
-      anchor: "Continuous",
-      maxConnections: 1,
+      anchor: "Left",
+      connector: "StateMachine",
+      maxConnections: -1,
       parameters: {},
       id: this.id,
       scope: "",
@@ -41,29 +41,40 @@ export default class WorkflowChartNode extends Vue {
       isTarget: true,
       reattachConnections: false,
       type: "Dot",
-      paintStyle: {
-        fill: "gray",
-        strokeWidth: 8
-      }
+      paintStyle: { fill: "blue" }
     });
   }
 }
 </script>
 
 <style lang="scss" scoped>
+$wrapper_height: 40px;
+$wrapper_width: 100px;
+$small_pad: 2px;
+$large_pad: 18px;
+$border-size: 1px;
+
 .wf-node-wrapper {
-  width: 80px;
-  height: 30px;
-  border-radius: 10px;
+  width: $wrapper_width;
+  height: $wrapper_height;
+  border-radius: 5px;
   position: absolute;
+  box-sizing: border-box;
+  cursor: default;
 
   .wf-node-text {
-    padding: 5px 5px 5px 20px;
-    font-size: 0.8em;
+    margin: $small_pad $small_pad $small_pad $large_pad;
+    width: $wrapper_width - $small_pad - $large_pad - 2 * $border-size;
+    height: $wrapper_height - 2 * $small_pad - 2 * $border-size;
     border-style: solid;
     border-color: black;
-    border-width: 1px;
+    border-width: $border-size;
     background-color: white;
+    border-radius: 4px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
