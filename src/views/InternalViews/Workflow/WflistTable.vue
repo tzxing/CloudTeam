@@ -17,14 +17,14 @@
             <el-button type="text">删除</el-button>
             <el-button type="text" @click="dialogTableVisible = true">共享</el-button>
 
-            <!-- 弹框 -->
+            <!-- 分享弹框 -->
             <el-dialog title="分享给其他用户" :visible.sync="dialogTableVisible">
               <el-form :model="form">
                 <el-form-item label="查找用户" :label-width="formLabelWidth">
-                  <el-input v-model="form.name" autocomplete="off"></el-input>
+                  <el-input v-model="shareadd.name" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item>
-                  <el-button size="small" type="primary" @click="uploadFile">添加</el-button>
+                  <el-button size="small" type="primary" @click="add">添加分享</el-button>
                 </el-form-item> 
               </el-form>
               <span>已分享过的用户</span>
@@ -84,6 +84,10 @@ import { Component, Vue } from "vue-property-decorator";
         date: "",
         name: ""
          };
+    shareadd = {
+    selectclass: "",
+    name: ""
+    };
 
     handleDelete(index:any,row:any) {
       console.log(index,row);
@@ -93,12 +97,27 @@ import { Component, Vue } from "vue-property-decorator";
       this.getData();
       }
 
-  async getData() {
+   async getData() {
     try {          
       const {data} = await this.$axios.get("wfs/getShareInfo");
       this.share=data;
     } catch (e) {
       this.$message.error("请求用户数据失败，请稍后再试！");
+    }
+  }
+
+  //检索用户数据
+  async add() {
+    try {
+      const { data } = await this.$axios.post(
+        "wfs/AddShare",
+        this.shareadd
+      );
+      if (data == "success") {
+        this.$message.success("检索成功");
+      }
+    } catch (e) {
+      this.$message.error("检索失败，请稍后再试！");
     }
   }
 
