@@ -20,7 +20,7 @@ const dagre = require("dagre");
 interface Workflownode {
   id: string;
   name: string;
-  dependencies: [];
+  dependencies: string[];
   image: string;
 }
 
@@ -65,21 +65,38 @@ export default class WorkflowChart extends Vue {
     // this.workflow_uuid_pairs = this.get_uuid_pairs()
     //console.log(this.workflow_uuid_pairs)
 
+    this.plumbIns.ready(() => {
+      this.plumbIns.bind("beforeDrop", (info: any) => {
+        this.workflow_pairs.push([info.sourceId, info.targetId]);
+        this.connect_node(info.sourceId, info.targetId);
+        this.workflow_nodes.forEach((item: Workflownode) => {
+          if (item.id == info.targetId) {
+            item.dependencies.push(info.sourceId);
+          }
+        });
+        return false;
+      });
+    });
+
     this.$nextTick(() => {
       this.workflow_pairs = this.get_dependcy_pairs();
 
       for (let item of this.workflow_pairs) {
-        this.plumbIns.connect({
-          source: item[0],
-          target: item[1],
-          overlays: [["Arrow", { width: 12, length: 12, location: 1 }]],
-          connector: "StateMachine",
-          anchors: ["ContinuousBottom", "ContinuousTop"],
-          endpoint: "Blank"
-        });
+        this.connect_node(item[0], item[1]);
       }
 
       this.auto_layout();
+    });
+  }
+
+  private connect_node(source_id: string, target_id: string) {
+    this.plumbIns.connect({
+      source: source_id,
+      target: target_id,
+      overlays: [["Arrow", { width: 12, length: 12, location: 1 }]],
+      connector: "StateMachine",
+      anchors: ["ContinuousBottom", "ContinuousTop"],
+      endpoint: "Blank"
     });
   }
 

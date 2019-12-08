@@ -27,7 +27,7 @@ export default class WorkflowChartNode extends Vue {
   public style_type: string = "normal";
 
   @Prop({ required: false })
-  public enable_edit: boolean = false;
+  public enable_edit: boolean = true;
 
   private get _style_type(): string {
     return `wf-node-type-${this.style_type}`;
