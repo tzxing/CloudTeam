@@ -15,7 +15,33 @@
             <el-button type="text">复制</el-button>
             <el-button @click="handleClick(scope.row)" type="text">详细信息</el-button>
             <el-button type="text">删除</el-button>
-            <el-button type="text">共享</el-button>
+            <el-button type="text" @click="dialogTableVisible = true">共享</el-button>
+
+            <!-- 弹框 -->
+            <el-dialog title="分享给其他用户" :visible.sync="dialogTableVisible">
+              <el-form :model="form">
+                <el-form-item label="查找用户" :label-width="formLabelWidth">
+                  <el-input v-model="form.name" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button size="small" type="primary" @click="uploadFile">添加</el-button>
+                </el-form-item> 
+              </el-form>
+              <span>已分享过的用户</span>
+              <el-table :data="gridData" height="250">
+                <el-table-column property="name" label="姓名" width="200"></el-table-column>
+                <el-table-column label="操作" width="180" align="center">
+                  <template slot-scope="scope">
+                    <el-button type="text" @click="handleDelete(scope.$index,scope.row)">删除</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogTableVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>
+                </div>
+            </el-dialog>
+
           </template>
         </el-table-column>
       </el-table>
@@ -32,7 +58,7 @@
             <el-button type="text" >运行</el-button>
             <el-button type="text" >复制</el-button>
             <el-button type="text" >详细信息</el-button>
-            <el-button type="text" >取消共享</el-button>
+            <el-button type="text" @click="handleDelete(scope.$index,scope.row)">取消共享</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -46,52 +72,19 @@
         ></el-pagination>
       </div>
     </el-card>
-
-    <!-- 修改弹出框 
-    <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-      <el-form ref="form" :model="form" label-width="50px">
-        <el-form-item label="日期">
-          <el-date-picker
-            type="date"
-            placeholder="选择日期"
-            v-model="form.date"
-            value-format="yyyy-MM-dd"
-            style="width: 100%;"
-          ></el-date-picker>
-        </el-form-item>
-        <el-form-item label="姓名">
-          <el-input v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item label="地址">
-          <el-input v-model="form.address"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="editVisible = false">取 消</el-button>
-        <el-button type="primary" @click="saveEdit">确 定</el-button>
-      </span>
-    </el-dialog> -->
-
-    <!-- 删除提示框 
-    <el-dialog title="提示" :visible.sync="delVisible" width="300px" center>
-      <div class="del-dialog-cnt">删除不可恢复，是否确定删除？</div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="delVisible = false">取 消</el-button>
-        <el-button type="primary" @click="confirmDel">确 定</el-button>
-      </span>
-    </el-dialog>-->
   </div>
 </template> 
 
 <script lang="ts">
-  export default {
-    // methods: {
-    //   handleClick(row) {
-    //     console.log(row);
-    //   }
-    // },
-
-    data() {
+import { Component, Vue } from "vue-property-decorator";
+@Component({})
+  export default class WflistTableView extends Vue {
+     
+      handleDelete(index:any,row:any) {
+        console.log(index,row);
+      }
+    
+      data() {
       return {
         tableData: [{
           date: '2016-05-02',
@@ -108,12 +101,39 @@
         {
           date: '2016-05-02',
           name: '工作流-4'
-        }]
+        }],
+        gridData: [{
+          
+          name: '用户-1'
+        }, 
+        {
+          
+          name: '用户-2'
+        }, 
+        {
+          
+          name: '用户-3'
+        }, 
+        {
+          
+          name: '用户-4'
+        }],
+        dialogTableVisible: false,
+        dialogFormVisible: false,
+        form: {
+          name: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: ''
+        },
+        formLabelWidth: '120px'
+        };
       }
     }
-  }
+  
 //import * as Api from '@/api/api'
 
-import { Component, Vue } from "vue-property-decorator";
 
 </script>
