@@ -29,6 +29,7 @@ export default class WorkflowChartNode extends Vue {
   }
 
   public mounted() {
+    console.log(this.jsp_instance)
     this.jsp_instance.draggable(this.id);
     this.jsp_instance.addEndpoint(this.id, {
       anchor: "Continuous",
