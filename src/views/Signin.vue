@@ -4,7 +4,7 @@
       <el-input v-model="form.email" placeholder="邮箱"></el-input>
       <el-input v-model="form.nickname" placeholder="昵称"></el-input>
       <el-input v-model="form.password" placeholder="密码" show-password></el-input>
-      <el-input v-model="form.name" placeholder="真实姓名"></el-input>
+      <el-input v-model="form.username" placeholder="真实姓名"></el-input>
       <el-input v-model="form.phone" placeholder="电话号码"></el-input>
       <el-input v-model="form.idcard" placeholder="身份证号"></el-input>
       <el-input v-model="form.stuid" placeholder="学生证号"></el-input>
@@ -24,14 +24,15 @@ export default class SoginView extends Vue {
     email:"",
     password:"",
     nickname:"",
-    name: "",
+    username: "",
     phone:"",
     stuid:"",
     idcard: "",
   };
 
   public async do_signup() {
-     if (this.form.email=== "" || this.form.password === "") {
+     if (this.form.email=== "" || this.form.password === ""|| this.form.nickname === ""|| 
+     this.form.username === ""|| this.form.phone === ""|| this.form.stuid === ""|| this.form.idcard === "") {
       this.$message.warning("各项信息不能为空");
       return;
     }
