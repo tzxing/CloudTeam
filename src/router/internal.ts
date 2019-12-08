@@ -10,7 +10,8 @@ export default [
         children: [
             { path: 'dashboard', name: 'dashboard', component: () => import("@/views/InternalViews/Workflow/Dashboard.vue") },
             { path: 'basetable', name: 'basetable', component: () => import("@/views/InternalViews/Workflow/BaseTable.vue") },
-            { path: 'baseform', name: 'baseform', component: () => import("@/views/InternalViews/Workflow/BaseForm.vue") }
+            { path: 'baseform', name: 'baseform', component: () => import("@/views/InternalViews/Workflow/BaseForm.vue") },
+            { path:"wfsdetails",name:"wfsdetails",component:()=>import("@/views/InternalViews/Workflow/WFSDetails.vue")}
         ]
     },
     {
