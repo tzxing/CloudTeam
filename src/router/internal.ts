@@ -11,13 +11,8 @@ export default [
             { path: 'dashboard', name: 'dashboard', component: () => import("@/views/InternalViews/Workflow/Dashboard.vue") },
             { path: 'basetable', name: 'basetable', component: () => import("@/views/InternalViews/Workflow/BaseTable.vue") },
             { path: 'baseform', name: 'baseform', component: () => import("@/views/InternalViews/Workflow/BaseForm.vue") },
-<<<<<<< HEAD
-            { path: 'wflistable', name: 'wflistable', component: () => import("@/views/InternalViews/Workflow/WflistTable.vue") }
-=======
-            { path: 'wflistable', name: 'wflistable', component: () => import("@/views/InternalViews/Workflow/WflistTable.vue") },
-            { path:'wfsdetails',name:'wfsdetails',component:() => import("@/views/InternalViews/Workflow/WFSDetails.vue")}
+            { path: 'wflistable', name: 'wflistable', component: () => import("@/views/InternalViews/Workflow/WflistTable.vue") }s
 
->>>>>>> bzx
         ]
     },
     {
