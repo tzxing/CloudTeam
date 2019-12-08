@@ -14,10 +14,11 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import WorkflowChartNode from "./WorkflowChartNode.vue";
-import { jsPlumb } from "jsplumb";
+import { jsPlumb, jsPlumbInstance } from "jsplumb";
+const dagre = require("dagre");
 
 interface Workflownode {
-  id:string;
+  id: string;
   name: string;
   dependencies: [];
   image: string;
@@ -35,16 +36,16 @@ export default class WorkflowChart extends Vue {
   public workflow_pairs: any = [];
   public workflow_uuid_pairs: { [index: string]: string } = {};
 
-  private plumbIns: any = jsPlumb.getInstance();
+  private plumbIns: jsPlumbInstance = jsPlumb.getInstance();
 
   public get_uuid_pairs() {
     this.workflow_nodes.forEach((item: Workflownode) => {
-      this.workflow_uuid_pairs[item["name"]] = item["id"]
+      this.workflow_uuid_pairs[item["name"]] = item["id"];
     });
   }
 
   public get_dependcy_pairs() {
-    this.get_uuid_pairs()
+    this.get_uuid_pairs();
     let pairs: any = [];
     this.workflow_nodes.forEach((item: Workflownode) => {
       let node_name = item["name"];
@@ -62,19 +63,45 @@ export default class WorkflowChart extends Vue {
 
   public mounted() {
     // this.workflow_uuid_pairs = this.get_uuid_pairs()
- //console.log(this.workflow_uuid_pairs)
-    
+    //console.log(this.workflow_uuid_pairs)
+
     this.$nextTick(() => {
-      this.workflow_pairs = this.get_dependcy_pairs()
+      this.workflow_pairs = this.get_dependcy_pairs();
 
       for (let item of this.workflow_pairs) {
         this.plumbIns.connect({
           source: item[0],
           target: item[1],
-          overlays: [ ['Arrow', { width: 12, length: 12, location: 0.5 }] ]
-        })
+          overlays: [["Arrow", { width: 12, length: 12, location: 0.5 }]],
+          connector: "StateMachine",
+          anchors: ["ContinuousBottom", "ContinuousTop"]
+        });
       }
+
+      this.auto_layout();
     });
+  }
+
+  public auto_layout() {
+    const g = new dagre.graphlib.Graph();
+    g.setGraph({});
+    g.setDefaultEdgeLabel(function() {
+      return {};
+    });
+    this.workflow_nodes.forEach((n: Workflownode) => {
+      g.setNode(n.id, { width: 100, height: 40 });
+    });
+    this.workflow_pairs.forEach((itm: any) => {
+      g.setEdge(itm[0], itm[1]);
+    });
+    dagre.layout(g, { ranker: "tight-tree" });
+    g.nodes().forEach((n: string) => {
+      (document.getElementById(n) as any).style.left = g.node(n).x + "px";
+      (document.getElementById(n) as any).style.top = g.node(n).y + "px";
+      console.log(`${n} x: ${g.node(n).x}, y:${g.node(n).y}`);
+    });
+
+    this.plumbIns.repaintEverything();
   }
 
   public get_chartjson(): string {
