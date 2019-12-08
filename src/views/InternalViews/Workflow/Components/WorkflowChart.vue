@@ -1,4 +1,6 @@
 <template>
+
+
   <div class="wf-chart">
     <WorkflowChartNode
       v-for="info in workflow_nodes"
@@ -9,6 +11,7 @@
       style_type="normal"
     ></WorkflowChartNode>
   </div>
+
 </template>
 
 <script lang="ts">
@@ -17,7 +20,7 @@ import WorkflowChartNode from "./WorkflowChartNode.vue";
 import { jsPlumb } from "jsplumb";
 
 interface Workflownode {
-  id:string;
+  id: string;
   name: string;
   dependencies: [];
   image: string;
@@ -39,12 +42,12 @@ export default class WorkflowChart extends Vue {
 
   public get_uuid_pairs() {
     this.workflow_nodes.forEach((item: Workflownode) => {
-      this.workflow_uuid_pairs[item["name"]] = item["id"]
+      this.workflow_uuid_pairs[item["name"]] = item["id"];
     });
   }
 
   public get_dependcy_pairs() {
-    this.get_uuid_pairs()
+    this.get_uuid_pairs();
     let pairs: any = [];
     this.workflow_nodes.forEach((item: Workflownode) => {
       let node_name = item["name"];
@@ -61,18 +64,15 @@ export default class WorkflowChart extends Vue {
   }
 
   public mounted() {
-    // this.workflow_uuid_pairs = this.get_uuid_pairs()
- //console.log(this.workflow_uuid_pairs)
-    
     this.$nextTick(() => {
-      this.workflow_pairs = this.get_dependcy_pairs()
+      this.workflow_pairs = this.get_dependcy_pairs();
 
       for (let item of this.workflow_pairs) {
         this.plumbIns.connect({
           source: item[0],
           target: item[1],
-          overlays: [ ['Arrow', { width: 12, length: 12, location: 0.5 }] ]
-        })
+          overlays: [["Arrow", { width: 12, length: 12, location: 0.5 }]]
+        });
       }
     });
   }
