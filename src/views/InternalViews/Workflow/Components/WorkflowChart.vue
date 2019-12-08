@@ -38,7 +38,7 @@ export default class WorkflowChart extends Vue {
   private plumbIns: any = jsPlumb.getInstance();
 
   public get_uuid_pairs() {
-    this.workflow_nodes.array.forEach((item: Workflownode) => {
+    this.workflow_nodes.forEach((item: Workflownode) => {
       this.workflow_uuid_pairs[item["name"]] = item["id"]
     });
   }
@@ -61,18 +61,17 @@ export default class WorkflowChart extends Vue {
   }
 
   public mounted() {
-    //let plumbIns = jsPlumb.getInstance()
-    //console.log(this.workflow_nodes)
-    //console.log(this.get_dependcy_pairs());
     // this.workflow_uuid_pairs = this.get_uuid_pairs()
-    // console.log(this.workflow_uuid_pairs)
+ //console.log(this.workflow_uuid_pairs)
     
     this.$nextTick(() => {
       this.workflow_pairs = this.get_dependcy_pairs()
+
       for (let item of this.workflow_pairs) {
         this.plumbIns.connect({
           source: item[0],
-          target: item[1]
+          target: item[1],
+          overlays: [ ['Arrow', { width: 12, length: 12, location: 0.5 }] ]
         })
       }
     });
