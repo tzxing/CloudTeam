@@ -91,7 +91,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({})
-export default class BaseTableView extends Vue {
+export default class UserInfoTableView extends Vue {
   idx = -1;
   tableData = [];
   conditions = {
