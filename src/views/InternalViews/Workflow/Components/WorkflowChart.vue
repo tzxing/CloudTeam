@@ -72,9 +72,10 @@ export default class WorkflowChart extends Vue {
         this.plumbIns.connect({
           source: item[0],
           target: item[1],
-          overlays: [["Arrow", { width: 12, length: 12, location: 0.5 }]],
+          overlays: [["Arrow", { width: 12, length: 12, location: 1 }]],
           connector: "StateMachine",
-          anchors: ["ContinuousBottom", "ContinuousTop"]
+          anchors: ["ContinuousBottom", "ContinuousTop"],
+          endpoint: "Blank"
         });
       }
 
