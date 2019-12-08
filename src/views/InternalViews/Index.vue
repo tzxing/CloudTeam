@@ -42,6 +42,8 @@
         >帕金森医疗平台</FunctionBlock>
 
         <FunctionBlock style="grid-area: g;" url="/internal/general_computing">高性能计算平台</FunctionBlock>
+
+        <FunctionBlock style="grid-area: i;" url="/internal/sys_manage">系统管理</FunctionBlock>
       </div>
     </div>
   </div>
