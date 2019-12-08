@@ -28,7 +28,7 @@
                 </el-form-item> 
               </el-form>
               <span>已分享过的用户</span>
-              <el-table :data="gridData" height="250">
+              <el-table :data="share" height="250">
                 <el-table-column property="name" label="姓名" width="200"></el-table-column>
                 <el-table-column label="操作" width="180" align="center">
                   <template slot-scope="scope">
@@ -79,10 +79,29 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
   export default class WflistTableView extends Vue {
-     
-      handleDelete(index:any,row:any) {
-        console.log(index,row);
+    share = {
+        id: "",
+        date: "",
+        name: ""
+         };
+
+    handleDelete(index:any,row:any) {
+      console.log(index,row);
       }
+
+    created() {
+      this.getData();
+      }
+
+  async getData() {
+    try {          
+      const {data} = await this.$axios.get("wfs/getShareInfo");
+      this.share=data;
+    } catch (e) {
+      this.$message.error("请求用户数据失败，请稍后再试！");
+    }
+  }
+
     
       data() {
       return {
