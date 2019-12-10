@@ -13,7 +13,7 @@
               <el-button type="text">运行</el-button>
               <el-button type="text">修改</el-button>
               <el-button type="text">复制</el-button>
-              <el-button type="text" @click="to_wfsdetails(scope.row)">详细信息</el-button>
+              <el-button type="text" @click="to_wfsdetails(scope.row.name)">详细信息</el-button>
               <el-button type="text">删除</el-button>
               <el-button type="text" @click="dialogTableVisible = true">共享</el-button>
 
@@ -56,7 +56,7 @@
             <template slot-scope="scope">
               <el-button type="text">运行</el-button>
               <el-button type="text">复制</el-button>
-              <el-button type="text" @click="to_wfsdetails(scope.row)">详细信息</el-button>
+              <el-button type="text" @click="to_wfsdetails(scope.row.name)">详细信息</el-button>
               <el-button type="text" @click="handleDelete(scope.$index,scope.row)">取消共享</el-button>
             </template>
           </el-table-column>
@@ -148,11 +148,10 @@ export default class WflistTableView extends Vue {
   };
   formLabelWidth = "120px";
 
-  name: string = "bai";
-  public to_wfsdetails(row: string) {
+  to_wfsdetails(row: string) {
     this.$router.push({
-      path: "/internal/workflow/wfsdetails",
-      query: { name: name }
+      name: "wfsdetails",
+      query: { 'name': row }
     });
   }
 }

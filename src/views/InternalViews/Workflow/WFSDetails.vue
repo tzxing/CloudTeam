@@ -35,15 +35,14 @@
 
     @Component({})
     export default class wfsdetails extends Vue {
-
-
       
-      private wfsname:string = "";
+      private wfsname:any="";
       // this.wfsname = this.$route.params.name
-
-    goBack() {
-        console.log('go back');
+      mounted(){
+        // alert(this.$route.query.name)
+        this.wfsname = this.$route.query.name
       }
+
 }
 
 </script>
