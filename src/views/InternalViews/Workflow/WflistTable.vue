@@ -5,10 +5,10 @@
         <span>自创工作流列表</span>
       </div>
       <div>
-        <el-table :data="tableData" height="250">
-          <el-table-column prop="date" label="创建日期" sortable width="150"></el-table-column>
-          <el-table-column prop="name" label="工作流名称" width="120"></el-table-column>
-          <el-table-column label="操作" width="180" align="center">
+        <el-table :data="tableUserWFData" height="250">
+          <el-table-column property="date" label="创建日期" sortable width="150"></el-table-column>
+          <el-table-column property="name" label="工作流名称" width="120"></el-table-column>
+          <el-table-column label="操作" width="200" align="center">
             <template slot-scope="scope">
               <el-button type="text">运行</el-button>
               <el-button type="text">修改</el-button>
@@ -49,7 +49,7 @@
         <span>分享工作流列表</span>
       </div>
       <div>
-        <el-table :data="tableData" height="250">
+        <el-table :data="tableToWFData" height="250">
           <el-table-column prop="date" label="创建日期" sortable width="150"></el-table-column>
           <el-table-column prop="name" label="工作流名称" width="120"></el-table-column>
           <el-table-column label="操作" width="180" align="center">
@@ -87,21 +87,56 @@ export default class WflistTableView extends Vue {
     selectclass: "",
     name: ""
   };
+  // tableUserWFData = {
+  //   workflow_id:"",
+  //   date:"",
+  //   name:"",
+  //   current_user:""
+  // }
+  tableUserWFData = [];
+  tableToWFData = [];
 
   handleDelete(index: any, row: any) {
     console.log(index, row);
   }
 
   created() {
+    // alert("test");
+    this.userWF();
+    this.toWF();
     this.getData();
   }
 
   async getData() {
     try {
       const { data } = await this.$axios.get("wfs/getShareInfo");
+      
       this.share = data;
     } catch (e) {
       this.$message.error("请求用户数据失败，请稍后再试！");
+    }
+  }
+
+   //获取用户工作流列表
+  async userWF() {
+    try {
+      const { data } = await this.$axios.get("wfs/UserWFInfo");
+      if (data) {
+        this.tableUserWFData = data;
+      }
+    } catch (e) {
+      this.$message.error("失败，请稍后再试！");
+    }
+  }
+     //获取被分享的工作流列表
+  async toWF() {
+    try {
+      const { data } = await this.$axios.get("wfs/getOterWFInfo");
+      if (data) {
+        this.tableToWFData = data;
+      }
+    } catch (e) {
+      this.$message.error("失败，请稍后再试！");
     }
   }
 
