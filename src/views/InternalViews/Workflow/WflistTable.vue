@@ -109,7 +109,7 @@ export default class WflistTableView extends Vue {
 
   async getData() {
     try {
-      const { data } = await this.$axios.get("wfs/getShareInfo");
+      const { data } = await this.$axios.get("wfs/shared_workflow_list");
       
       this.share = data;
     } catch (e) {
@@ -120,7 +120,7 @@ export default class WflistTableView extends Vue {
    //获取用户工作流列表
   async userWF() {
     try {
-      const { data } = await this.$axios.get("wfs/UserWFInfo");
+      const { data } = await this.$axios.get("wfs/SearchWFFInfo");
       if (data) {
         this.tableUserWFData = data;
       }
@@ -131,7 +131,7 @@ export default class WflistTableView extends Vue {
      //获取被分享的工作流列表
   async toWF() {
     try {
-      const { data } = await this.$axios.get("wfs/getOterWFInfo");
+      const { data } = await this.$axios.get("wfs/shared_workflow_list");
       if (data) {
         this.tableToWFData = data;
       }
