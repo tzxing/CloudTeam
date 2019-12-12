@@ -15,7 +15,7 @@
               <el-button type="text">复制</el-button>
               <el-button type="text" @click="to_wfsdetails(scope.row.name)">详细信息</el-button>
               <el-button type="text">删除</el-button>
-              <el-button type="text" @click="dialogTableVisible = true">共享</el-button>
+              <el-button type="text" @click="ShareDialog(scope.row)">共享</el-button>
 
               <!-- 分享弹框 -->
               <el-dialog title="分享给其他用户" :visible.sync="dialogTableVisible">
@@ -27,7 +27,7 @@
                     <el-button size="small" type="primary" @click="add">添加分享</el-button>
                   </el-form-item>
                 </el-form>
-                <span>已分享过的用户</span>
+                <span>已分享过的用户:{{wf_id}}</span>
                 <el-table :data="share" height="250">
                   <el-table-column property="name" label="姓名" width="200"></el-table-column>
                   <el-table-column label="操作" width="180" align="center">
@@ -78,17 +78,17 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class WflistTableView extends Vue {
-  share = {
-    id: "",
-    date: "",
-    name: ""
-  };
+  // share = {
+  //   to_user_id: "",
+  //   name: ""
+  // };
+  share = [];
   shareadd = {
     selectclass: "",
     name: ""
   };
   // tableUserWFData = {
-  //   workflow_id:"",
+  //   wf_id:"",
   //   date:"",
   //   name:"",
   //   current_user:""
@@ -96,28 +96,13 @@ export default class WflistTableView extends Vue {
   tableUserWFData = [];
   tableToWFData = [];
 
-  handleDelete(index: any, row: any) {
-    console.log(index, row);
-  }
-
   created() {
     // alert("test");
     this.userWF();
     this.toWF();
-    this.getData();
   }
 
-  async getData() {
-    try {
-      const { data } = await this.$axios.get("wfs/getShareInfo");
-      
-      this.share = data;
-    } catch (e) {
-      this.$message.error("请求用户数据失败，请稍后再试！");
-    }
-  }
-
-   //获取用户工作流列表
+  //获取用户工作流列表
   async userWF() {
     try {
       const { data } = await this.$axios.get("wfs/UserWFInfo");
@@ -128,7 +113,7 @@ export default class WflistTableView extends Vue {
       this.$message.error("失败，请稍后再试！");
     }
   }
-     //获取被分享的工作流列表
+  //获取被分享的工作流列表
   async toWF() {
     try {
       const { data } = await this.$axios.get("wfs/getOterWFInfo");
@@ -139,37 +124,6 @@ export default class WflistTableView extends Vue {
       this.$message.error("失败，请稍后再试！");
     }
   }
-
-  //检索用户数据
-  async add() {
-    try {
-      const { data } = await this.$axios.post("wfs/AddShare", this.shareadd);
-      if (data == "success") {
-        this.$message.success("检索成功");
-      }
-    } catch (e) {
-      this.$message.error("检索失败，请稍后再试！");
-    }
-  }
-
-  tableData = [
-    {
-      date: "2016-05-02",
-      name: "工作流-1"
-    },
-    {
-      date: "2016-05-02",
-      name: "工作流-2"
-    },
-    {
-      date: "2016-05-02",
-      name: "工作流-3"
-    },
-    {
-      date: "2016-05-02",
-      name: "工作流-4"
-    }
-  ];
 
   dialogTableVisible = false;
   dialogFormVisible = false;
@@ -183,11 +137,83 @@ export default class WflistTableView extends Vue {
   };
   formLabelWidth = "120px";
 
+  //跳转工作流详情页面
   to_wfsdetails(row: string) {
     this.$router.push({
       name: "wfsdetails",
-      query: { 'name': row }
+      query: { name: row }
     });
+  }
+  private wf_id: any = "";
+  private to_user_name: any = "";
+  //分享工作流弹框-分享过的用户列表
+  async ShareDialog(row: any) {
+    this.dialogTableVisible = true;
+    try {
+      this.wf_id = row.wf_id;
+      const { data } = await this.$axios.post("wfs/getShareInfo", {
+        wf_id: this.wf_id
+      });
+
+      if (data) {
+        this.share = data;
+        // this.$message.success("检索成功");
+      }
+    } catch (e) {
+      this.$message.error("检索失败，请稍后再试！");
+    }
+  }
+  //添加分享
+  async add() {
+    try {
+      const { data } = await this.$axios.post("wfs/add_share", {
+        to_user_name: this.shareadd,
+        wf_id: this.wf_id
+      });
+      if (data == "success") {
+        //成功更新用户列表
+        try {
+          const { data } = await this.$axios.post("wfs/getShareInfo", {
+            wf_id: this.wf_id
+          });
+          if (data) {
+            this.share = data;
+            this.$message.success("添加成功，更新成功");
+          }
+        } catch (e) {
+          this.$message.error("更新失败，请稍后再试！");
+        }
+        this.$message.success("添加成功");
+      }
+    } catch (e) {
+      this.$message.error("添加失败，重复");
+    }
+  }
+  //删除曾经的分享
+  async handleDelete(index: any, row: any) {
+    // console.log(index, row);
+    try {
+      const { data } = await this.$axios.post("wfs/share_delete", {
+        to_user_name: this.to_user_name,
+        wf_id: this.wf_id
+      });
+      if (data == "success") {
+        //成功更新用户列表
+        try {
+          const { data } = await this.$axios.post("wfs/getShareInfo", {
+            wf_id: this.wf_id
+          });
+          if (data) {
+            this.share = data;
+            this.$message.success("添加成功，更新成功");
+          }
+        } catch (e) {
+          this.$message.error("更新失败，请稍后再试！");
+        }
+      }
+    } catch (e) {
+      this.$message.error("删除失败");
+    }
   }
 }
 </script>
