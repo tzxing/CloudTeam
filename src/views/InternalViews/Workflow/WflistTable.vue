@@ -116,7 +116,7 @@ export default class WflistTableView extends Vue {
   //获取被分享的工作流列表
   async toWF() {
     try {
-      const { data } = await this.$axios.get("wfs/shared_workflow_list");
+      const { data } = await this.$axios.get("wfs/SearchWFTInfo");
       if (data) {
         this.tableToWFData = data;
       }
