@@ -12,14 +12,14 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component({})
 export default class FunctionBlockComponent extends Vue {
-  @Prop({ type: String })
-  url: string = "";
+  @Prop({ type: String, default: "" })
+  public readonly url!: string;
 
-  @Prop()
-  background_color: string = "";
+  @Prop({ type: String, default: "" })
+  public readonly background_color!: string;
 
-  @Prop()
-  cursor: string = "pointer";
+  @Prop({ type: String, default: "pointer" })
+  public readonly cursor!: string;
 
   styleObject = {
     backgroundColor: "",
