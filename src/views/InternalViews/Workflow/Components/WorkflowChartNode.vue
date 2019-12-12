@@ -1,6 +1,8 @@
 <template>
   <div class="wf-node-wrapper" :id="id" :class="[_style_type]">
-    <div class="wf-node-text"><span>{{label}}</span></div>
+    <div class="wf-node-text">
+      <span>{{label}}</span>
+    </div>
   </div>
 </template>
 
@@ -24,25 +26,30 @@ export default class WorkflowChartNode extends Vue {
   @Prop({ required: false, default: "normal", type: String })
   public style_type: string = "normal";
 
+  @Prop({ required: false })
+  public enable_edit: boolean = true;
+
   private get _style_type(): string {
     return `wf-node-type-${this.style_type}`;
   }
 
   public mounted() {
     this.jsp_instance.draggable(this.id);
-    this.jsp_instance.addEndpoint(this.id, {
-      anchor: "Left",
-      connector: "StateMachine",
-      maxConnections: -1,
-      parameters: {},
-      id: this.id,
-      scope: "",
-      isSource: true,
-      isTarget: true,
-      reattachConnections: false,
-      type: "Dot",
-      paintStyle: { fill: "blue" }
-    });
+    if (this.enable_edit) {
+      this.jsp_instance.addEndpoint(this.id, {
+        anchor: "Left",
+        connector: "StateMachine",
+        maxConnections: -1,
+        parameters: {},
+        id: this.id,
+        scope: "",
+        isSource: true,
+        isTarget: true,
+        reattachConnections: false,
+        type: "Dot",
+        paintStyle: { fill: "blue" }
+      });
+    }
   }
 }
 </script>
@@ -71,7 +78,7 @@ $border-size: 1px;
     border-width: $border-size;
     background-color: white;
     border-radius: 4px;
-    
+
     display: flex;
     align-items: center;
     justify-content: center;
