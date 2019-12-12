@@ -12,9 +12,9 @@
             <template slot-scope="scope">
               <el-button type="text">运行</el-button>
               <el-button type="text">修改</el-button>
-              <el-button type="text">复制</el-button>
+              <el-button type="text" @click="Copy(scope.row)">复制</el-button>
               <el-button type="text" @click="to_wfsdetails(scope.row.name)">详细信息</el-button>
-              <el-button type="text">删除</el-button>
+              <el-button type="text" @click="Delete_wf">删除</el-button>
               <el-button type="text" @click="ShareDialog(scope.row)">共享</el-button>
 
               <!-- 分享弹框 -->
@@ -55,9 +55,9 @@
           <el-table-column label="操作" width="180" align="center">
             <template slot-scope="scope">
               <el-button type="text">运行</el-button>
-              <el-button type="text">复制</el-button>
+              <el-button type="text" @click="Copy(scope.row)">复制</el-button>
               <el-button type="text" @click="to_wfsdetails(scope.row.name)">详细信息</el-button>
-              <el-button type="text" @click="handleDelete(scope.$index,scope.row)">取消共享</el-button>
+              <el-button type="text" @click="Delete(scope.$index,scope.row)">取消分享</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -146,6 +146,79 @@ export default class WflistTableView extends Vue {
   }
   private wf_id: any = "";
   private to_user_name: any = "";
+
+  //取消分享
+  async Delete(index: any, row: any) {
+    // console.log(index, row);
+    try {
+      this.wf_id = row.wf_id;
+      const { data } = await this.$axios.post("wfs/cancel_share", {
+        wf_id: this.wf_id
+      });
+      if (data == true) {
+        //成功则更新被分享的工作流列表
+        try {
+          const { data } = await this.$axios.get("wfs/getOterWFInfo");
+          if (data) {
+            this.tableToWFData = data;
+            this.$message.success("取消分享成功，更新成功");
+          }
+        } catch (e) {
+          this.$message.error("连接服务器失败");
+        }
+      }
+    } catch (e) {
+      this.$message.error("取消分享失败");
+    }
+  }
+  //复制工作流
+  async Copy(row: any) {
+    try {
+      this.wf_id = row.wf_id;
+      const { data } = await this.$axios.post("wfs/copy_workflow", {
+        wf_id: this.wf_id
+      });
+      if (data == true) {
+        //成功则更新工作流列表
+        try {
+          const { data } = await this.$axios.get("wfs/UserWFInfo");
+          if (data) {
+            this.tableUserWFData = data;
+            this.$message.success("复制工作流成功，更新成功");
+          }
+        } catch (e) {
+          this.$message.error("连接服务器失败，复制失败");
+        }
+      }
+    } catch (e) {
+      this.$message.error("复制失败");
+    }
+  }
+  //删除自己创建的工作流
+  async Delete_wf(row: any) {
+    try {
+      this.wf_id = row.wf_id;
+      const { data } = await this.$axios.post("wfs/delete_workflow", {
+        wf_id: this.wf_id
+      });
+      if (data == true) {
+        //删除成功则更新自创工作流列表
+        try {
+          const { data } = await this.$axios.get("wfs/UserWFInfo");
+          if (data) {
+            this.tableUserWFData = data;
+            this.$message.success("删除工作流成功，更新成功");
+          }
+        } catch (e) {
+          this.$message.error("连接服务器失败，删除失败");
+        }
+      }
+    } catch (e) {
+      this.$message.error("失败");
+    }
+  }
+
+  //分享弹框的操作
   //分享工作流弹框-分享过的用户列表
   async ShareDialog(row: any) {
     this.dialogTableVisible = true;
