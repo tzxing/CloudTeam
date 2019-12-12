@@ -62,16 +62,16 @@ export default class WorkflowChart extends Vue {
         parallel: ""
       }
 
-
-
   private plumbIns: jsPlumbInstance = jsPlumb.getInstance();
 
+  //获取节点名称-id的map映射
   public get_uuid_pairs() {
     this.workflow_nodes.forEach((item: Workflownode) => {
       this.workflow_uuid_pairs[item["name"]] = item["id"];
     });
   }
 
+  //获取节点id-父节点id的map映射
   public get_dependcy_pairs() {
     this.get_uuid_pairs();
     let pairs: any = [];
