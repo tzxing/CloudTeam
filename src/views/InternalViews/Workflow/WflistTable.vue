@@ -140,8 +140,8 @@ export default class WflistTableView extends Vue {
   //跳转工作流详情页面
   to_wfsdetails(row: string) {
     this.$router.push({
-      name: "wfsdetails",
-      query: { name: row }
+      name: "wflistable/wfsdetails",
+      query: { 'name': row }
     });
   }
   private wf_id: any = "";
@@ -224,7 +224,7 @@ export default class WflistTableView extends Vue {
     this.dialogTableVisible = true;
     try {
       this.wf_id = row.wf_id;
-      const { data } = await this.$axios.post("wfs/getShareInfo", {
+      const { data } = await this.$axios.post("wfs/SearchShareInfo", {
         wf_id: this.wf_id
       });
 
