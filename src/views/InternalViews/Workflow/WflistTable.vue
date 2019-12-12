@@ -82,6 +82,8 @@ export default class WflistTableView extends Vue {
   //   to_user_id: "",
   //   name: ""
   // };
+  private wf_id: any = "";
+  private to_user_name: any = "";
   share = [];
   shareadd = {
     selectclass: "",
@@ -140,12 +142,11 @@ export default class WflistTableView extends Vue {
   //跳转工作流详情页面
   to_wfsdetails(row: string) {
     this.$router.push({
-      name: "wfsdetails",
-      query: { name: row }
+      name: "wflistable/wfsdetails",
+      query: { 'name': row }
     });
   }
-  private wf_id: any = "";
-  private to_user_name: any = "";
+  
 
   //取消分享
   async Delete(index: any, row: any) {
@@ -224,8 +225,8 @@ export default class WflistTableView extends Vue {
     this.dialogTableVisible = true;
     try {
       this.wf_id = row.wf_id;
-      const { data } = await this.$axios.post("wfs/getShareInfo", {
-        wf_id: this.wf_id
+      const { data } = await this.$axios.post("wfs/SearchShareInfo", {
+        'wf_id': this.wf_id
       });
 
       if (data) {
@@ -239,14 +240,15 @@ export default class WflistTableView extends Vue {
   //添加分享
   async add() {
     try {
+      // alert(this.shareadd.name)
       const { data } = await this.$axios.post("wfs/add_share", {
-        to_user_name: this.shareadd,
+        to_user_name: this.shareadd.name,
         wf_id: this.wf_id
       });
       if (data == "success") {
         //成功更新用户列表
         try {
-          const { data } = await this.$axios.post("wfs/getShareInfo", {
+          const { data } = await this.$axios.post("wfs/SearchShareInfo", {
             wf_id: this.wf_id
           });
           if (data) {
@@ -266,19 +268,20 @@ export default class WflistTableView extends Vue {
   async handleDelete(index: any, row: any) {
     // console.log(index, row);
     try {
+      this.to_user_name = row.name;
       const { data } = await this.$axios.post("wfs/share_delete", {
-        to_user_name: this.to_user_name,
-        wf_id: this.wf_id
+        'to_user_name': this.to_user_name,
+        'wf_id': this.wf_id
       });
       if (data == "success") {
         //成功更新用户列表
         try {
-          const { data } = await this.$axios.post("wfs/getShareInfo", {
+          const { data } = await this.$axios.post("wfs/SearchShareInfo", {
             wf_id: this.wf_id
           });
           if (data) {
             this.share = data;
-            this.$message.success("添加成功，更新成功");
+            this.$message.success("删除成功，更新成功");
           }
         } catch (e) {
           this.$message.error("更新失败，请稍后再试！");
