@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    
     <div id="logo-title">
       <h1>云控制一体化服务平台</h1>
     </div>
@@ -31,8 +30,8 @@
         >深空探测</FunctionBlock>
 
         <FunctionBlock style="grid-area: e;" background_color="#ffffff" cursor="default">
-          <p>现在时间是</p>
-          <p>{{current_time_string}}</p>
+          <p style="color: black;">现在时间是</p>
+          <p style="color: black;">{{current_time_string}}</p>
         </FunctionBlock>
 
         <FunctionBlock
@@ -41,9 +40,17 @@
           url="/internal/parkinson"
         >帕金森医疗平台</FunctionBlock>
 
-        <FunctionBlock style="grid-area: g;" url="/internal/general_computing">高性能计算平台</FunctionBlock>
+        <FunctionBlock
+          style="grid-area: g;"
+          url="/internal/general_computing"
+          background_color="#B16E98"
+        >高性能计算平台</FunctionBlock>
 
-        <FunctionBlock style="grid-area: i;" url="/internal/sys_manage">系统管理</FunctionBlock>
+        <FunctionBlock
+          style="grid-area: i;"
+          url="/internal/sys_manage"
+          background_color="#C58664"
+        >系统管理</FunctionBlock>
       </div>
     </div>
   </div>
@@ -117,7 +124,7 @@ export default class InternalIndexView extends Vue {
       display: grid;
       grid-gap: 0.6rem;
       grid-template-columns: repeat(4, 199px);
-      grid-template-rows: repeat(2, 160px);
+      grid-template-rows: repeat(3, 160px);
       grid-template-areas:
         "a b c c"
         "d e f g"

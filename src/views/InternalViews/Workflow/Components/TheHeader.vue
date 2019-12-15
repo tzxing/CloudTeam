@@ -4,8 +4,9 @@
     <div class="header-right">
       <div class="header-user-con">
         <!-- 用户头像 -->
+        <div class="user-sign"  @click="signup">注册</div>
         <div class="user-name">{{name}}</div>
-        <div class="user-logout curp" @click="logout">退出</div>
+        <div class="user-logout" @click="logout">退出</div>
       </div>
     </div>
   </div>
@@ -31,7 +32,7 @@ export default class TheHeadView extends Vue {
   box-sizing: border-box;
   width: 100%;
   font-size: 22px;
-  color: #fff;
+  color: rgb(7, 6, 6);
 }
 
 .collapse-btn {
