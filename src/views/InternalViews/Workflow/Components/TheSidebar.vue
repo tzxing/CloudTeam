@@ -13,6 +13,15 @@
         <el-menu-item index="/internal/workflow/basetable">工作流列表</el-menu-item>
         <el-menu-item index="/internal/workflow/baseform">工作流上传</el-menu-item>
       </el-submenu>
+
+      <el-submenu index="1">
+        <template slot="title">
+          <span>工作流实例管理</span>
+        </template>
+        <el-menu-item index="/internal/workflow/workflowjob">工作流实例列表</el-menu-item>
+      </el-submenu>
+
+
     </el-menu>
   </div>
 </template>
