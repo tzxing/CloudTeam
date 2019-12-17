@@ -15,6 +15,23 @@
         <el-menu-item index="/internal/workflow/wflistable">工作流列表-xy</el-menu-item>
         <!-- <el-menu-item index="/internal/workflow/wfsdetails">工作流详情-bzx</el-menu-item> -->
       </el-submenu>
+  
+      <el-submenu index="2">
+        <template slot="title">
+          <span>用户管理</span>
+        </template>
+        <el-menu-item index="/internal/workflow/userinfo">用户列表</el-menu-item>
+      </el-submenu>
+      
+
+      <el-submenu index="3">
+        <template slot="title">
+          <span>工作流实例管理</span>
+        </template>
+        <el-menu-item index="/internal/workflow/workflowjob">工作流实例列表</el-menu-item>
+      </el-submenu>
+
+
     </el-menu>
   </div>
 </template>
