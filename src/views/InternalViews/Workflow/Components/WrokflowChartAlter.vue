@@ -1,13 +1,41 @@
 <template>
   <div class="wf-chart">
-    <WorkflowChartNode
-      v-for="info in workflow_nodes"
-      :key="info.id"
-      :id="info.id"
-      :jsp_instance="plumbIns"
-      :label="info.name"
-      :style_type="info.style_type"
-    ></WorkflowChartNode>
+    <div class="alter_button">
+      <div>
+        <el-button type="text" @click="dialogFormVisible = true">新增工作流节点</el-button>
+      </div>
+      <div>
+        <el-button type="text" @click="get_chartjson">导出配置文件</el-button>
+      </div>
+    </div>
+
+    <div>
+      <WorkflowChartNode
+        v-for="info in workflow_nodes"
+        :key="info.id"
+        :id="info.id"
+        :jsp_instance="plumbIns"
+        :label="info.name"
+        :style_type="info.style_type"
+      ></WorkflowChartNode>
+    </div>
+
+    <el-dialog title="节点信息" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item label="名称" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="镜像" :label-width="formLabelWidth">
+          <el-input v-model="form.image" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="add_node">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -28,7 +56,7 @@ interface Workflownode {
 @Component({
   components: { WorkflowChartNode }
 })
-export default class WorkflowChart extends Vue {
+export default class WorkflowChartAlter extends Vue {
   @Prop({ required: true, type: String })
   public chart_data!: string; //传入的json串，表示工作流树结构
 
@@ -37,6 +65,7 @@ export default class WorkflowChart extends Vue {
   public workflow_pairs: any = [];
   public workflow_uuid_pairs: { [index: string]: string } = {};
   public dialogFormVisible = false;
+  public res = "";
 
   public form = {
     name: "",
@@ -133,7 +162,21 @@ export default class WorkflowChart extends Vue {
   }
 
   public get_chartjson(): string {
-    return JSON.stringify(this.workflow_nodes.toString());
+    this.res = JSON.stringify(this.workflow_nodes);
+    console.log(this.res);
+    return this.res;
+  }
+
+  public add_node() {
+    let add_info: { [index: string]: any } = {};
+    add_info["name"] = this.form.name;
+    add_info["template"] = this.form.image;
+    add_info["dependencies"] = [];
+    add_info["style_type"] = "normal";
+    add_info["id"] = this.guid();
+    this.workflow_nodes.push(add_info);
+
+    this.dialogFormVisible = false;
   }
 
   public guid() {
@@ -152,5 +195,8 @@ export default class WorkflowChart extends Vue {
   padding-left: 60%;
   padding-top: 5%;
   padding-bottom: 30%;
+}
+.alter_button {
+  position: relative;
 }
 </style>
