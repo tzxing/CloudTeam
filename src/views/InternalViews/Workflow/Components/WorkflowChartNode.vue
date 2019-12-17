@@ -24,7 +24,7 @@ export default class WorkflowChartNode extends Vue {
   public label!: string;
 
   @Prop({ required: false, default: "normal", type: String })
-  public style_type: string = "normal";
+  public style_type!: string;
 
   @Prop({ required: false })
   public enable_edit: boolean = true;
