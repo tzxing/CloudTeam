@@ -14,7 +14,7 @@
               <el-button type="text">修改</el-button>
               <el-button type="text" @click="Copy(scope.row)">复制</el-button>
               <el-button type="text" @click="to_wfsdetails(scope.row.name)">详细信息</el-button>
-              <el-button type="text" @click="Delete_wf">删除</el-button>
+              <el-button type="text" @click="Delete_wf(scope.row)">删除</el-button>
               <el-button type="text" @click="ShareDialog(scope.row)">共享</el-button>
 
               <!-- 分享弹框 -->
@@ -153,13 +153,14 @@ export default class WflistTableView extends Vue {
     // console.log(index, row);
     try {
       this.wf_id = row.wf_id;
+      alert(this.wf_id)
       const { data } = await this.$axios.post("wfs/cancel_share", {
         wf_id: this.wf_id
       });
       if (data == true) {
         //成功则更新被分享的工作流列表
         try {
-          const { data } = await this.$axios.get("wfs/getOterWFInfo");
+          const { data } = await this.$axios.get("wfs/SearchWFTInfo");
           if (data) {
             this.tableToWFData = data;
             this.$message.success("取消分享成功，更新成功");
@@ -182,7 +183,7 @@ export default class WflistTableView extends Vue {
       if (data == true) {
         //成功则更新工作流列表
         try {
-          const { data } = await this.$axios.get("wfs/UserWFInfo");
+          const { data } = await this.$axios.get("wfs/SearchWFFInfo");
           if (data) {
             this.tableUserWFData = data;
             this.$message.success("复制工作流成功，更新成功");
@@ -205,7 +206,7 @@ export default class WflistTableView extends Vue {
       if (data == true) {
         //删除成功则更新自创工作流列表
         try {
-          const { data } = await this.$axios.get("wfs/UserWFInfo");
+          const { data } = await this.$axios.get("wfs/SearchWFFInfo");
           if (data) {
             this.tableUserWFData = data;
             this.$message.success("删除工作流成功，更新成功");
