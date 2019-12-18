@@ -18,7 +18,7 @@
 
     <el-main>
       <div>
-          <WorkflowChartAlter :chart_data="char_data" ref="WorkflowChartAlter"></WorkflowChartAlter>
+          <WorkflowChartAlter :chart_data="char_data"></WorkflowChartAlter>
       </div>
     </el-main>
 
@@ -35,30 +35,33 @@
   components: { WorkflowChartAlter }
 })
 
-
-    @Component({})
     export default class wfsdetails extends Vue {
       
       private wfsname:any="";
-      // this.wfsname = this.$route.params.name
+      private char_data:string = '';
+      private chart:any = null;
       mounted(){
         // alert(this.$route.query.name)
         this.wfsname = this.$route.query.name
+        this.getDetailsInfo()
       }
 
-
-      public char_data =
-    '[{"name":"A","dependencies":[],"id":"1","template":"alpine: 3.7","style_type":"success"},{"name":"B","id":"2","dependencies":["A"],"template":"alpine: 3.7","style_type":"normal"},{"name":"C","dependencies":["A"],"id":"3","template":"alpine: 3.7","style_type":"disable"},{"name":"D","id":"4","dependencies":["B","C"],"template":"alpine: 3.7","style_type":"success"}]';
-  public chart = new WorkflowChartAlter(this.char_data);
-  public str: string = "";
-
-  created() {
-    this.str = this.chart.get_chartjson();
-    console.log(this.str + "%%%%%");
-  }
-
-
-
+      workf_id= "5df1b1a91e618e930e7e20e9";
+    async getDetailsInfo() {
+      try {
+        const { data } = await this.$axios.get("wfs/workflow_details/"+this.workf_id);
+        if (data) {
+          this.char_data = JSON.stringify(data);
+          // alert(this.chart_data)
+          this.chart = new WorkflowChartAlter(this.char_data);
+        }
+        else{
+           this.$message.error("没有数据")
+        }
+      } catch (e) {
+        this.$message.error("失败，请稍后再试！");
+      }
+    }
 }
 
 </script>
