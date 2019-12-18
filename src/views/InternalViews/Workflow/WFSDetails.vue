@@ -18,7 +18,7 @@
 
     <el-main>
       <div>
-          <WorkflowChartAlter :chart_data="char_data"></WorkflowChartAlter>
+          <WorkflowChartAlter :chart_data="chart_data"></WorkflowChartAlter>
       </div>
     </el-main>
 
@@ -38,12 +38,16 @@
     export default class wfsdetails extends Vue {
       
       private wfsname:any="";
-      private char_data:string = '';
+      private chart_data="[]";
       private chart:any = null;
-      mounted(){
+      created(){
         // alert(this.$route.query.name)
         this.wfsname = this.$route.query.name
+
         this.getDetailsInfo()
+        
+        // this.chart = this.$refs.workflow_chart_alter as WorkflowChartAlter;
+
       }
 
       workf_id= "5df1b1a91e618e930e7e20e9";
@@ -51,9 +55,8 @@
       try {
         const { data } = await this.$axios.get("wfs/workflow_details/"+this.workf_id);
         if (data) {
-          this.char_data = JSON.stringify(data);
-          // alert(this.chart_data)
-          this.chart = new WorkflowChartAlter(this.char_data);
+          this.chart_data = JSON.stringify(data);
+           alert(this.chart_data)
         }
         else{
            this.$message.error("没有数据")
