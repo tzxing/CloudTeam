@@ -27,7 +27,7 @@ export default class WorkflowChartNode extends Vue {
   public style_type!: string;
 
   @Prop({ required: false, default: true })
-  public readonly enable_edit!:boolean;
+  public  readonly enable_edit!:boolean;
 
   private get _style_type(): string {
     return `wf-node-type-${this.style_type}`;
@@ -101,7 +101,4 @@ $border-size: 1px;
   background-color: gray;
 }
 
-.wf-node-type-suspend {
-  background-color: yellow;
-}
 </style>
