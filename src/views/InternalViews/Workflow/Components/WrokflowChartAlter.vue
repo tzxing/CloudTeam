@@ -5,7 +5,7 @@
         <el-button type="text" @click="dialogFormVisible = true">新增工作流节点</el-button>
       </div>
       <div>
-        <el-button type="text" @click="get_chartjson">导出配置文件</el-button>
+        <el-button type="text" @click="get_chartjson">生成工作流模版</el-button>
       </div>
     </div>
 
@@ -64,8 +64,9 @@ export default class WorkflowChartAlter extends Vue {
   public workflow_nodes = JSON.parse(this.chart_data);
   public workflow_pairs: any = [];
   public workflow_uuid_pairs: { [index: string]: string } = {};
+  public workflow_uuid_name_pairs: { [index: string]: string } = {};
   public dialogFormVisible = false;
-  public res = "";
+  public chartjson:string = "";
 
   public form = {
     name: "",
@@ -73,12 +74,24 @@ export default class WorkflowChartAlter extends Vue {
     parallel: ""
   };
 
-  private plumbIns: jsPlumbInstance = jsPlumb.getInstance();
+  constructor(chart_data:any) {
+      super()
+      this.chart_data = chart_data
+  }
 
-  //获取节点名称-id的map映射
+  private plumbIns: jsPlumbInstance = jsPlumb.getInstance();
+      
+  //获取节点名称-uuid的map映射
   public get_uuid_pairs() {
     this.workflow_nodes.forEach((item: Workflownode) => {
       this.workflow_uuid_pairs[item["name"]] = item["id"];
+    });
+  }
+
+  //获取uuid-节点名称的map映射
+  public get_uuid_name_pairs() {
+    this.workflow_nodes.forEach((item: Workflownode) => {
+      this.workflow_uuid_name_pairs[item["id"]] = item["name"];
     });
   }
 
@@ -162,9 +175,9 @@ export default class WorkflowChartAlter extends Vue {
   }
 
   public get_chartjson(): string {
-    this.res = JSON.stringify(this.workflow_nodes);
-    console.log(this.res);
-    return this.res;
+      this.chartjson = JSON.stringify(this.workflow_nodes);
+      //console.log(this.chartjson)
+    return this.chartjson;
   }
 
   public add_node() {
@@ -172,7 +185,7 @@ export default class WorkflowChartAlter extends Vue {
     add_info["name"] = this.form.name;
     add_info["template"] = this.form.image;
     add_info["dependencies"] = [];
-    add_info["style_type"] = "normal";
+    add_info["style_type"] = "disable";
     add_info["id"] = this.guid();
     this.workflow_nodes.push(add_info);
 
