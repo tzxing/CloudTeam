@@ -7,7 +7,7 @@
   <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
   <el-breadcrumb-item :to="{path:'/internal/workflow'}">工作流管理</el-breadcrumb-item>
   <el-breadcrumb-item :to="{path:'/internal/workflow/wflistable'}">工作流列表</el-breadcrumb-item>
-  <el-breadcrumb-item >工作流详情</el-breadcrumb-item>
+  <el-breadcrumb-item >工作流编辑</el-breadcrumb-item>
   </el-breadcrumb>
       
     <el-aside>
@@ -18,7 +18,7 @@
 
     <el-main>
       <div>
-          <WorkflowChart :chart_data="chart_data"></WorkflowChart>
+          <WorkflowChartAlter :chart_data="chart_data"></WorkflowChartAlter>
       </div>
     </el-main>
 
@@ -29,13 +29,13 @@
 <script lang="ts">
     import { Component, Vue } from "vue-property-decorator";
     import FunctionBlock from "./components/FunctionBlock.vue";
-    import WorkflowChart from "./Components/WorkflowChart.vue";
+    import WorkflowChartAlter from "./Components/WorkflowChartAlter.vue";
 
 @Component({
-  components: { WorkflowChart}
+  components: { WorkflowChartAlter}
 })
 
-    export default class wfsedit extends Vue {
+    export default class wfsdetails extends Vue {
       
       private wfsname:any="";
       private chart_data="[]";
@@ -43,11 +43,11 @@
       private wf_id:any;
       created(){
         // alert(this.$route.query.name)
-        this.wfsname = this.$route.query.name
-        this.wf_id = this.$route.query.wf_id
+        this.wfsname = this.$route.query.name;
+        this.wf_id = this.$route.query.wf_id ;
+
         this.getDetailsInfo()
         
-        // this.chart = this.$refs.workflow_chart_alter as WorkflowChartAlter;
 
       }
 
@@ -57,7 +57,6 @@
         const { data } = await this.$axios.get("wfs/workflow_info/"+this.wf_id);
         if (data) {
           this.chart_data = JSON.stringify(data);
-           alert(this.chart_data)
         }
         else{
            this.$message.error("没有数据")

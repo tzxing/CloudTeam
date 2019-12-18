@@ -11,9 +11,9 @@
           <el-table-column label="操作" width="200" align="center">
             <template slot-scope="scope">
               <el-button type="text">运行</el-button>
-              <el-button type="text">修改</el-button>
+              <el-button type="text" @click="to_wfsedit(scope.row)">修改</el-button>
               <el-button type="text" @click="Copy(scope.row)">复制</el-button>
-              <el-button type="text" @click="to_wfsdetails(scope.row.name)">详细信息</el-button>
+              <el-button type="text" @click="to_wfsdetails(scope.row)">详细信息</el-button>
               <el-button type="text" @click="Delete_wf(scope.row)">删除</el-button>
               <el-button type="text" @click="ShareDialog(scope.row)">共享</el-button>
 
@@ -56,7 +56,7 @@
             <template slot-scope="scope">
               <el-button type="text">运行</el-button>
               <el-button type="text" @click="Copy(scope.row)">复制</el-button>
-              <el-button type="text" @click="to_wfsdetails(scope.row.name)">详细信息</el-button>
+              <el-button type="text" @click="to_wfsdetails(scope.row)">详细信息</el-button>
               <el-button type="text" @click="Delete(scope.$index,scope.row)">取消分享</el-button>
             </template>
           </el-table-column>
@@ -115,6 +115,9 @@ export default class WflistTableView extends Vue {
       this.$message.error("失败，请稍后再试！");
     }
   }
+
+
+
   //获取被分享的工作流列表
   async toWF() {
     try {
@@ -140,13 +143,18 @@ export default class WflistTableView extends Vue {
   formLabelWidth = "120px";
 
   //跳转工作流详情页面
-  to_wfsdetails(row: string) {
+  to_wfsdetails(row:any) {
     this.$router.push({
       name: "wflistable/wfsdetails",
-      query: { 'name': row }
+      query: { 'name': row.name , 'wf_id':row.wf_id }
     });
   }
-  
+  to_wfsedit(row:any){
+    this.$router.push({
+      name: "wflistable/wfsedit",
+      query: { 'name': row.name,'wf_id':row.wf_id }
+    });
+  }
 
   //取消分享
   async Delete(index: any, row: any) {

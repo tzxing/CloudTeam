@@ -7,7 +7,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 //import WorkflowChart from "./Components/WorkflowChart.vue";
-import WorkflowChartAlter from "./Components/WrokflowChartAlter.vue";
+import WorkflowChartAlter from "./Components/WorkflowChartAlter.vue";
 
 @Component({
   components: { WorkflowChartAlter }
