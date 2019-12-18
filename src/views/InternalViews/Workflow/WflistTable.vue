@@ -10,7 +10,7 @@
           <el-table-column property="name" label="工作流名称" width="120"></el-table-column>
           <el-table-column label="操作" width="200" align="center">
             <template slot-scope="scope">
-              <el-button type="text">运行</el-button>
+              <el-button type="text" @click="Execute(scope.row)">运行</el-button>
               <el-button type="text">修改</el-button>
               <el-button type="text" @click="Copy(scope.row)">复制</el-button>
               <el-button type="text" @click="to_wfsdetails(scope.row.name)">详细信息</el-button>
@@ -138,6 +138,26 @@ export default class WflistTableView extends Vue {
     desc: ""
   };
   formLabelWidth = "120px";
+
+  //启动工作流---创建一个实例
+  async Execute(row:any){
+    try {
+      const { data } =  await this.$axios.post("wfs/workflow"+row.name+"/execute");
+      if(data){
+        //后端返回后再跳转
+        this.to_wfexec();
+      }
+    } catch (e) {
+      this.$message.error("连接服务器失败");
+    }
+  }
+  to_wfexec(){
+    this.$router.push({
+      //跳转到实例页面
+      name: "wflistable/wfsdetails"
+      
+    });
+  }
 
   //跳转工作流详情页面
   to_wfsdetails(row: string) {
