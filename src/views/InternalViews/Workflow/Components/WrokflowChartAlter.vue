@@ -60,13 +60,13 @@ export default class WorkflowChartAlter extends Vue {
   @Prop({ required: true, type: String })
   public chart_data!: string; //传入的json串，表示工作流树结构
 
-  //public test_str = ''[{"name":"A","dependencies":[],"id":"1","template":"alpine: 3.7","style_type":"success"},{"name":"B","id":"2","dependencies":["A"],"template":"alpine: 3.7","style_type":"error"},{"name":"C","dependencies":["A"],"id":"3","template":"alpine: 3.7","style_type":"disable"},{"name":"D","id":"4","dependencies":["B","C"],"template":"alpine: 3.7","style_type":"success"}]''
+  //public test_str = '[{"name":"A","dependencies":[],"id":"1","template":"alpine: 3.7","style_type":"success"},{"name":"B","id":"2","dependencies":["A"],"template":"alpine: 3.7","style_type":"error"},{"name":"C","dependencies":["A"],"id":"3","template":"alpine: 3.7","style_type":"disable"},{"name":"D","id":"4","dependencies":["B","C"],"template":"alpine: 3.7","style_type":"success"}]''
   public workflow_nodes = JSON.parse(this.chart_data);
   public workflow_pairs: any = [];
   public workflow_uuid_pairs: { [index: string]: string } = {};
   public workflow_uuid_name_pairs: { [index: string]: string } = {};
   public dialogFormVisible = false;
-  public chartjson:string = "";
+  public chartjson: string = "";
 
   public form = {
     name: "",
@@ -74,13 +74,13 @@ export default class WorkflowChartAlter extends Vue {
     parallel: ""
   };
 
-  constructor(chart_data:any) {
-      super()
-      this.chart_data = chart_data
-  }
+//   constructor(chart_data: any) {
+//     super();
+//     this.chart_data = chart_data;
+//   }
 
   private plumbIns: jsPlumbInstance = jsPlumb.getInstance();
-      
+
   //获取节点名称-uuid的map映射
   public get_uuid_pairs() {
     this.workflow_nodes.forEach((item: Workflownode) => {
@@ -175,8 +175,8 @@ export default class WorkflowChartAlter extends Vue {
   }
 
   public get_chartjson(): string {
-      this.chartjson = JSON.stringify(this.workflow_nodes);
-      //console.log(this.chartjson)
+    this.chartjson = JSON.stringify(this.workflow_nodes);
+    //console.log(this.chartjson)
     return this.chartjson;
   }
 
