@@ -23,7 +23,7 @@ export default class WorkflowChartNode extends Vue {
   @Prop({ required: true, type: String })
   public label!: string;
 
-  @Prop({ required: false, default: "normal", type: String })
+  @Prop({ required: false, default: "disable", type: String })
   public style_type!: string;
 
   @Prop({ required: false })
@@ -99,5 +99,9 @@ $border-size: 1px;
 
 .wf-node-type-disable {
   background-color: gray;
+}
+
+.wf-node-type-suspend {
+  background-color: yellow;
 }
 </style>
