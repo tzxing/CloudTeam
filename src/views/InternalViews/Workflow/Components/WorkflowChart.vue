@@ -9,8 +9,11 @@
         :jsp_instance="plumbIns"
         :label="info.name"
         :style_type="info.style_type"
+        :enable_edit=false
       ></WorkflowChartNode>
     </div>
+
+  </div>
 </template>
 
 <script lang="ts">
@@ -166,17 +169,6 @@ export default class WorkflowChart extends Vue {
     return this.chartjson;
   }
 
-  public add_node() {
-    let add_info: { [index: string]: any } = {};
-    add_info["name"] = this.form.name;
-    add_info["template"] = this.form.image;
-    add_info["dependencies"] = [];
-    add_info["style_type"] = "disable";
-    add_info["id"] = this.guid();
-    this.workflow_nodes.push(add_info);
-
-    this.dialogFormVisible = false;
-  }
 
   public guid() {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
@@ -194,8 +186,5 @@ export default class WorkflowChart extends Vue {
   padding-left: 60%;
   padding-top: 5%;
   padding-bottom: 30%;
-}
-.alter_button {
-  position: relative;
 }
 </style>
