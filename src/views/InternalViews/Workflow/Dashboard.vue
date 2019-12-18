@@ -1,16 +1,16 @@
 <template>
   <div>
-    <WorkflowChartAlter :chart_data="chart_data" ref="workflow_chart_alter"></WorkflowChartAlter>
+    <WorkflowChart :chart_data="chart_data" ref="workflow_chart"></WorkflowChart>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 //import WorkflowChart from "./Components/WorkflowChart.vue";
-import WorkflowChartAlter from "./Components/WrokflowChartAlter.vue";
+import WorkflowChart from "./Components/WorkflowChart.vue";
 
 @Component({
-  components: { WorkflowChartAlter }
+  components: { WorkflowChart }
 })
 export default class DashboardView extends Vue {
   public chart_data =
@@ -22,7 +22,7 @@ export default class DashboardView extends Vue {
   public chart: any;
 
   mounted() {
-    this.chart = this.$refs.workflow_chart_alter as WorkflowChartAlter;
+    this.chart = this.$refs.workflow_chart as WorkflowChart;
     //this.get_message()
     console.log(this.chart.get_chartjson())
 

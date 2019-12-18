@@ -101,7 +101,4 @@ $border-size: 1px;
   background-color: gray;
 }
 
-.wf-node-type-suspend {
-  background-color: yellow;
-}
 </style>
