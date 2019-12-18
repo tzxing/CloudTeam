@@ -10,10 +10,12 @@ export default [
         children: [
             { path: 'dashboard', name: 'dashboard', component: () => import("@/views/InternalViews/Workflow/Dashboard.vue") },
             { path: 'basetable', name: 'basetable', component: () => import("@/views/InternalViews/Workflow/BaseTable.vue") },
-            { path: 'baseform', name: 'baseform', component: () => import("@/views/InternalViews/Workflow/BaseForm.vue") },
+            // { path: 'baseform', name: 'baseform', component: () => import("@/views/InternalViews/Workflow/BaseForm.vue") },
             { path: 'wflistable', name: 'wflistable', component: () => import("@/views/InternalViews/Workflow/WflistTable.vue") },
-            { path:'wflistable/wfsdetails',name:'wflistable/wfsdetails',component:() => import("@/views/InternalViews/Workflow/WFSDetails.vue")}
+            { path:'wflistable/wfsdetails',name:'wflistable/wfsdetails',component:() => import("@/views/InternalViews/Workflow/WFSDetails.vue")},
 
+            { path: 'userinfo', name: 'userinfo', component: () => import("@/views/InternalViews/Workflow/UserInfo.vue") },
+            { path: 'baseform', name: 'baseform', component: () => import("@/views/InternalViews/Workflow/BaseForm.vue") }
         ]
     },
     {

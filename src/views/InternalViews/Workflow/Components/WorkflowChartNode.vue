@@ -17,7 +17,7 @@ export default class WorkflowChartNode extends Vue {
   @Prop({ required: true, type: String })
   public id!: string;
 
-  @Prop({ required: true, type: String })
+  @Prop({ required: true })
   public jsp_instance!: jsPlumbInstance;
 
   @Prop({ required: true, type: String })
@@ -26,8 +26,8 @@ export default class WorkflowChartNode extends Vue {
   @Prop({ required: false, default: "disable", type: String })
   public style_type!: string;
 
-  @Prop({ required: false })
-  public enable_edit: boolean = true;
+  @Prop({ required: false, default: true })
+  public readonly enable_edit!:boolean;
 
   private get _style_type(): string {
     return `wf-node-type-${this.style_type}`;

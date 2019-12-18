@@ -22,11 +22,11 @@
 
     <el-dialog title="节点信息" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="名称" :label-width="formLabelWidth">
+        <el-form-item label="名称" >
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="镜像" :label-width="formLabelWidth">
+        <el-form-item label="镜像">
           <el-input v-model="form.image" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import WorkflowChartNode from "./WorkflowChartNode.vue";
 import { jsPlumb, jsPlumbInstance } from "jsplumb";
 const dagre = require("dagre");
@@ -88,6 +88,14 @@ export default class WorkflowChartAlter extends Vue {
     });
   }
 
+  @Watch("chart_data")
+  private chart_data_changed(new_vaule:string) {
+    this.workflow_nodes = JSON.parse(new_vaule);
+    this.$nextTick(() => {
+      this.draw_connections();
+    });
+  }
+
   //获取uuid-节点名称的map映射
   public get_uuid_name_pairs() {
     this.workflow_nodes.forEach((item: Workflownode) => {
@@ -113,6 +121,16 @@ export default class WorkflowChartAlter extends Vue {
     return pairs;
   }
 
+  private draw_connections() {
+    this.workflow_pairs = this.get_dependcy_pairs();
+
+      for (let item of this.workflow_pairs) {
+        this.connect_node(item[0], item[1]);
+      }
+
+      this.auto_layout();
+  }
+
   public mounted() {
     // this.workflow_uuid_pairs = this.get_uuid_pairs()
     //console.log(this.workflow_uuid_pairs)
@@ -131,13 +149,7 @@ export default class WorkflowChartAlter extends Vue {
     });
 
     this.$nextTick(() => {
-      this.workflow_pairs = this.get_dependcy_pairs();
-
-      for (let item of this.workflow_pairs) {
-        this.connect_node(item[0], item[1]);
-      }
-
-      this.auto_layout();
+      this.draw_connections();
     });
   }
 
