@@ -158,7 +158,7 @@ export default class WflistTableView extends Vue {
   //获取用户工作流列表
   async userWF() {
     try {
-      const { data } = await this.$axios.get("wfs/SearchWFFInfo");
+      const { data } = await this.$axios.get("wfs/workflow_list/SearchWFFInfo");
       if (data) {
         this.tableUserWFData = data;
       }
@@ -169,7 +169,7 @@ export default class WflistTableView extends Vue {
   //获取被分享的工作流列表
   async toWF() {
     try {
-      const { data } = await this.$axios.get("wfs/SearchWFTInfo");
+      const { data } = await this.$axios.get("wfs/workflow_list/SearchWFTInfo");
       if (data) {
         this.tableToWFData = data;
       }
@@ -230,14 +230,12 @@ export default class WflistTableView extends Vue {
     // console.log(index, row);
     try {
       this.wf_id = row.wf_id;
-      alert(this.wf_id);
-      const { data } = await this.$axios.post("wfs/cancel_share", {
-        wf_id: this.wf_id
-      });
+      alert(this.wf_id)
+      const { data } = await this.$axios.delete("wfs/workflow_list/"+this.wf_id+"/cancel_share/");
       if (data == true) {
         //成功则更新被分享的工作流列表
         try {
-          const { data } = await this.$axios.get("wfs/SearchWFTInfo");
+          const { data } = await this.$axios.get("wfs/workflow_list/SearchWFTInfo");
           if (data) {
             this.tableToWFData = data;
             this.$message.success("取消分享成功，更新成功");
@@ -254,13 +252,11 @@ export default class WflistTableView extends Vue {
   async Copy(row: any) {
     try {
       this.wf_id = row.wf_id;
-      const { data } = await this.$axios.post("wfs/copy_workflow", {
-        wf_id: this.wf_id
-      });
+      const { data } = await this.$axios.post("wfs/workflow_list/"+this.wf_id+"/copy_workflow/");
       if (data == true) {
         //成功则更新工作流列表
         try {
-          const { data } = await this.$axios.get("wfs/SearchWFFInfo");
+          const { data } = await this.$axios.get("wfs/workflow_list/SearchWFFInfo");
           if (data) {
             this.tableUserWFData = data;
             this.$message.success("复制工作流成功，更新成功");
@@ -277,13 +273,11 @@ export default class WflistTableView extends Vue {
   async Delete_wf(row: any) {
     try {
       this.wf_id = row.wf_id;
-      const { data } = await this.$axios.post("wfs/delete_workflow", {
-        wf_id: this.wf_id
-      });
+      const { data } = await this.$axios.delete("wfs/workflow_list/"+this.wf_id+"/delete_workflow/");
       if (data == true) {
         //删除成功则更新自创工作流列表
         try {
-          const { data } = await this.$axios.get("wfs/SearchWFFInfo");
+          const { data } = await this.$axios.get("wfs/workflow_list/SearchWFFInfo");
           if (data) {
             this.tableUserWFData = data;
             this.$message.success("删除工作流成功，更新成功");
@@ -303,9 +297,7 @@ export default class WflistTableView extends Vue {
     this.dialogTableVisible = true;
     try {
       this.wf_id = row.wf_id;
-      const { data } = await this.$axios.post("wfs/SearchShareInfo", {
-        wf_id: this.wf_id
-      });
+      const { data } = await this.$axios.get("wfs/workflow_list/SearchShareInfo/"+this.wf_id);
 
       if (data) {
         this.share = data;
@@ -319,16 +311,13 @@ export default class WflistTableView extends Vue {
   async add() {
     try {
       // alert(this.shareadd.name)
-      const { data } = await this.$axios.post("wfs/add_share", {
+      const { data } = await this.$axios.post("wfs/workflow_list/"+this.wf_id+"/add_share", {
         to_user_name: this.shareadd.name,
-        wf_id: this.wf_id
       });
       if (data == "success") {
         //成功更新用户列表
         try {
-          const { data } = await this.$axios.post("wfs/SearchShareInfo", {
-            wf_id: this.wf_id
-          });
+          const { data } = await this.$axios.get("wfs/workflow_list/SearchShareInfo/"+this.wf_id);
           if (data) {
             this.share = data;
             this.$message.success("添加成功，更新成功");
@@ -347,16 +336,11 @@ export default class WflistTableView extends Vue {
     // console.log(index, row);
     try {
       this.to_user_name = row.name;
-      const { data } = await this.$axios.post("wfs/share_delete", {
-        to_user_name: this.to_user_name,
-        wf_id: this.wf_id
-      });
+      const { data } = await this.$axios.delete("wfs/workflow_list/"+this.wf_id+"/share_delete/"+this.to_user_name);
       if (data == "success") {
         //成功更新用户列表
         try {
-          const { data } = await this.$axios.post("wfs/SearchShareInfo", {
-            wf_id: this.wf_id
-          });
+          const { data } = await this.$axios.get("wfs/workflow_list/SearchShareInfo/"+this.wf_id);
           if (data) {
             this.share = data;
             this.$message.success("删除成功，更新成功");
