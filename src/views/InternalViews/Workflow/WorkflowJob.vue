@@ -1,7 +1,7 @@
 <template>
   <div>
     <WorkflowChart :chart_data="chart_data" ref="workflow_chart"></WorkflowChart>
-
+    <el-button @click="stop">默认按钮</el-button>
   </div>
 </template>
 
@@ -22,18 +22,33 @@ export default class WorkflowJobView extends Vue {
   public str: string = "";
   public chart: any;
   public workflow_name: string = "";
+  public scheduler: number = 0;
 
   created(){
     console.log(this.$route.query.data)
     this.workflow_name = this.$route.query.data.toString() 
-    var int = self.setInterval("scheduler()", 2000)
+    this.scheduler = self.setInterval(()=>{
+      this.getData();
+    }, 2000)
     // this.scheduler()
   }
 
-  async scheduler(){
+  beforeDestroy(){
+    this.stop()
+  }
+
+  async getData(){
     const { data } = await this.$axios.get("wfs/workflowJobs/" + this.workflow_name);
-    console.log(data)
-    this.chart_data = data
+    var result = JSON.parse(data)
+    this.chart_data = JSON.stringify(result.topology)
+    console.log(result.phase)
+    // if(result.phase == "Succeeded"){
+      stop()
+    // }
+  }
+
+  async stop(){
+    window.clearInterval(this.scheduler)
   }
 
   mounted() {
