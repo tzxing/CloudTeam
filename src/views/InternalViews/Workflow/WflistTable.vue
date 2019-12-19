@@ -1,14 +1,14 @@
 <template>
-  <div class="container">
+  <div>
     <el-card class="box-card">
       <div slot="header">
         <span>自创工作流列表</span>
       </div>
       <div>
         <el-table :data="tableUserWFData" height="250">
-          <el-table-column property="date" label="创建日期" sortable width="150"></el-table-column>
-          <el-table-column property="name" label="工作流名称" width="120"></el-table-column>
-          <el-table-column label="操作" width="200" align="center">
+          <el-table-column property="date" label="创建日期" sortable width="200"></el-table-column>
+          <el-table-column property="name" label="工作流名称" width="400"></el-table-column>
+          <el-table-column label="操作" width="500" align="center">
             <template slot-scope="scope">
               <el-button type="text" @click="Execute(scope.row)">运行</el-button>
               <el-button type="text">修改</el-button>
@@ -18,19 +18,22 @@
               <el-button type="text" @click="ShareDialog(scope.row)">共享</el-button>
 
               <!-- 分享弹框 -->
-              <el-dialog title="分享给其他用户" :visible.sync="dialogTableVisible">
+              <el-dialog title="分享给其他用户" :visible.sync="dialogTableVisible" width="40%">
                 <el-form :model="form">
-                  <el-form-item label="查找用户" :label-width="formLabelWidth">
-                    <el-input v-model="shareadd.name" autocomplete="off"></el-input>
-                  </el-form-item>
-                  <el-form-item>
+                  <div class="filter-box">
+                    <el-input
+                      v-model="shareadd.name"
+                      placeholder="查找用户"
+                      autocomplete="off"
+                      class="mr10"
+                    ></el-input>
                     <el-button size="small" type="primary" @click="add">添加分享</el-button>
-                  </el-form-item>
+                  </div>
                 </el-form>
                 <span>已分享过的用户:{{wf_id}}</span>
                 <el-table :data="share" height="250">
-                  <el-table-column property="name" label="姓名" width="200"></el-table-column>
-                  <el-table-column label="操作" width="180" align="center">
+                  <el-table-column property="name" label="分享过的用户" width="300"></el-table-column>
+                  <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
                       <el-button type="text" @click="handleDelete(scope.$index,scope.row)">删除</el-button>
                     </template>
@@ -45,14 +48,16 @@
           </el-table-column>
         </el-table>
       </div>
-      <div>
+      <div
+        style="display:table-cell;height:50px;font-size:15px;font-height:14px;vertical-align:middle;text-align:center"
+      >
         <span>分享工作流列表</span>
       </div>
       <div>
         <el-table :data="tableToWFData" height="250">
-          <el-table-column prop="date" label="创建日期" sortable width="150"></el-table-column>
-          <el-table-column prop="name" label="工作流名称" width="120"></el-table-column>
-          <el-table-column label="操作" width="180" align="center">
+          <el-table-column prop="date" label="创建日期" sortable width="200"></el-table-column>
+          <el-table-column prop="name" label="工作流名称" width="400"></el-table-column>
+          <el-table-column label="操作" width="500" align="center">
             <template slot-scope="scope">
               <el-button type="text">运行</el-button>
               <el-button type="text" @click="Copy(scope.row)">复制</el-button>
@@ -61,14 +66,6 @@
             </template>
           </el-table-column>
         </el-table>
-      </div>
-      <div class="pagination mt20">
-        <el-pagination
-          background
-          @current-change="handleCurrentChange"
-          layout="prev, pager, next"
-          :total="1000"
-        ></el-pagination>
       </div>
     </el-card>
   </div>
@@ -140,10 +137,12 @@ export default class WflistTableView extends Vue {
   formLabelWidth = "120px";
 
   //启动工作流---创建一个实例
-  async Execute(row:any){
+  async Execute(row: any) {
     try {
-      const { data } =  await this.$axios.post("wfs/workflow"+row.name+"/execute");
-      if(data){
+      const { data } = await this.$axios.post(
+        "wfs/workflow" + row.name + "/execute"
+      );
+      if (data) {
         //后端返回后再跳转
         this.to_wfexec();
       }
@@ -151,11 +150,10 @@ export default class WflistTableView extends Vue {
       this.$message.error("连接服务器失败");
     }
   }
-  to_wfexec(){
+  to_wfexec() {
     this.$router.push({
       //跳转到实例页面
       name: "wflistable/wfsdetails"
-      
     });
   }
 
@@ -163,17 +161,16 @@ export default class WflistTableView extends Vue {
   to_wfsdetails(row: string) {
     this.$router.push({
       name: "wflistable/wfsdetails",
-      query: { 'name': row }
+      query: { name: row }
     });
   }
-  
 
   //取消分享
   async Delete(index: any, row: any) {
     // console.log(index, row);
     try {
       this.wf_id = row.wf_id;
-      alert(this.wf_id)
+      alert(this.wf_id);
       const { data } = await this.$axios.post("wfs/cancel_share", {
         wf_id: this.wf_id
       });
@@ -247,7 +244,7 @@ export default class WflistTableView extends Vue {
     try {
       this.wf_id = row.wf_id;
       const { data } = await this.$axios.post("wfs/SearchShareInfo", {
-        'wf_id': this.wf_id
+        wf_id: this.wf_id
       });
 
       if (data) {
@@ -291,8 +288,8 @@ export default class WflistTableView extends Vue {
     try {
       this.to_user_name = row.name;
       const { data } = await this.$axios.post("wfs/share_delete", {
-        'to_user_name': this.to_user_name,
-        'wf_id': this.wf_id
+        to_user_name: this.to_user_name,
+        wf_id: this.wf_id
       });
       if (data == "success") {
         //成功更新用户列表
@@ -314,3 +311,19 @@ export default class WflistTableView extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.filter-box {
+  display: flex;
+}
+.mr10 {
+  margin-right: 10px;
+  width: 300px;
+}
+.ml10 {
+  margin-left: 10px;
+}
+.mb20 {
+  margin-bottom: 20px;
+}
+</style>
