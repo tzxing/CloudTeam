@@ -15,7 +15,7 @@
     <el-table-column label="状态" width="180">
       <template slot-scope="scope">
         <div slot="reference" class="name-wrapper">
-          <el-tag size="medium">{{ scope.row.status }}</el-tag>
+          <el-tag size="medium">{{ scope.row.phase }}</el-tag>
         </div>
       </template>
     </el-table-column>
@@ -43,7 +43,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
-export default class WorkflowJobView extends Vue {
+export default class WorkflowJobListView extends Vue {
   tableData = [];
   dialogVisible = false;
   workflowName = "";
@@ -54,7 +54,7 @@ export default class WorkflowJobView extends Vue {
     try {
       const { data } = await this.$axios.get("wfs/workflowJobs");
       console.log(data);
-      this.tableData = data;
+      this.tableData = JSON.parse(data);
     } catch (e) {
       this.$message.error("请求用户数据失败，请稍后再试！");
     }

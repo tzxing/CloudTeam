@@ -11,7 +11,7 @@ import WorkflowChart from "./Components/WorkflowChart.vue";
 @Component({
     components:{WorkflowChart}
 })
-export default class DashboardView extends Vue {
+export default class WorkflowJobView extends Vue {
 
 }
 </script>

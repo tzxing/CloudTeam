@@ -26,7 +26,7 @@
         <template slot="title">
           <span>工作流实例管理</span>
         </template>
-        <el-menu-item index="/internal/workflow/workflowjob">工作流实例列表</el-menu-item>
+        <el-menu-item index="/internal/workflow/workflowjoblist">工作流实例列表</el-menu-item>
       </el-submenu>
 
 
