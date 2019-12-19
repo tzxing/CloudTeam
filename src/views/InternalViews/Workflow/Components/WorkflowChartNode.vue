@@ -101,4 +101,8 @@ $border-size: 1px;
   background-color: gray;
 }
 
+.wf-node-type-running {
+  background-color: yellow;
+}
+
 </style>
