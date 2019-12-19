@@ -4,9 +4,6 @@
       <div>
         <el-button type="text" @click="dialogFormVisible = true">新增工作流节点</el-button>
       </div>
-      <div>
-        <el-button type="text" @click="get_chartjson">生成工作流模版</el-button>
-      </div>
     </div>
 
     <div>
