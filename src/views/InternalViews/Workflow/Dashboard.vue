@@ -17,11 +17,8 @@ import WorkflowChartAlter from "./Components/WorkflowChartAlter.vue";
   components: { WorkflowChartAlter }
 })
 export default class DashboardView extends Vue {
-  public chart_data =
-    '[{"name":"A","dependencies":[],"id":"1","template":"alpine: 3.7","style_type":"normal"},{"name":"B","id":"2","dependencies":["A"],"template":"alpine: 3.7","style_type":"normal"},{"name":"C","dependencies":["A"],"id":"3","template":"alpine: 3.7","style_type":"normal"},{"name":"D","id":"4","dependencies":["B","C"],"template":"alpine: 3.7","style_type":"normal"}]';
-
-  //public char_data = "[{'name': 'A', 'dependencies': [], 'id': '1', 'template': 'alpine: 3.7', 'style_type': 'success'}, {'name': 'B', 'dependencies': ['A'], 'id': '2', 'template': 'alpine: 3.7', 'style_type': 'normal'}, {'name': 'C', 'dependencies': ['A'], 'id': '3', 'template': 'alpine: 3.7', 'style_type': 'disable'}, {'name': 'D', 'dependencies': ['B', 'C'], 'id': '4', 'template': 'alpine: 3.7', 'style_type': 'success'}]";
-  //public chart = new WorkflowChartAlter(this.chart_data);
+  public chart_data ='[{"name": "A","dependencies":[], "template": "workflow1", "phase": "success", "id": "tttttaa-rx7hx-579873966"}, {"dependencies": ["A"], "name": "B", "template": "workflow1", "phase": "success", "id": "tttttaa-rx7hx-563096347"}, {"dependencies": ["A"], "name": "C", "template": "workflow1", "phase": "success", "id": "tttttaa-rx7hx-546318728"}, {"dependencies": ["B", "C"], "name": "D", "template": "workflow1", "phase": "success", "id": "tttttaa-rx7hx-663762061"}]'
+  //  '[{"name":"A","dependencies":[],"id":"1","template":"alpine: 3.7","phase":"normal"},{"name":"B","id":"2","dependencies":["A"],"template":"alpine: 3.7","phase":"normal"},{"name":"C","dependencies":["A"],"id":"3","template":"alpine: 3.7","phase":"normal"},{"name":"D","id":"4","dependencies":["B","C"],"template":"alpine: 3.7","phase":"normal"}]';
   public str: string = "";
   public chart: any;
 
@@ -34,6 +31,8 @@ export default class DashboardView extends Vue {
 
   public get_chartjson() {
     console.log(this.chart.get_chartjson());
+   //console.log(this.chart.workflow_uuid_name_pairs)
+
   }
   // async get_message() {
   //   console.log(this.chart);

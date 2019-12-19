@@ -13,7 +13,7 @@
         :id="info.id"
         :jsp_instance="plumbIns"
         :label="info.name"
-        :style_type="info.style_type"
+        :style_type="info.phase"
       ></WorkflowChartNode>
     </div>
 
@@ -47,7 +47,7 @@ interface Workflownode {
   name: string;
   dependencies: string[];
   image: string;
-  style_type: string;
+  phase: string;
 }
 
 @Component({
@@ -138,7 +138,8 @@ export default class WorkflowChartAlter extends Vue {
         this.connect_node(info.sourceId, info.targetId);
         this.workflow_nodes.forEach((item: Workflownode) => {
           if (item.id == info.targetId) {
-            item.dependencies.push(info.sourceId);
+            this.get_uuid_name_pairs()
+            item.dependencies.push(this.workflow_uuid_name_pairs[info.sourceId]);
           }
         });
         return false;
@@ -194,7 +195,7 @@ export default class WorkflowChartAlter extends Vue {
     add_info["name"] = this.form.name;
     add_info["template"] = this.form.image;
     add_info["dependencies"] = [];
-    add_info["style_type"] = "disable";
+    add_info["phase"] = "disable";
     add_info["id"] = this.guid();
     this.workflow_nodes.push(add_info);
 
