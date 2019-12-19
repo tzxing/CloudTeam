@@ -138,7 +138,8 @@ export default class WorkflowChartAlter extends Vue {
         this.connect_node(info.sourceId, info.targetId);
         this.workflow_nodes.forEach((item: Workflownode) => {
           if (item.id == info.targetId) {
-            item.dependencies.push(info.sourceId);
+            this.get_uuid_name_pairs()
+            item.dependencies.push(this.workflow_uuid_name_pairs[info.sourceId]);
           }
         });
         return false;
