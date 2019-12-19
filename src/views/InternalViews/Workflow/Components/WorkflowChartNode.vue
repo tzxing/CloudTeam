@@ -102,7 +102,7 @@ $border-size: 1px;
 }
 
 .wf-node-type-running {
-  background-color: yellow;
+  background-color: #FFCC00;
 }
 
 </style>
