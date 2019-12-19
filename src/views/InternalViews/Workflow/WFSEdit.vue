@@ -12,6 +12,7 @@
       
     <el-aside>
       <div>
+        <!-- <input placeholder={{wfsname}}> -->
         <span>工作流名称：{{wfsname}}</span>
       </div>
     </el-aside>
@@ -74,8 +75,10 @@
     async getDetailsInfo() {
       try {
         const { data } = await this.$axios.get("wfs/workflow_info/"+this.wf_id);
+        
         if (data) {
           this.chart_data = JSON.stringify(data);
+          alert(this.chart_data)
         }
         else{
            this.$message.error("没有数据")

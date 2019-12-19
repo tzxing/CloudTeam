@@ -18,7 +18,7 @@ import WorkflowChartAlter from "./Components/WorkflowChartAlter.vue";
 })
 export default class DashboardView extends Vue {
   public chart_data =
-    '[{"name":"A","dependencies":[],"id":"1","template":"alpine: 3.7","phase":"normal"},{"name":"B","id":"2","dependencies":["A"],"template":"alpine: 3.7","phase":"normal"},{"name":"C","dependencies":["A"],"id":"3","template":"alpine: 3.7","phase":"normal"},{"name":"D","id":"4","dependencies":["B","C"],"template":"alpine: 3.7","phase":"normal"}]';
+    '[{"name":"A","dependencies":[],"id":"1","template":"alpine: 3.7","phase":"normal"},{"name":"B","dependencies":["A"],"id":"2","template":"alpine: 3.7","phase":"normal"},{"name":"C","dependencies":["A"],"id":"3","template":"alpine: 3.7","phase":"normal"},{"name":"D","dependencies":["B","C"],"id":"4","template":"alpine: 3.7","phase":"normal"},{"name":"fd","dependencies":["4"],"id":"f4e625cd-2e29-4a5c-9d4e-7e01ec61ee47","template":"fd","phase":"normal"}]'
   public str: string = "";
   public chart: any;
 
