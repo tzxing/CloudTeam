@@ -4,6 +4,9 @@
       <div>
         <el-button type="text" @click="dialogFormVisible = true">新增工作流节点</el-button>
       </div>
+      <div>
+        <el-button type="text" @click="auto_layout">自动布局</el-button>
+      </div>
     </div>
 
     <div>
@@ -165,6 +168,8 @@ export default class WorkflowChartAlter extends Vue {
       endpoint: "Blank"
     });
   }
+
+
 
   public auto_layout() {
     const g = new dagre.graphlib.Graph();
