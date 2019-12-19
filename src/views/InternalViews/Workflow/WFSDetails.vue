@@ -49,8 +49,7 @@
         // this.chart = this.$refs.workflow_chart_alter as WorkflowChartAlter;
 
       }
-
-
+    
     async getDetailsInfo() {
       try {
         const { data } = await this.$axios.get("wfs/workflow_info/"+this.wf_id);

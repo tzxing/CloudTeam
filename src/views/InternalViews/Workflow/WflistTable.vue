@@ -153,7 +153,7 @@ export default class WflistTableView extends Vue {
   to_wfexec() {
     this.$router.push({
       //跳转到实例页面
-      name: "wflistable/wfsdetails"
+      name: ""
     });
   }
 
