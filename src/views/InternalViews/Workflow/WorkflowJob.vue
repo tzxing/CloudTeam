@@ -1,83 +1,108 @@
 <template>
-  <div class="container">
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column label="名称" width="200">
-      <template slot-scope="scope">
-        <span style="margin-left: 10px">{{ scope.row.workflow_name }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="执行日期" width="200">
-      <template slot-scope="scope">
-        <i class="el-icon-time"></i>
-        <span style="margin-left: 10px">{{ scope.row.creation_timestamp }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="状态" width="180">
-      <template slot-scope="scope">
-        <div slot="reference" class="name-wrapper">
-          <el-tag size="medium">{{ scope.row.status }}</el-tag>
-        </div>
-      </template>
-    </el-table-column>
-    <el-table-column label="操作">
-      <template slot-scope="scope">
-        <el-button size="mini" @click="handleEdit(scope.row.workflow_name)">详情</el-button>
-        <el-button size="mini" type="danger" @click="selectWorkflow(scope.row.workflow_name)">删除</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
-  <el-dialog
-          title="提示"
-          :visible.sync="dialogVisible"
-          width="30%"
-        >
-          <span>删除后无法恢复，确认删除吗？</span>
-          <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="handleDelete()">确 定</el-button>
-          </span>
-        </el-dialog>
+  <div>
+    <WorkflowChart :chart_data="chart_data" ref="workflow_chart"></WorkflowChart>
+    <!-- <el-button @click="stop">stop</el-button> -->
+    <el-select v-model="value" placeholder="请选择" @change="onchange(value)">
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+      >
+    </el-option>
+  </el-select>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-@Component({})
+import WorkflowChart from "./Components/WorkflowChart.vue";
+// import WorkflowChartAlter from "./Components/WorkflowChartAlter.vue";
+
+@Component({
+  components: { WorkflowChart }
+})
 export default class WorkflowJobView extends Vue {
-  tableData = [];
-  dialogVisible = false;
-  workflowName = "";
-  created() {
+  public chart_data = '[]';
+
+  //public char_data = "[{'name': 'A', 'dependencies': [], 'id': '1', 'template': 'alpine: 3.7', 'style_type': 'success'}, {'name': 'B', 'dependencies': ['A'], 'id': '2', 'template': 'alpine: 3.7', 'style_type': 'normal'}, {'name': 'C', 'dependencies': ['A'], 'id': '3', 'template': 'alpine: 3.7', 'style_type': 'disable'}, {'name': 'D', 'dependencies': ['B', 'C'], 'id': '4', 'template': 'alpine: 3.7', 'style_type': 'success'}]";
+  //public chart = new WorkflowChartAlter(this.chart_data);
+  public str: string = "";
+  public chart: any;
+  public workflow_name: string = "";
+  public scheduler: number = 0;
+
+  created(){
+    // console.log(this.$route.query.data)
+    this.workflow_name = this.$route.query.data.toString() 
+    // this.scheduler()
+  }
+  data() {
+      return {
+        options: [{
+          value: 0.5,
+          label: '0.5s'
+        }, {
+          value: 1.0,
+          label: '1.0s'
+        }, {
+          value: 1.5,
+          label: '1.5s'
+        }, {
+          value: 2,
+          label: '2s'
+        }],
+        value: 1.0
+      }
+    }
+
+  beforeDestroy(){
+    this.stop()
+  }
+
+  onchange(value:number){
+    console.log(value)
+    this.stop()
+    this.scheduler = self.setInterval(()=>{
+      this.getData();
+    }, 1000 * value)
+  }
+
+  async getData(){
+    const { data } = await this.$axios.get("wfs/workflowJobs/" + this.workflow_name);
+    var result = JSON.parse(data)
+    this.chart_data = JSON.stringify(result.topology)
+    console.log(JSON.stringify(result.topology))
+    console.log(result.phase)
+    if(result.phase == "Succeeded"){
+    this.stop()
+    }
+  }
+
+  stop(){
+    window.clearInterval(this.scheduler)
+  }
+
+  mounted() {
+    this.chart = this.$refs.workflow_chart as WorkflowChart;
+
+    this.scheduler = self.setInterval(()=>{
+      this.getData();
+    }, 1000)
     this.getData();
-  }
-  async getData() {
-    try {
-      const { data } = await this.$axios.get("wfs/workflowJobs");
-      console.log(data);
-      this.tableData = data;
-    } catch (e) {
-      this.$message.error("请求用户数据失败，请稍后再试！");
-    }
+    // console.log(this.$route.query.data)
+    //this.get_message()
+
+    //console.log(this.chart.get_chartjson());
   }
 
-  selectWorkflow(row: string) {
-    this.workflowName = row;
-    this.dialogVisible = true;
+  public get_chartjson() {
+    console.log(this.chart.get_chartjson());
   }
-
-  handleEdit(row: string) {}
-
-  async handleDelete() {
-    console.log(this.workflowName)
-    try {
-      const { data } = await this.$axios.delete("wfs/workflowJobs/" + this.workflowName,);
-      this.tableData = this.tableData.filter(
-        item => item["workflow_name"] != this.workflowName
-      );
-    } catch (e) {
-      this.$message.error("请求用户数据失败，请稍后再试！");
-    }
-    this.dialogVisible = false
-  }
+  // async get_message() {
+  //   console.log(this.chart);
+  //   this.str = this.chart.get_chartjson();
+  //   console.log(this.str + "%%%%%");
+  // }
 }
 </script>

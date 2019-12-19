@@ -16,7 +16,9 @@ export default [
             { path:'wflistable/wfsedit',name:'wflistable/wfsedit',component:() => import("@/views/InternalViews/Workflow/WFSEdit.vue")},
 
             { path: 'userinfo', name: 'userinfo', component: () => import("@/views/InternalViews/Workflow/UserInfo.vue") },
-            { path: 'baseform', name: 'baseform', component: () => import("@/views/InternalViews/Workflow/BaseForm.vue") }
+            { path: 'baseform', name: 'baseform', component: () => import("@/views/InternalViews/Workflow/BaseForm.vue") },
+            { path: 'workflowjoblist', name: 'workflowjoblist', component: () => import("@/views/InternalViews/Workflow/WorkflowJobList.vue") },
+            { path: 'workflowjob', name: 'workflowjob', component: () => import("@/views/InternalViews/Workflow/WorkflowJob.vue") }
         ]
     },
     {
