@@ -18,7 +18,10 @@
 
     <el-main>
       <div>
-          <WorkflowChartAlter :chart_data="chart_data"></WorkflowChartAlter>
+          <WorkflowChartAlter :chart_data="chart_data" ref = "workflow_chart"></WorkflowChartAlter>
+      </div>
+      <div>
+        <el-button type="text" @click="saveWfsInfo()"> 保存 </el-button>
       </div>
     </el-main>
 
@@ -41,23 +44,29 @@
       private chart_data="[]";
       private chart:any = null;
       private wf_id:any;
-      created(){
+      mounted(){
         // alert(this.$route.query.name)
         this.wfsname = this.$route.query.name;
         this.wf_id = this.$route.query.wf_id ;
 
         this.getDetailsInfo()
+        
         this.chart = this.$refs.workflow_chart as WorkflowChartAlter;
       
       }
 
-
+    wfs_data:any
     async saveWfsInfo(){
       try {
+        // this.wfs_data = this.chart.get_chartjson()
+        this.wfs_data = JSON.parse(this.chart.get_chartjson())
+        
+      
         const { data } = await this.$axios.patch("wfs/edit/"+this.wf_id, {
         wfs_name:this.wfsname,
-        topology:this.chart.get_chartjson()
+        topology:this.wfs_data
       })} catch (e) {
+        alert(this.wfs_data)
         this.$message.error("失败，请稍后再试！");
       }
     }
