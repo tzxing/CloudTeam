@@ -1,6 +1,6 @@
 <template>
   <div>
-    <WorkflowChartAlter :chart_data="chart_data" ref="workflow_chart"></WorkflowChartAlter>
+    <WorkflowChart :chart_data="chart_data" ref="workflow_chart"></WorkflowChart>
 
     <div>
       <el-button type="text" @click="get_chartjson">生成工作流模版!!!</el-button>
@@ -10,11 +10,11 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-//import WorkflowChart from "./Components/WorkflowChart.vue";
-import WorkflowChartAlter from "./Components/WorkflowChartAlter.vue";
+import WorkflowChart from "./Components/WorkflowChart.vue";
+// import WorkflowChartAlter from "./Components/WorkflowChartAlter.vue";
 
 @Component({
-  components: { WorkflowChartAlter }
+  components: { WorkflowChart }
 })
 export default class DashboardView extends Vue {
   public chart_data =
@@ -25,8 +25,14 @@ export default class DashboardView extends Vue {
   public str: string = "";
   public chart: any;
 
+  created(){
+    console.log(this.$route.query.data)
+  }
+
   mounted() {
-    this.chart = this.$refs.workflow_chart as WorkflowChartAlter;
+    this.chart = this.$refs.workflow_chart as WorkflowChart;
+    console.log(this.$route.query.data)
+    this.chart_data = this.$route.query.data.toString()
     //this.get_message()
 
     //console.log(this.chart.get_chartjson());

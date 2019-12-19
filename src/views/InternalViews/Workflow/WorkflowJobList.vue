@@ -53,7 +53,6 @@ export default class WorkflowJobListView extends Vue {
   async getData() {
     try {
       const { data } = await this.$axios.get("wfs/workflowJobs");
-      console.log(data);
       this.tableData = JSON.parse(data);
     } catch (e) {
       this.$message.error("请求用户数据失败，请稍后再试！");
@@ -65,7 +64,13 @@ export default class WorkflowJobListView extends Vue {
     this.dialogVisible = true;
   }
 
-  handleEdit(row: string) {}
+  handleEdit(row: string) {
+    console.log(row)
+    this.$router.push({
+      name: "workflowjob",
+      query: {"data": row}
+    });
+  }
 
   async handleDelete() {
     console.log(this.workflowName)
