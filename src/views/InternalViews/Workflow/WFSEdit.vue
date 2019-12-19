@@ -63,7 +63,7 @@
         this.wfs_data = JSON.parse(this.chart.get_chartjson())
         
       
-        const { data } = await this.$axios.patch("wfs/edit/"+this.wf_id, {
+        const { data } = await this.$axios.patch("wfs/workflow_list/"+this.wf_id+"/update/", {
         wfs_name:this.wfsname,
         topology:this.wfs_data
       })} catch (e) {
