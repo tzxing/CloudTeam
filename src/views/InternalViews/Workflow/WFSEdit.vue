@@ -7,7 +7,7 @@
   <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
   <el-breadcrumb-item :to="{path:'/internal/workflow'}">工作流管理</el-breadcrumb-item>
   <el-breadcrumb-item :to="{path:'/internal/workflow/wflistable'}">工作流列表</el-breadcrumb-item>
-  <el-breadcrumb-item >工作流编辑</el-breadcrumb-item>
+  <el-breadcrumb-item >修改</el-breadcrumb-item>
   </el-breadcrumb>
       
     <el-aside>
