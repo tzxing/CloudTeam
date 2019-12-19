@@ -31,6 +31,8 @@ export default class DashboardView extends Vue {
 
   public get_chartjson() {
     console.log(this.chart.get_chartjson());
+    console.log(JSON.parse(this.chart.get_chartjson()));
+
   }
   // async get_message() {
   //   console.log(this.chart);
