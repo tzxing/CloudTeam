@@ -17,13 +17,8 @@ import WorkflowChart from "./Components/WorkflowChart.vue";
   components: { WorkflowChart }
 })
 export default class DashboardView extends Vue {
-<<<<<<< HEAD
-  public chart_data =
-    '[{"name": "A", "template": "workflow1", "phase": "success", "id": "tttttaa-rx7hx-579873966"}, {"dependencies": ["A"], "name": "B", "template": "workflow1", "phase": "success", "id": "tttttaa-rx7hx-563096347"}, {"dependencies": ["A"], "name": "C", "template": "workflow1", "phase": "success", "id": "tttttaa-rx7hx-546318728"}, {"dependencies": ["B", "C"], "name": "D", "template": "workflow1", "phase": "success", "id": "tttttaa-rx7hx-663762061"}]';
-=======
   public chart_data ='[{"name": "A","dependencies":[], "template": "workflow1", "phase": "success", "id": "tttttaa-rx7hx-579873966"}, {"dependencies": ["A"], "name": "B", "template": "workflow1", "phase": "success", "id": "tttttaa-rx7hx-563096347"}, {"dependencies": ["A"], "name": "C", "template": "workflow1", "phase": "success", "id": "tttttaa-rx7hx-546318728"}, {"dependencies": ["B", "C"], "name": "D", "template": "workflow1", "phase": "success", "id": "tttttaa-rx7hx-663762061"}]'
   //  '[{"name":"A","dependencies":[],"id":"1","template":"alpine: 3.7","phase":"normal"},{"name":"B","id":"2","dependencies":["A"],"template":"alpine: 3.7","phase":"normal"},{"name":"C","dependencies":["A"],"id":"3","template":"alpine: 3.7","phase":"normal"},{"name":"D","id":"4","dependencies":["B","C"],"template":"alpine: 3.7","phase":"normal"}]';
->>>>>>> remotes/origin/wfsfrontwh
   public str: string = "";
   public chart: any;
 

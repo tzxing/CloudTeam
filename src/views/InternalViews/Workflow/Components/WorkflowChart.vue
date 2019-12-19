@@ -67,6 +67,7 @@ export default class WorkflowChart extends Vue {
 
   @Watch("chart_data")
   private chart_data_changed(new_vaule:string) {
+    this.plumbIns.deleteEveryConnection();
     this.workflow_nodes = JSON.parse(new_vaule);
     this.$nextTick(() => {
       this.draw_connections();
@@ -115,7 +116,7 @@ export default class WorkflowChart extends Vue {
     this.plumbIns.ready(() => {
       this.plumbIns.bind("beforeDrop", (info: any) => {
         this.workflow_pairs.push([info.sourceId, info.targetId]);
-        this.connect_node(info.sourceId, info.targetId);
+        //this.connect_node(info.sourceId, info.targetId);
         this.workflow_nodes.forEach((item: Workflownode) => {
           if (item.id == info.targetId) {
             item.dependencies.push(this.workflow_uuid_name_pairs[info.sourceId]);
