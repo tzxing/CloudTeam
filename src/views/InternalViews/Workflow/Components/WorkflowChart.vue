@@ -1,6 +1,5 @@
 <template>
   <div class="wf-chart">
-
     <div>
       <WorkflowChartNode
         v-for="info in workflow_nodes"
@@ -9,10 +8,9 @@
         :jsp_instance="plumbIns"
         :label="info.name"
         :style_type="info.phase"
-        :enable_edit=false
+        :enable_edit="false"
       ></WorkflowChartNode>
     </div>
-
   </div>
 </template>
 
@@ -27,7 +25,7 @@ interface Workflownode {
   name: string;
   dependencies: string[];
   image: string;
-  phase: string;
+  style_type: string;
 }
 
 @Component({
@@ -51,10 +49,10 @@ export default class WorkflowChart extends Vue {
     parallel: ""
   };
 
-//   constructor(chart_data: any) {
-//     super();
-//     this.chart_data = chart_data;
-//   }
+  //   constructor(chart_data: any) {
+  //     super();
+  //     this.chart_data = chart_data;
+  //   }
 
   private plumbIns: jsPlumbInstance = jsPlumb.getInstance();
 
@@ -66,8 +64,11 @@ export default class WorkflowChart extends Vue {
   }
 
   @Watch("chart_data")
-  private chart_data_changed(new_vaule:string) {
+  private chart_data_changed(new_vaule: string) {
+    this.plumbIns.deleteEveryConnection();
+
     this.workflow_nodes = JSON.parse(new_vaule);
+
     this.$nextTick(() => {
       this.draw_connections();
     });
@@ -100,12 +101,13 @@ export default class WorkflowChart extends Vue {
 
   private draw_connections() {
     this.workflow_pairs = this.get_dependcy_pairs();
+    console.log(this.workflow_pairs);
 
-      for (let item of this.workflow_pairs) {
-        this.connect_node(item[0], item[1]);
-      }
+    for (let item of this.workflow_pairs) {
+      this.connect_node(item[0], item[1]);
+    }
 
-      this.auto_layout();
+    this.auto_layout();
   }
 
   public mounted() {
@@ -118,7 +120,9 @@ export default class WorkflowChart extends Vue {
         this.connect_node(info.sourceId, info.targetId);
         this.workflow_nodes.forEach((item: Workflownode) => {
           if (item.id == info.targetId) {
-            item.dependencies.push(this.workflow_uuid_name_pairs[info.sourceId]);
+            item.dependencies.push(
+              this.workflow_uuid_name_pairs[info.sourceId]
+            );
           }
         });
         return false;
@@ -168,7 +172,6 @@ export default class WorkflowChart extends Vue {
     //console.log(this.chartjson)
     return this.chartjson;
   }
-
 
   public guid() {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
