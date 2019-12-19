@@ -8,7 +8,7 @@
         :id="info.id"
         :jsp_instance="plumbIns"
         :label="info.name"
-        :style_type="info.style_type"
+        :style_type="info.phase"
         :enable_edit=false
       ></WorkflowChartNode>
     </div>
@@ -27,7 +27,7 @@ interface Workflownode {
   name: string;
   dependencies: string[];
   image: string;
-  style_type: string;
+  phase: string;
 }
 
 @Component({
