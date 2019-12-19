@@ -45,8 +45,9 @@
         // alert(this.$route.query.name)
         this.wfsname = this.$route.query.name;
         this.wf_id = this.$route.query.wf_id ;
-        this.chart = this.$refs.workflow_chart as WorkflowChartAlter;
+
         this.getDetailsInfo()
+        this.chart = this.$refs.workflow_chart as WorkflowChartAlter;
       
       }
 
@@ -54,6 +55,7 @@
     async saveWfsInfo(){
       try {
         const { data } = await this.$axios.patch("wfs/edit/"+this.wf_id, {
+        wfs_name:this.wfsname,
         topology:this.chart.get_chartjson()
       })} catch (e) {
         this.$message.error("失败，请稍后再试！");
