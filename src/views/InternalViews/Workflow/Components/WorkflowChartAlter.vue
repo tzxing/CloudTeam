@@ -4,9 +4,6 @@
       <div>
         <el-button type="text" @click="dialogFormVisible = true">新增工作流节点</el-button>
       </div>
-      <div>
-        <el-button type="text" @click="get_chartjson">导出配置文件</el-button>
-      </div>
     </div>
 
     <div>
@@ -22,11 +19,11 @@
 
     <el-dialog title="节点信息" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="名称" :label-width="formLabelWidth">
+        <el-form-item label="名称" >
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="镜像" :label-width="formLabelWidth">
+        <el-form-item label="镜像">
           <el-input v-model="form.image" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -40,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import WorkflowChartNode from "./WorkflowChartNode.vue";
 import { jsPlumb, jsPlumbInstance } from "jsplumb";
 const dagre = require("dagre");
@@ -60,12 +57,13 @@ export default class WorkflowChartAlter extends Vue {
   @Prop({ required: true, type: String })
   public chart_data!: string; //传入的json串，表示工作流树结构
 
-  //public test_str = ''[{"name":"A","dependencies":[],"id":"1","template":"alpine: 3.7","style_type":"success"},{"name":"B","id":"2","dependencies":["A"],"template":"alpine: 3.7","style_type":"error"},{"name":"C","dependencies":["A"],"id":"3","template":"alpine: 3.7","style_type":"disable"},{"name":"D","id":"4","dependencies":["B","C"],"template":"alpine: 3.7","style_type":"success"}]''
+  //public test_str = '[{"name":"A","dependencies":[],"id":"1","template":"alpine: 3.7","style_type":"success"},{"name":"B","id":"2","dependencies":["A"],"template":"alpine: 3.7","style_type":"error"},{"name":"C","dependencies":["A"],"id":"3","template":"alpine: 3.7","style_type":"disable"},{"name":"D","id":"4","dependencies":["B","C"],"template":"alpine: 3.7","style_type":"success"}]''
   public workflow_nodes = JSON.parse(this.chart_data);
   public workflow_pairs: any = [];
   public workflow_uuid_pairs: { [index: string]: string } = {};
+  public workflow_uuid_name_pairs: { [index: string]: string } = {};
   public dialogFormVisible = false;
-  public res = "";
+  public chartjson: string = "";
 
   public form = {
     name: "",
@@ -73,12 +71,32 @@ export default class WorkflowChartAlter extends Vue {
     parallel: ""
   };
 
+//   constructor(chart_data: any) {
+//     super();
+//     this.chart_data = chart_data;
+//   }
+
   private plumbIns: jsPlumbInstance = jsPlumb.getInstance();
 
-  //获取节点名称-id的map映射
+  //获取节点名称-uuid的map映射
   public get_uuid_pairs() {
     this.workflow_nodes.forEach((item: Workflownode) => {
       this.workflow_uuid_pairs[item["name"]] = item["id"];
+    });
+  }
+
+  @Watch("chart_data")
+  private chart_data_changed(new_vaule:string) {
+    this.workflow_nodes = JSON.parse(new_vaule);
+    this.$nextTick(() => {
+      this.draw_connections();
+    });
+  }
+
+  //获取uuid-节点名称的map映射
+  public get_uuid_name_pairs() {
+    this.workflow_nodes.forEach((item: Workflownode) => {
+      this.workflow_uuid_name_pairs[item["id"]] = item["name"];
     });
   }
 
@@ -100,6 +118,16 @@ export default class WorkflowChartAlter extends Vue {
     return pairs;
   }
 
+  private draw_connections() {
+    this.workflow_pairs = this.get_dependcy_pairs();
+
+      for (let item of this.workflow_pairs) {
+        this.connect_node(item[0], item[1]);
+      }
+
+      this.auto_layout();
+  }
+
   public mounted() {
     // this.workflow_uuid_pairs = this.get_uuid_pairs()
     //console.log(this.workflow_uuid_pairs)
@@ -118,13 +146,7 @@ export default class WorkflowChartAlter extends Vue {
     });
 
     this.$nextTick(() => {
-      this.workflow_pairs = this.get_dependcy_pairs();
-
-      for (let item of this.workflow_pairs) {
-        this.connect_node(item[0], item[1]);
-      }
-
-      this.auto_layout();
+      this.draw_connections();
     });
   }
 
@@ -162,9 +184,9 @@ export default class WorkflowChartAlter extends Vue {
   }
 
   public get_chartjson(): string {
-    this.res = JSON.stringify(this.workflow_nodes);
-    console.log(this.res);
-    return this.res;
+    this.chartjson = JSON.stringify(this.workflow_nodes);
+    //console.log(this.chartjson)
+    return this.chartjson;
   }
 
   public add_node() {
@@ -172,7 +194,7 @@ export default class WorkflowChartAlter extends Vue {
     add_info["name"] = this.form.name;
     add_info["template"] = this.form.image;
     add_info["dependencies"] = [];
-    add_info["style_type"] = "normal";
+    add_info["style_type"] = "disable";
     add_info["id"] = this.guid();
     this.workflow_nodes.push(add_info);
 
