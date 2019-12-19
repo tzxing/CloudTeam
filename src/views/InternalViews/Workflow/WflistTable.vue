@@ -7,15 +7,51 @@
       <div>
         <el-table :data="tableUserWFData" height="250">
           <el-table-column property="date" label="创建日期" sortable width="200"></el-table-column>
-          <el-table-column property="name" label="工作流名称" width="400"></el-table-column>
-          <el-table-column label="操作" width="500" align="center">
+          <el-table-column property="name" label="工作流名称" width="380"></el-table-column>
+          <el-table-column label="操作" width="550" align="center">
             <template slot-scope="scope">
-              <el-button type="text" @click="Execute(scope.row)">运行</el-button>
-              <el-button type="text" @click="to_wfsedit(scope.row)">修改</el-button>
-              <el-button type="text" @click="Copy(scope.row)">复制</el-button>
-              <el-button type="text" @click="to_wfsdetails(scope.row)">详细信息</el-button>
-              <el-button type="text" @click="Delete_wf(scope.row)">删除</el-button>
-              <el-button type="text" @click="ShareDialog(scope.row)">共享</el-button>
+              <el-button
+                type="text"
+                icon="el-icon-video-play"
+                circle
+                @click="Execute(scope.row)"
+                title="启动工作流"
+              >运行</el-button>
+              <el-button
+                type="text"
+                icon="el-icon-edit"
+                circle
+                @click="to_wfsedit(scope.row)"
+                title="修改工作流"
+              >修改</el-button>
+              <el-button
+                type="text"
+                icon="el-icon-document-copy"
+                circle
+                @click="Copy(scope.row)"
+                title="复制工作流"
+              >复制</el-button>
+              <el-button
+                type="text"
+                icon="el-icon-document"
+                circle
+                @click="to_wfsdetails(scope.row)"
+                title="查看详细信息"
+              >详细信息</el-button>
+              <el-button
+                type="text"
+                icon="el-icon-delete"
+                circle
+                @click="Delete_wf(scope.row)"
+                title="删除工作流"
+              >删除</el-button>
+              <el-button
+                type="text"
+                icon="el-icon-share"
+                circle
+                @click="ShareDialog(scope.row)"
+                title="分享工作流"
+              >分享</el-button>
 
               <!-- 分享弹框 -->
               <el-dialog title="分享给其他用户" :visible.sync="dialogTableVisible" width="40%">
@@ -56,13 +92,31 @@
       <div>
         <el-table :data="tableToWFData" height="250">
           <el-table-column prop="date" label="创建日期" sortable width="200"></el-table-column>
-          <el-table-column prop="name" label="工作流名称" width="400"></el-table-column>
-          <el-table-column label="操作" width="500" align="center">
+          <el-table-column prop="name" label="工作流名称" width="380"></el-table-column>
+          <el-table-column label="操作" width="550" align="center">
             <template slot-scope="scope">
-              <el-button type="text">运行</el-button>
-              <el-button type="text" @click="Copy(scope.row)">复制</el-button>
-              <el-button type="text" @click="to_wfsdetails(scope.row)">详细信息</el-button>
-              <el-button type="text" @click="Delete(scope.$index,scope.row)">取消分享</el-button>
+              <el-button type="text" icon="el-icon-video-play" circle>运行</el-button>
+              <el-button
+                type="text"
+                icon="el-icon-document-copy"
+                circle
+                @click="Copy(scope.row)"
+                title="复制工作流"
+              >复制</el-button>
+              <el-button
+                type="text"
+                icon="el-icon-document"
+                circle
+                @click="to_wfsdetails(scope.row)"
+                title="查看详细信息"
+              >详细信息</el-button>
+              <el-button
+                type="text"
+                icon="el-icon-circle-close"
+                circle
+                @click="Delete(scope.$index,scope.row)"
+                title="取消分享工作流"
+              >取消分享</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -158,17 +212,17 @@ export default class WflistTableView extends Vue {
   }
 
   //跳转工作流详情页面
-  to_wfsdetails(row:any) {
+  to_wfsdetails(row: any) {
     this.$router.push({
       name: "wflistable/wfsdetails",
-      query: { 'name':row.name,'wf_id':row.wf_id }
+      query: { name: row.name, wf_id: row.wf_id }
     });
   }
-  to_wfsedit(row:any){
+  to_wfsedit(row: any) {
     this.$router.push({
-      name:"wflistable/wfsedit",
-      query:{'name':row.name,'wf_id':row.wf_id}
-    })
+      name: "wflistable/wfsedit",
+      query: { name: row.name, wf_id: row.wf_id }
+    });
   }
 
   //取消分享

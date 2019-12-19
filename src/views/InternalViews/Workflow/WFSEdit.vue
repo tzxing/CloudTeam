@@ -21,8 +21,8 @@
       <div>
           <WorkflowChartAlter :chart_data="chart_data" ref = "workflow_chart"></WorkflowChartAlter>
       </div>
-      <div>
-        <el-button type="text" @click="saveWfsInfo()"> 保存 </el-button>
+      <div style="margin-left: 700px;">
+        <el-button type="primary" @click="saveWfsInfo()">保存</el-button>
       </div>
     </el-main>
 
@@ -66,9 +66,13 @@
         const { data } = await this.$axios.patch("wfs/edit/"+this.wf_id, {
         wfs_name:this.wfsname,
         topology:this.wfs_data
-      })} catch (e) {
+      });
+      if(data){
+        this.$message.info("保存成功")
+      }
+      } catch (e) {
         alert(this.wfs_data)
-        this.$message.error("失败，请稍后再试！");
+        this.$message.error("保存失败，请稍后再试！");
       }
     }
 
