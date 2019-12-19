@@ -7,7 +7,7 @@
   <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
   <el-breadcrumb-item :to="{path:'/internal/workflow'}">工作流管理</el-breadcrumb-item>
   <el-breadcrumb-item :to="{path:'/internal/workflow/wflistable'}">工作流列表</el-breadcrumb-item>
-  <el-breadcrumb-item >工作流编辑</el-breadcrumb-item>
+  <el-breadcrumb-item >修改</el-breadcrumb-item>
   </el-breadcrumb>
       
     <el-aside>
@@ -45,12 +45,20 @@
         // alert(this.$route.query.name)
         this.wfsname = this.$route.query.name;
         this.wf_id = this.$route.query.wf_id ;
-
+        this.chart = this.$refs.workflow_chart as WorkflowChartAlter;
         this.getDetailsInfo()
-        
-
+      
       }
 
+
+    async saveWfsInfo(){
+      try {
+        const { data } = await this.$axios.patch("wfs/edit/"+this.wf_id, {
+        topology:this.chart.get_chartjson()
+      })} catch (e) {
+        this.$message.error("失败，请稍后再试！");
+      }
+    }
 
     async getDetailsInfo() {
       try {

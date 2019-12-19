@@ -9,7 +9,6 @@
   <el-breadcrumb-item :to="{path:'/internal/workflow/wflistable'}">工作流列表</el-breadcrumb-item>
   <el-breadcrumb-item >工作流详情</el-breadcrumb-item>
   </el-breadcrumb>
-      
     <el-aside>
       <div>
         <span>工作流名称：{{wfsname}}</span>
