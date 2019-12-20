@@ -13,6 +13,7 @@
         <el-menu-item index="/internal/workflow/basetable">工作流列表</el-menu-item>
         <el-menu-item index="/internal/workflow/baseform">工作流上传</el-menu-item>
         <el-menu-item index="/internal/workflow/wflistable">工作流列表-xy</el-menu-item>
+        <!-- <el-menu-item index="/internal/workflow/wflistable/wfsedit">新增工作流</el-menu-item> -->
         <!-- <el-menu-item index="/internal/workflow/wfsdetails">工作流详情-bzx</el-menu-item> -->
       </el-submenu>
   

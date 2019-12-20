@@ -2,7 +2,14 @@
   <div>
     <el-card class="box-card">
       <div slot="header">
-        <span>自创工作流列表</span>
+        
+        <div style="width:800px; height:auto; float:left; display:inline">
+          <span>自创工作流列表</span>
+        </div>
+        <div style="width:300px; height:auto; float:left; display:inline">
+          <el-button size="small" type="primary" @click="add_wf">新增工作流</el-button>
+        </div>
+        
       </div>
       <div>
         <el-table :data="tableUserWFData" height="250">
@@ -194,20 +201,29 @@ export default class WflistTableView extends Vue {
   async Execute(row: any) {
     try {
       const { data } = await this.$axios.post(
-        "wfs/workflow" + row.name + "/execute"
+        "wfs/workflows/" + row.wf_id + "/execute"
       );
       if (data) {
         //后端返回后再跳转
-        this.to_wfexec();
+        this.to_wfexec(data);
       }
     } catch (e) {
       this.$message.error("连接服务器失败");
     }
   }
-  to_wfexec() {
+  to_wfexec(wf_name:any) {
     this.$router.push({
       //跳转到实例页面
-      name: ""
+      name: "workflowjob",
+      query: {"data": wf_name}
+    });
+  }
+  //新增工作流
+  add_wf(){
+    this.$router.push({
+      //跳转到实例页面
+      name: "wflistable/wfsedit",
+      query: { flag:'0' }
     });
   }
 
@@ -221,7 +237,7 @@ export default class WflistTableView extends Vue {
   to_wfsedit(row: any) {
     this.$router.push({
       name: "wflistable/wfsedit",
-      query: { name: row.name, wf_id: row.wf_id }
+      query: { name: row.name, wf_id: row.wf_id,flag:'1' }
     });
   }
 
