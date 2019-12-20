@@ -62,6 +62,7 @@ export default class wfsdetails extends Vue {
   }
 
   wfs_data: any;
+  a:[]=[];
   async saveWfsInfo() {
     try {
       if (this.flag == "1") {
@@ -69,9 +70,9 @@ export default class wfsdetails extends Vue {
         this.wfs_data = JSON.parse(this.chart.get_chartjson());
 
         const { data } = await this.$axios.patch(
-          "wfs/workflow_list/" + this.wf_id + "/update/",
+          "wfs/workflows/" + this.wf_id,
           {
-            wfs_name: this.input,
+            workflow_name: this.input,
             topology: this.wfs_data
           }
         );
@@ -82,10 +83,14 @@ export default class wfsdetails extends Vue {
       else{
         //新增
         this.wfs_data = JSON.parse(this.chart.get_chartjson());
+        console.log(this.chart.get_chartjson())
+       
+        console.log(typeof(this.a))
+        console.log(this.wfs_data)
         const { data } = await this.$axios.post(
-          "wfs/workflow_list/add",
+          "wfs/workflows",
           {
-            wfs_name: this.input,
+            workflow_name: this.input,
             topology: this.wfs_data
           }
         );

@@ -199,7 +199,7 @@ export default class WflistTableView extends Vue {
 
   //启动工作流---创建一个实例
   async Execute(row: any) {
-    try {
+    try {console.log(row.wf_id)
       const { data } = await this.$axios.post(
         "wfs/workflows/" + row.wf_id + "/execute"
       );
@@ -211,7 +211,7 @@ export default class WflistTableView extends Vue {
       this.$message.error("连接服务器失败");
     }
   }
-  to_wfexec(wf_name:any) {
+  to_wfexec(wf_name:any) {console.log('xxx' + wf_name)
     this.$router.push({
       //跳转到实例页面
       name: "workflowjob",
