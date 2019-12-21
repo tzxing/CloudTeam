@@ -4,6 +4,9 @@
       <div>
         <el-button type="text" @click="dialogFormVisible = true">新增工作流节点</el-button>
       </div>
+      <div>
+        <el-button type="text" @click="auto_layout">自动布局</el-button>
+      </div>
     </div>
 
     <div>
@@ -19,7 +22,7 @@
 
     <el-dialog title="节点信息" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="名称" >
+        <el-form-item label="名称">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
 
@@ -71,10 +74,10 @@ export default class WorkflowChartAlter extends Vue {
     parallel: ""
   };
 
-//   constructor(chart_data: any) {
-//     super();
-//     this.chart_data = chart_data;
-//   }
+  //   constructor(chart_data: any) {
+  //     super();
+  //     this.chart_data = chart_data;
+  //   }
 
   private plumbIns: jsPlumbInstance = jsPlumb.getInstance();
 
@@ -86,7 +89,9 @@ export default class WorkflowChartAlter extends Vue {
   }
 
   @Watch("chart_data")
-  private chart_data_changed(new_vaule:string) {
+  private chart_data_changed(new_vaule: string) {
+    this.plumbIns.deleteEveryConnection();
+
     this.workflow_nodes = JSON.parse(new_vaule);
     this.$nextTick(() => {
       this.draw_connections();
@@ -121,11 +126,11 @@ export default class WorkflowChartAlter extends Vue {
   private draw_connections() {
     this.workflow_pairs = this.get_dependcy_pairs();
 
-      for (let item of this.workflow_pairs) {
-        this.connect_node(item[0], item[1]);
-      }
+    for (let item of this.workflow_pairs) {
+      this.connect_node(item[0], item[1]);
+    }
 
-      this.auto_layout();
+    this.auto_layout();
   }
 
   public mounted() {
@@ -138,8 +143,10 @@ export default class WorkflowChartAlter extends Vue {
         this.connect_node(info.sourceId, info.targetId);
         this.workflow_nodes.forEach((item: Workflownode) => {
           if (item.id == info.targetId) {
-            this.get_uuid_name_pairs()
-            item.dependencies.push(this.workflow_uuid_name_pairs[info.sourceId]);
+            this.get_uuid_name_pairs();
+            item.dependencies.push(
+              this.workflow_uuid_name_pairs[info.sourceId]
+            );
           }
         });
         return false;
@@ -161,6 +168,8 @@ export default class WorkflowChartAlter extends Vue {
       endpoint: "Blank"
     });
   }
+
+
 
   public auto_layout() {
     const g = new dagre.graphlib.Graph();
