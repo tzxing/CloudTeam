@@ -83,10 +83,6 @@ export default class wfsdetails extends Vue {
       else{
         //新增
         this.wfs_data = JSON.parse(this.chart.get_chartjson());
-        console.log(this.chart.get_chartjson())
-       
-        console.log(typeof(this.a))
-        console.log(this.wfs_data)
         const { data } = await this.$axios.post(
           "wfs/workflows",
           {
