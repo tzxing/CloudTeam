@@ -54,6 +54,7 @@ export default class WorkflowJobListView extends Vue {
     try {
       const { data } = await this.$axios.get("wfs/workflowJobs");
       this.tableData = JSON.parse(data);
+      console.log(this.tableData)
     } catch (e) {
       this.$message.error("请求用户数据失败，请稍后再试！");
     }
@@ -65,7 +66,6 @@ export default class WorkflowJobListView extends Vue {
   }
 
   handleEdit(row: string) {
-    console.log(row)
     this.$router.push({
       name: "workflowjob",
       query: {"data": row}
@@ -73,7 +73,6 @@ export default class WorkflowJobListView extends Vue {
   }
 
   async handleDelete() {
-    console.log(this.workflowName)
     try {
       const { data } = await this.$axios.delete("wfs/workflowJobs/" + this.workflowName,);
       this.tableData = this.tableData.filter(
