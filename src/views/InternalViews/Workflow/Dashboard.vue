@@ -1,10 +1,9 @@
 <template>
   <div>
-    <WorkflowChart :chart_data="chart_data" ref="workflow_chart"></WorkflowChart>
-
     <div>
       <el-button type="text" @click="get_chartjson">生成工作流模版</el-button>
     </div>
+    <WorkflowChart :chart_data="chart_data" ref="workflow_chart"></WorkflowChart>
   </div>
 </template>
 

@@ -8,7 +8,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { jsPlumbInstance } from "jsplumb";
+import { jsPlumbInstance, Endpoint } from "jsplumb";
+
 
 @Component({
   components: { WorkflowChartNode }
@@ -46,11 +47,13 @@ export default class WorkflowChartNode extends Vue {
         isSource: true,
         isTarget: true,
         reattachConnections: false,
-        type: "Dot",
-        paintStyle: { fill: "blue" }
+        type: "Rectangle",
+        paintStyle: { fill: "transparent" },
       });
     }
   }
+ 
+ 
 }
 </script>
 

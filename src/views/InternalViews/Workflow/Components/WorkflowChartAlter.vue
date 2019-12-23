@@ -230,5 +230,6 @@ export default class WorkflowChartAlter extends Vue {
 }
 .alter_button {
   position: relative;
+  float: right;
 }
 </style>

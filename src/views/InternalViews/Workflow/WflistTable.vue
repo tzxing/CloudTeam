@@ -1,15 +1,9 @@
 <template>
   <div>
     <el-card class="box-card">
-      <div slot="header">
-        
-        <div style="width:800px; height:auto; float:left; display:inline">
-          <span>自创工作流列表</span>
-        </div>
-        <div style="width:300px; height:auto; float:left; display:inline">
-          <el-button size="small" type="primary" @click="add_wf">新增工作流</el-button>
-        </div>
-        
+      <div slot="header" class="selfwflist">
+          <span style="display: inline-block">自创工作流列表</span>
+          <el-button  style="float: right; padding: 3px 0" type="primary" @click="add_wf">新增工作流</el-button>
       </div>
       <div>
         <el-table :data="tableUserWFData" height="250">
@@ -385,5 +379,20 @@ export default class WflistTableView extends Vue {
 }
 .mb20 {
   margin-bottom: 20px;
+}
+.selfwflist::before,
+.selfwflist ::after {
+  display: table;
+  content: "";
+}
+.selfwflist ::after {
+  clear: both;
+}
+.addwf {
+  float: right;
+  padding: px 3px;
+}
+.primary {
+  font-size: 16px;
 }
 </style>

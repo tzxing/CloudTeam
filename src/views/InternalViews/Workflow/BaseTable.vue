@@ -4,27 +4,31 @@
       <div slot="header">
         <span>工作流列表</span>
       </div>
-      <div class="filter-box mb20">
-        <el-select v-model="conditions.abnormal" placeholder="运行状态" class="ml10 mr10">
-          <el-option key="0" label="运行" value="0"></el-option>
-          <el-option key="1" label="暂停" value="1"></el-option>
-          <el-option key="2" label="完成" value="2"></el-option>
-        </el-select>
-        <el-date-picker
-          class="mr10"
-          style="width:480px"
-          v-model="conditions.time"
-          value-format="yyyy-MM-dd"
-          type="daterange"
-          align="right"
-          unlink-panels
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :picker-options="pickerOptions2"
-        ></el-date-picker>
-        <el-input v-model="conditions.text" placeholder="筛选关键词" class="mr10"></el-input>
-        <el-button type="primary" icon="search" @click="search">搜索</el-button>
+      <div class="filter-box">
+        <div style="position: relative">
+          <el-select v-model="conditions.abnormal" placeholder="运行状态" class="ml10">
+            <el-option key="0" label="运行" value="0"></el-option>
+            <el-option key="1" label="暂停" value="1"></el-option>
+            <el-option key="2" label="完成" value="2"></el-option>
+          </el-select>
+          &nbsp;
+          <el-date-picker
+            class="mr10"
+            style="width:480px"
+            v-model="conditions.time"
+            value-format="yyyy-MM-dd"
+            type="daterange"
+            align="right"
+            unlink-panels
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            :picker-options="pickerOptions2"
+          ></el-date-picker>
+        </div>
+        <el-input v-model="conditions.text" placeholder="筛选关键词" class="mr10" style="padding: 20px 0 20px 0"></el-input>
+        <el-button type="primary" icon="search" @click="search" style="width:70px height: 35px">搜索</el-button>
+        
       </div>
       <el-table :data="tableData">
         <el-table-column prop="date" label="创建日期" sortable width="150"></el-table-column>
@@ -215,3 +219,6 @@ export default class BaseTableView extends Vue {
   }
 }
 </script>
+<style scoped>
+
+</style>

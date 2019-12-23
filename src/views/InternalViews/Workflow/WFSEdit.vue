@@ -23,7 +23,7 @@
         <div>
           <WorkflowChartAlter :chart_data="chart_data" ref="workflow_chart"></WorkflowChartAlter>
         </div>
-        <div style="margin-left: 700px;">
+        <div style="margin-left: 50%">
           <el-button type="primary" @click="saveWfsInfo()">保存</el-button>
         </div>
       </el-main>
