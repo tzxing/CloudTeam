@@ -73,7 +73,7 @@
                     <el-button size="small" type="primary" @click="add">添加分享</el-button>
                   </div>
                 </el-form>
-                <span>已分享过的用户:{{wf_id}}</span>
+                <!-- <span>已分享过的用户:{{wf_id}}</span> -->
                 <el-table :data="share" height="250">
                   <el-table-column property="name" label="分享过的用户" width="300"></el-table-column>
                   <el-table-column label="操作" width="200" align="center">
@@ -102,7 +102,7 @@
           <el-table-column prop="name" label="工作流名称" width="380"></el-table-column>
           <el-table-column label="操作" width="550" align="center">
             <template slot-scope="scope">
-              <el-button type="text" icon="el-icon-video-play" circle>运行</el-button>
+              <el-button type="text" icon="el-icon-video-play" circle @click="Execute(scope.row)">运行</el-button>
               <el-button
                 type="text"
                 icon="el-icon-document-copy"
@@ -165,7 +165,7 @@ export default class WflistTableView extends Vue {
   //获取用户工作流列表
   async userWF() {
     try {
-      const { data } = await this.$axios.get("wfs/workflow_list/SearchWFFInfo");
+      const { data } = await this.$axios.get("wfs/workflow_list/WFFInfo");
       if (data) {
         this.tableUserWFData = data;
       }
@@ -176,7 +176,7 @@ export default class WflistTableView extends Vue {
   //获取被分享的工作流列表
   async toWF() {
     try {
-      const { data } = await this.$axios.get("wfs/workflow_list/SearchWFTInfo");
+      const { data } = await this.$axios.get("wfs/workflow_list/WFTInfo");
       if (data) {
         this.tableToWFData = data;
       }
@@ -246,12 +246,12 @@ export default class WflistTableView extends Vue {
     // console.log(index, row);
     try {
       this.wf_id = row.wf_id;
-      alert(this.wf_id)
-      const { data } = await this.$axios.delete("wfs/workflow_list/"+this.wf_id+"/cancel_share/");
+      // alert(this.wf_id)
+      const { data } = await this.$axios.delete("wfs/workflow_list/WFTInfo/"+this.wf_id);
       if (data == true) {
         //成功则更新被分享的工作流列表
         try {
-          const { data } = await this.$axios.get("wfs/workflow_list/SearchWFTInfo");
+          const { data } = await this.$axios.get("wfs/workflow_list/WFTInfo");
           if (data) {
             this.tableToWFData = data;
             this.$message.success("取消分享成功，更新成功");
@@ -268,11 +268,11 @@ export default class WflistTableView extends Vue {
   async Copy(row: any) {
     try {
       this.wf_id = row.wf_id;
-      const { data } = await this.$axios.post("wfs/workflow_list/"+this.wf_id+"/copy_workflow/");
+      const { data } = await this.$axios.post("wfs/workflow_list/"+this.wf_id);
       if (data == true) {
         //成功则更新工作流列表
         try {
-          const { data } = await this.$axios.get("wfs/workflow_list/SearchWFFInfo");
+          const { data } = await this.$axios.get("wfs/workflow_list/WFFInfo");
           if (data) {
             this.tableUserWFData = data;
             this.$message.success("复制工作流成功，更新成功");
@@ -289,11 +289,11 @@ export default class WflistTableView extends Vue {
   async Delete_wf(row: any) {
     try {
       this.wf_id = row.wf_id;
-      const { data } = await this.$axios.delete("wfs/workflow_list/"+this.wf_id+"/delete_workflow/");
-      if (data == true) {
+      const { data } = await this.$axios.delete("wfs/workflow_list/WFFInfo/"+this.wf_id);
+      if (data == "success") {
         //删除成功则更新自创工作流列表
         try {
-          const { data } = await this.$axios.get("wfs/workflow_list/SearchWFFInfo");
+          const { data } = await this.$axios.get("wfs/workflow_list/WFFInfo");
           if (data) {
             this.tableUserWFData = data;
             this.$message.success("删除工作流成功，更新成功");
@@ -313,7 +313,7 @@ export default class WflistTableView extends Vue {
     this.dialogTableVisible = true;
     try {
       this.wf_id = row.wf_id;
-      const { data } = await this.$axios.get("wfs/workflow_list/SearchShareInfo/"+this.wf_id);
+      const { data } = await this.$axios.get("wfs/workflow_list/"+this.wf_id+"/share");
 
       if (data) {
         this.share = data;
@@ -327,13 +327,11 @@ export default class WflistTableView extends Vue {
   async add() {
     try {
       // alert(this.shareadd.name)
-      const { data } = await this.$axios.post("wfs/workflow_list/"+this.wf_id+"/add_share", {
-        to_user_name: this.shareadd.name,
-      });
+      const { data } = await this.$axios.post("wfs/workflow_list/"+this.wf_id+"/share/"+this.shareadd.name);
       if (data == "success") {
         //成功更新用户列表
         try {
-          const { data } = await this.$axios.get("wfs/workflow_list/SearchShareInfo/"+this.wf_id);
+          const { data } = await this.$axios.get("wfs/workflow_list/"+this.wf_id+"/share");
           if (data) {
             this.share = data;
             this.$message.success("添加成功，更新成功");
@@ -342,9 +340,11 @@ export default class WflistTableView extends Vue {
           this.$message.error("更新失败，请稍后再试！");
         }
         this.$message.success("添加成功");
+      } else{
+        this.$message.error("添加重复！")
       }
     } catch (e) {
-      this.$message.error("添加失败，重复");
+      this.$message.error("添加失败，请稍后再试！");
     }
   }
   //删除曾经的分享
@@ -352,11 +352,11 @@ export default class WflistTableView extends Vue {
     // console.log(index, row);
     try {
       this.to_user_name = row.name;
-      const { data } = await this.$axios.delete("wfs/workflow_list/"+this.wf_id+"/share_delete/"+this.to_user_name);
+      const { data } = await this.$axios.delete("wfs/workflow_list/"+this.wf_id+"/share/"+this.to_user_name);
       if (data == "success") {
         //成功更新用户列表
         try {
-          const { data } = await this.$axios.get("wfs/workflow_list/SearchShareInfo/"+this.wf_id);
+          const { data } = await this.$axios.get("wfs/workflow_list/"+this.wf_id+"/share");
           if (data) {
             this.share = data;
             this.$message.success("删除成功，更新成功");
@@ -364,7 +364,10 @@ export default class WflistTableView extends Vue {
         } catch (e) {
           this.$message.error("更新失败，请稍后再试！");
         }
+      }else{
+        this.$message.error("删除失败，请稍后再试！")
       }
+
     } catch (e) {
       this.$message.error("删除失败");
     }
