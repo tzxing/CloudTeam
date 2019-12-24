@@ -19,8 +19,9 @@
           <el-input v-model="input" placeholder="工作流名称" maxlength="100"></el-input>
         </div>
         <div class="buttons">
-          <el-button type="primary" >新增节点</el-button>
-          <el-button type="primary" >自动布局</el-button>
+          <el-button type="primary"  @click="add_node">新增节点</el-button>
+          <el-button type="primary" @click="auto_layout">自动布局</el-button>
+          <el-button type="primary" @click="saveWfsInfo()">保存</el-button>
         </div>
       </div>
       <!-- </el-aside> -->
@@ -30,9 +31,9 @@
         <div style="height: 90%">
           <WorkflowChartAlter :chart_data="chart_data" ref="workflow_chart"></WorkflowChartAlter>
         </div>
-        <div style="margin-left: 50%">
+        <!-- <div style="margin-left: 50%">
           <el-button type="primary" @click="saveWfsInfo()">保存</el-button>
-        </div>
+        </div> -->
       </el-main>
     </div>
   </div>
@@ -66,7 +67,12 @@ export default class wfsdetails extends Vue {
 
     this.chart = this.$refs.workflow_chart as WorkflowChartAlter;
   }
-
+  public add_node() {
+    this.chart.dialogFormVisible = true;
+  }
+public auto_layout() {
+  this.chart.auto_layout();
+}
   wfs_data: any;
   a: [] = [];
   async saveWfsInfo() {

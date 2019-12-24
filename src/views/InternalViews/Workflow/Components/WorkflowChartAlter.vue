@@ -1,11 +1,11 @@
 <template>
   <div class="wf-chart">
-    <el-form>
+    <!-- <el-form>
     <el-form-item class="alter_button" >
         <el-button type="primary" @click="dialogFormVisible = true">新增节点</el-button>
         <el-button type="primary" @click="auto_layout">自动布局</el-button>
     </el-form-item>
-    </el-form>
+    </el-form> -->
     <div>
       <WorkflowChartNode
         v-for="info in workflow_nodes"
