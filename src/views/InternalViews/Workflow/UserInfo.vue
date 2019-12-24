@@ -15,6 +15,7 @@
         </el-select>
         <el-input v-model="conditions.text" placeholder="检索关键词" class="mr10"></el-input>
         <el-button type="primary" icon="search" @click="search">搜索</el-button>
+        <el-button type="primary" icon="search" @click="getData">重置</el-button>
       </div>
       <el-table :data="tableData" ref="multipleTable">
         <el-table-column prop="email" label="邮箱" width="120"></el-table-column>
@@ -22,8 +23,8 @@
         <el-table-column prop="nickname" label="用户昵称" width="100"></el-table-column>
         <el-table-column prop="username" label="真实姓名" width="100"></el-table-column>
         <el-table-column prop="phone" label="电话" width="120"></el-table-column>
-        <el-table-column prop="idcard" label="身份证号" width="120"></el-table-column>
         <el-table-column prop="stuid" label="学号" width="120"></el-table-column>
+        <el-table-column prop="idcard" label="身份证号" width="120"></el-table-column>
         <el-table-column label="操作" width="180" align="center">
           <template slot-scope="scope">
             <el-button
@@ -48,10 +49,7 @@
     <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
       <el-form ref="form" :model="form" label-width="100px">
         <el-form-item label="邮箱">
-          <el-input v-model="form.email"></el-input>
-        </el-form-item>
-        <el-form-item label="密码">
-          <el-input v-model="form.password"></el-input>
+          <el-input v-model="form.email" ></el-input>
         </el-form-item>
         <el-form-item label="昵称">
           <el-input v-model="form.nickname"></el-input>
@@ -63,13 +61,13 @@
           <el-input v-model="form.phone"></el-input>
         </el-form-item>
         <el-form-item label="真实姓名">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.username" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="身份证号">
-          <el-input v-model="form.idcard"></el-input>
+          <el-input v-model="form.idcard" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="学号">
-          <el-input v-model="form.stuid"></el-input>
+          <el-input v-model="form.stuid" :disabled="true"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -93,7 +91,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({})
-export default class BaseTableView extends Vue {
+export default class UserInfoTableView extends Vue {
   idx = -1;
   tableData = [];
   conditions = {
@@ -103,12 +101,10 @@ export default class BaseTableView extends Vue {
   editVisible = false;
   delVisible = false;
   form = {
-    id: "",
     email: "",
-    password: "",
     nickname: "",
     role: "",
-    name: "",
+    username: "",
     phone: "",
     stuid: "",
     idcard: ""
@@ -135,8 +131,8 @@ export default class BaseTableView extends Vue {
         "users/SearchUserInfo",
         this.conditions
       );
-      if (data == "success") {
-        this.$message.success("检索成功");
+      if (data) {
+       this.tableData = data;
       }
     } catch (e) {
       this.$message.error("检索失败，请稍后再试！");
@@ -147,12 +143,10 @@ export default class BaseTableView extends Vue {
     this.idx = index;
     const item: any = this.tableData[index];
     this.form = {
-      id: item.id,
       email: item.email,
-      password: item.password,
-      nickname: item.password,
+      nickname: item.nickname,
       role: item.role,
-      name: item.name,
+      username: item.username,
       phone: item.phone,
       stuid: item.stuid,
       idcard: item.idcard
@@ -164,12 +158,10 @@ export default class BaseTableView extends Vue {
     this.idx = index;
     const item: any = this.tableData[index];
     this.form = {
-      id: item.id,
       email: item.email,
-      password: item.password,
-      nickname: item.password,
+      nickname: item.nickname,
       role: item.role,
-      name: item.name,
+      username: item.username,
       phone: item.phone,
       stuid: item.stuid,
       idcard: item.idcard
@@ -194,7 +186,7 @@ export default class BaseTableView extends Vue {
   async confirmDel() {
     try {
       const { data } = await this.$axios.post("users/delUserInfo", {
-        id: this.form.id
+        email: this.form.email
       });
       if (data == "success") {
         this.$message.success("删除成功");
