@@ -2,14 +2,12 @@
   <div>
     <el-card class="box-card">
       <div slot="header">
-        
         <div style="width:800px; height:auto; float:left; display:inline">
           <span>自创工作流列表</span>
         </div>
         <div style="width:300px; height:auto; float:left; display:inline">
           <el-button size="small" type="primary" @click="add_wf">新增工作流</el-button>
         </div>
-        
       </div>
       <div>
         <el-table :data="tableUserWFData" height="250">
@@ -49,7 +47,7 @@
                 type="text"
                 icon="el-icon-delete"
                 circle
-                @click="Delete_wf(scope.row)"
+                @click="Confirm_Delete_wf(scope.$index,scope.row)"
                 title="删除工作流"
               >删除</el-button>
               <el-button
@@ -78,7 +76,13 @@
                   <el-table-column property="name" label="分享过的用户" width="300"></el-table-column>
                   <el-table-column label="操作" width="200" align="center">
                     <template slot-scope="scope">
-                      <el-button type="text" @click="handleDelete(scope.$index,scope.row)">删除</el-button>
+                      <el-button
+                        type="text"
+                        icon="el-icon-delete"
+                        circle
+                        @click="Confirm_Delete_share(scope.$index,scope.row)"
+                        title="删除分享"
+                      >删除</el-button>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -121,7 +125,7 @@
                 type="text"
                 icon="el-icon-circle-close"
                 circle
-                @click="Delete(scope.$index,scope.row)"
+                @click="Confirm_Console_wf(scope.$index,scope.row)"
                 title="取消分享工作流"
               >取消分享</el-button>
             </template>
@@ -129,6 +133,30 @@
         </el-table>
       </div>
     </el-card>
+    <!-- 删除工作流提示框 -->
+    <el-dialog title="删除提示" :visible.sync="delVisible" width="300px" center>
+      <div class="del-dialog-cnt">删除不可恢复，是否确定删除？</div>
+      <span slot="footer">
+        <el-button @click="delVisible = false">取 消</el-button>
+        <el-button type="primary" @click="Delete_wf">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 删除分享提示框 -->
+    <el-dialog title="删除提示" :visible.sync="delshareVisible" width="300px" center>
+      <div class="del-dialog-cnt">删除不可恢复，是否确定删除？</div>
+      <span slot="footer">
+        <el-button @click="delshareVisible = false">取 消</el-button>
+        <el-button type="primary" @click="Delete_share">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 取消分享提示框 -->
+    <el-dialog title="取消分享提示" :visible.sync="cansoshareVisible" width="300px" center>
+      <div class="del-dialog-cnt">取消分享关系不可恢复，是否确定取消？</div>
+      <span slot="footer">
+        <el-button @click="cansoshareVisible = false">取 消</el-button>
+        <el-button type="primary" @click="Delete">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template> 
 
@@ -142,6 +170,9 @@ export default class WflistTableView extends Vue {
   // };
   private wf_id: any = "";
   private to_user_name: any = "";
+  delVisible = false;
+  delshareVisible = false;
+  cansoshareVisible = false;
   share = [];
   shareadd = {
     selectclass: "",
@@ -211,21 +242,37 @@ export default class WflistTableView extends Vue {
       this.$message.error("连接服务器失败");
     }
   }
-  to_wfexec(wf_name:any) {
+  to_wfexec(wf_name: any) {
     this.$router.push({
       //跳转到实例页面
       name: "workflowjob",
-      query: {"data": wf_name}
+      query: { data: wf_name }
     });
   }
   //新增工作流
-  add_wf(){
+  add_wf() {
     this.$router.push({
       //跳转到实例页面
       name: "wflistable/wfsedit",
-      query: { flag:'0' }
+      query: { flag: "0" }
     });
   }
+  //删除工作流弹框
+  Confirm_Delete_wf(index: any, row: any) {
+    this.wf_id = row.wf_id;
+    this.delVisible = true;
+  }
+  //删除工作流弹框
+  Confirm_Delete_share(index: any, row: any) {
+    this.to_user_name = row.name;
+    this.delshareVisible = true;
+  }
+  //删除工作流弹框
+  Confirm_Console_wf(index: any, row: any) {
+    this.wf_id = row.wf_id;
+    this.cansoshareVisible = true;
+  }
+  
 
   //跳转工作流详情页面
   to_wfsdetails(row: any) {
@@ -237,18 +284,20 @@ export default class WflistTableView extends Vue {
   to_wfsedit(row: any) {
     this.$router.push({
       name: "wflistable/wfsedit",
-      query: { name: row.name, wf_id: row.wf_id,flag:'1' }
+      query: { name: row.name, wf_id: row.wf_id, flag: "1" }
     });
   }
 
   //取消分享
-  async Delete(index: any, row: any) {
+  async Delete() {
     // console.log(index, row);
     try {
-      this.wf_id = row.wf_id;
+      // this.wf_id = row.wf_id;
       // alert(this.wf_id)
-      const { data } = await this.$axios.delete("wfs/workflow_list/WFTInfo/"+this.wf_id);
-      if (data == true) {
+      const { data } = await this.$axios.delete(
+        "wfs/workflow_list/WFTInfo/" + this.wf_id
+      );
+      if (data == "success") {
         //成功则更新被分享的工作流列表
         try {
           const { data } = await this.$axios.get("wfs/workflow_list/WFTInfo");
@@ -263,13 +312,16 @@ export default class WflistTableView extends Vue {
     } catch (e) {
       this.$message.error("取消分享失败");
     }
+    this.cansoshareVisible = false;
   }
   //复制工作流
   async Copy(row: any) {
     try {
       this.wf_id = row.wf_id;
-      const { data } = await this.$axios.post("wfs/workflow_list/"+this.wf_id);
-      if (data == true) {
+      const { data } = await this.$axios.post(
+        "wfs/workflow_list/" + this.wf_id
+      );
+      if (data == "success") {
         //成功则更新工作流列表
         try {
           const { data } = await this.$axios.get("wfs/workflow_list/WFFInfo");
@@ -286,10 +338,12 @@ export default class WflistTableView extends Vue {
     }
   }
   //删除自己创建的工作流
-  async Delete_wf(row: any) {
+  async Delete_wf() {
     try {
-      this.wf_id = row.wf_id;
-      const { data } = await this.$axios.delete("wfs/workflow_list/WFFInfo/"+this.wf_id);
+      // this.wf_id = row.wf_id;
+      const { data } = await this.$axios.delete(
+        "wfs/workflow_list/WFFInfo/" + this.wf_id
+      );
       if (data == "success") {
         //删除成功则更新自创工作流列表
         try {
@@ -305,6 +359,7 @@ export default class WflistTableView extends Vue {
     } catch (e) {
       this.$message.error("失败");
     }
+    this.delVisible = false;
   }
 
   //分享弹框的操作
@@ -313,7 +368,9 @@ export default class WflistTableView extends Vue {
     this.dialogTableVisible = true;
     try {
       this.wf_id = row.wf_id;
-      const { data } = await this.$axios.get("wfs/workflow_list/"+this.wf_id+"/share");
+      const { data } = await this.$axios.get(
+        "wfs/workflow_list/" + this.wf_id + "/share"
+      );
 
       if (data) {
         this.share = data;
@@ -327,11 +384,15 @@ export default class WflistTableView extends Vue {
   async add() {
     try {
       // alert(this.shareadd.name)
-      const { data } = await this.$axios.post("wfs/workflow_list/"+this.wf_id+"/share/"+this.shareadd.name);
+      const { data } = await this.$axios.post(
+        "wfs/workflow_list/" + this.wf_id + "/share/" + this.shareadd.name
+      );
       if (data == "success") {
         //成功更新用户列表
         try {
-          const { data } = await this.$axios.get("wfs/workflow_list/"+this.wf_id+"/share");
+          const { data } = await this.$axios.get(
+            "wfs/workflow_list/" + this.wf_id + "/share"
+          );
           if (data) {
             this.share = data;
             this.$message.success("添加成功，更新成功");
@@ -340,23 +401,27 @@ export default class WflistTableView extends Vue {
           this.$message.error("更新失败，请稍后再试！");
         }
         this.$message.success("添加成功");
-      } else{
-        this.$message.error("添加重复！")
+      } else {
+        this.$message.error("添加重复！");
       }
     } catch (e) {
       this.$message.error("添加失败，请稍后再试！");
     }
   }
   //删除曾经的分享
-  async handleDelete(index: any, row: any) {
+  async Delete_share() {
     // console.log(index, row);
     try {
-      this.to_user_name = row.name;
-      const { data } = await this.$axios.delete("wfs/workflow_list/"+this.wf_id+"/share/"+this.to_user_name);
+      // this.to_user_name = row.name;
+      const { data } = await this.$axios.delete(
+        "wfs/workflow_list/" + this.wf_id + "/share/" + this.to_user_name
+      );
       if (data == "success") {
         //成功更新用户列表
         try {
-          const { data } = await this.$axios.get("wfs/workflow_list/"+this.wf_id+"/share");
+          const { data } = await this.$axios.get(
+            "wfs/workflow_list/" + this.wf_id + "/share"
+          );
           if (data) {
             this.share = data;
             this.$message.success("删除成功，更新成功");
@@ -364,13 +429,13 @@ export default class WflistTableView extends Vue {
         } catch (e) {
           this.$message.error("更新失败，请稍后再试！");
         }
-      }else{
-        this.$message.error("删除失败，请稍后再试！")
+      } else {
+        this.$message.error("删除失败，请稍后再试！");
       }
-
     } catch (e) {
       this.$message.error("删除失败");
     }
+    this.delshareVisible = false;
   }
 }
 </script>
