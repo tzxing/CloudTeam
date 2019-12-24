@@ -16,16 +16,15 @@
         <el-input v-model="conditions.text" placeholder="检索关键词" class="mr10"></el-input>
         <el-button type="primary" icon="search" @click="search">搜索</el-button>
       </div>
-      <el-table :data="tableData" ref="multipleTable">
-        <el-table-column prop="id" label="ID" sortable width="100"></el-table-column>
-        <el-table-column prop="email" label="邮箱" width="120"></el-table-column>
-        <el-table-column prop="role" label="角色" width="100"></el-table-column>
-        <el-table-column prop="nickname" label="用户昵称" width="100"></el-table-column>
-        <el-table-column prop="name" label="真实姓名" width="100"></el-table-column>
-        <el-table-column prop="phone" label="电话" width="120"></el-table-column>
-        <el-table-column prop="stuid" label="学号" width="120"></el-table-column>
-        <el-table-column prop="stuid" label="学号" width="120"></el-table-column>
-        <el-table-column label="操作" width="180" align="center">
+      <el-table :data="tableData" ref="multipleTable"  :height="table_height">
+        <el-table-column prop="id" label="ID" sortable :width="uniformwidth"></el-table-column>
+        <el-table-column prop="email" label="邮箱" :width="uniformwidth"></el-table-column>
+        <el-table-column prop="role" label="角色" :width="uniformwidth"></el-table-column>
+        <el-table-column prop="nickname" label="用户昵称" :width="uniformwidth"></el-table-column>
+        <el-table-column prop="name" label="真实姓名" :width="uniformwidth"></el-table-column>
+        <el-table-column prop="phone" label="电话" :width="uniformwidth"></el-table-column>
+        <el-table-column prop="stuid" label="学号" :width="uniformwidth"></el-table-column>
+        <el-table-column label="操作"  >
           <template slot-scope="scope">
             <el-button
               type="text"
@@ -100,10 +99,12 @@ import { Component, Vue } from "vue-property-decorator";
 export default class BaseTableView extends Vue {
   idx = -1;
   tableData = [];
+  uniformwidth = 0;
   conditions = {
     selectclass: "",
     text: ""
   };
+  table_height = 0;
   editVisible = false;
   delVisible = false;
   form = {
@@ -120,6 +121,8 @@ export default class BaseTableView extends Vue {
 
   created() {
     this.getData();
+    this.table_height = window.innerHeight - 400;
+    this.uniformwidth = (window.innerWidth - 260)/8;
   }
 
   //得到用户数据

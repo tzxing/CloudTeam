@@ -2,14 +2,14 @@
   <div>
     <el-card class="box-card">
       <div slot="header" class="selfwflist">
-          <span style="display: inline-block">自创工作流列表</span>
-          <el-button  style="float: right; padding: 3px 0" type="primary" @click="add_wf">新增工作流</el-button>
+        <span style="display: inline-block">自创工作流列表</span>
+        <el-button style="float: right; padding: 3px 0" type="primary" @click="add_wf">新增工作流</el-button>
       </div>
       <div>
-        <el-table :data="tableUserWFData" height="250">
-          <el-table-column property="date" label="创建日期" sortable width="200"></el-table-column>
-          <el-table-column property="name" label="工作流名称" width="380"></el-table-column>
-          <el-table-column label="操作" width="550" align="center">
+        <el-table :data="tableUserWFData" height="250" style = "width: 100%">
+          <el-table-column property="date" label="创建日期" sortable :width="uniformwidth"></el-table-column>
+          <el-table-column property="name" label="工作流名称" :width="uniformwidth"></el-table-column>
+          <el-table-column label="操作" :width="uniformwidth">
             <template slot-scope="scope">
               <el-button
                 type="text"
@@ -85,16 +85,21 @@
           </el-table-column>
         </el-table>
       </div>
-      <div
-        style="display:table-cell;height:50px;font-size:15px;font-height:14px;vertical-align:middle;text-align:center"
-      >
+    </el-card>
+    <p></p>
+    <el-card class="box-card dis" >
+      <!-- <div
+        style="display:table-cell;height:50px;font-size:15px;font-height:14px;vertical-align:middle;text-align:center" slot="header" 
+      >-->
+
+      <div class="selfwflist" slot="header">
         <span>分享工作流列表</span>
       </div>
       <div>
-        <el-table :data="tableToWFData" height="250">
-          <el-table-column prop="date" label="创建日期" sortable width="200"></el-table-column>
-          <el-table-column prop="name" label="工作流名称" width="380"></el-table-column>
-          <el-table-column label="操作" width="550" align="center">
+        <el-table :data="tableToWFData" height="250" style = "width: 100%">
+          <el-table-column prop="date" label="创建日期" sortable :width="uniformwidth"></el-table-column>
+          <el-table-column prop="name" label="工作流名称" :width="uniformwidth"></el-table-column>
+          <el-table-column label="操作" :width="uniformwidth" >
             <template slot-scope="scope">
               <el-button type="text" icon="el-icon-video-play" circle>运行</el-button>
               <el-button
@@ -154,6 +159,7 @@ export default class WflistTableView extends Vue {
     // alert("test");
     this.userWF();
     this.toWF();
+    this.uniformwidth = (window.innerWidth - 280)/3;
   }
 
   //获取用户工作流列表
@@ -178,7 +184,7 @@ export default class WflistTableView extends Vue {
       this.$message.error("失败，请稍后再试！");
     }
   }
-
+  uniformwidth = 0;
   dialogTableVisible = false;
   dialogFormVisible = false;
   form = {
@@ -205,19 +211,19 @@ export default class WflistTableView extends Vue {
       this.$message.error("连接服务器失败");
     }
   }
-  to_wfexec(wf_name:any) {
+  to_wfexec(wf_name: any) {
     this.$router.push({
       //跳转到实例页面
       name: "workflowjob",
-      query: {"data": wf_name}
+      query: { data: wf_name }
     });
   }
   //新增工作流
-  add_wf(){
+  add_wf() {
     this.$router.push({
       //跳转到实例页面
       name: "wflistable/wfsedit",
-      query: { flag:'0' }
+      query: { flag: "0" }
     });
   }
 
@@ -231,7 +237,7 @@ export default class WflistTableView extends Vue {
   to_wfsedit(row: any) {
     this.$router.push({
       name: "wflistable/wfsedit",
-      query: { name: row.name, wf_id: row.wf_id,flag:'1' }
+      query: { name: row.name, wf_id: row.wf_id, flag: "1" }
     });
   }
 
@@ -240,12 +246,16 @@ export default class WflistTableView extends Vue {
     // console.log(index, row);
     try {
       this.wf_id = row.wf_id;
-      alert(this.wf_id)
-      const { data } = await this.$axios.delete("wfs/workflow_list/"+this.wf_id+"/cancel_share/");
+      alert(this.wf_id);
+      const { data } = await this.$axios.delete(
+        "wfs/workflow_list/" + this.wf_id + "/cancel_share/"
+      );
       if (data == true) {
         //成功则更新被分享的工作流列表
         try {
-          const { data } = await this.$axios.get("wfs/workflow_list/SearchWFTInfo");
+          const { data } = await this.$axios.get(
+            "wfs/workflow_list/SearchWFTInfo"
+          );
           if (data) {
             this.tableToWFData = data;
             this.$message.success("取消分享成功，更新成功");
@@ -262,11 +272,15 @@ export default class WflistTableView extends Vue {
   async Copy(row: any) {
     try {
       this.wf_id = row.wf_id;
-      const { data } = await this.$axios.post("wfs/workflow_list/"+this.wf_id+"/copy_workflow/");
+      const { data } = await this.$axios.post(
+        "wfs/workflow_list/" + this.wf_id + "/copy_workflow/"
+      );
       if (data == true) {
         //成功则更新工作流列表
         try {
-          const { data } = await this.$axios.get("wfs/workflow_list/SearchWFFInfo");
+          const { data } = await this.$axios.get(
+            "wfs/workflow_list/SearchWFFInfo"
+          );
           if (data) {
             this.tableUserWFData = data;
             this.$message.success("复制工作流成功，更新成功");
@@ -283,11 +297,15 @@ export default class WflistTableView extends Vue {
   async Delete_wf(row: any) {
     try {
       this.wf_id = row.wf_id;
-      const { data } = await this.$axios.delete("wfs/workflow_list/"+this.wf_id+"/delete_workflow/");
+      const { data } = await this.$axios.delete(
+        "wfs/workflow_list/" + this.wf_id + "/delete_workflow/"
+      );
       if (data == true) {
         //删除成功则更新自创工作流列表
         try {
-          const { data } = await this.$axios.get("wfs/workflow_list/SearchWFFInfo");
+          const { data } = await this.$axios.get(
+            "wfs/workflow_list/SearchWFFInfo"
+          );
           if (data) {
             this.tableUserWFData = data;
             this.$message.success("删除工作流成功，更新成功");
@@ -307,7 +325,9 @@ export default class WflistTableView extends Vue {
     this.dialogTableVisible = true;
     try {
       this.wf_id = row.wf_id;
-      const { data } = await this.$axios.get("wfs/workflow_list/SearchShareInfo/"+this.wf_id);
+      const { data } = await this.$axios.get(
+        "wfs/workflow_list/SearchShareInfo/" + this.wf_id
+      );
 
       if (data) {
         this.share = data;
@@ -321,13 +341,18 @@ export default class WflistTableView extends Vue {
   async add() {
     try {
       // alert(this.shareadd.name)
-      const { data } = await this.$axios.post("wfs/workflow_list/"+this.wf_id+"/add_share", {
-        to_user_name: this.shareadd.name,
-      });
+      const { data } = await this.$axios.post(
+        "wfs/workflow_list/" + this.wf_id + "/add_share",
+        {
+          to_user_name: this.shareadd.name
+        }
+      );
       if (data == "success") {
         //成功更新用户列表
         try {
-          const { data } = await this.$axios.get("wfs/workflow_list/SearchShareInfo/"+this.wf_id);
+          const { data } = await this.$axios.get(
+            "wfs/workflow_list/SearchShareInfo/" + this.wf_id
+          );
           if (data) {
             this.share = data;
             this.$message.success("添加成功，更新成功");
@@ -346,11 +371,15 @@ export default class WflistTableView extends Vue {
     // console.log(index, row);
     try {
       this.to_user_name = row.name;
-      const { data } = await this.$axios.delete("wfs/workflow_list/"+this.wf_id+"/share_delete/"+this.to_user_name);
+      const { data } = await this.$axios.delete(
+        "wfs/workflow_list/" + this.wf_id + "/share_delete/" + this.to_user_name
+      );
       if (data == "success") {
         //成功更新用户列表
         try {
-          const { data } = await this.$axios.get("wfs/workflow_list/SearchShareInfo/"+this.wf_id);
+          const { data } = await this.$axios.get(
+            "wfs/workflow_list/SearchShareInfo/" + this.wf_id
+          );
           if (data) {
             this.share = data;
             this.$message.success("删除成功，更新成功");
@@ -390,9 +419,12 @@ export default class WflistTableView extends Vue {
 }
 .addwf {
   float: right;
-  padding: px 3px;
+  padding: 0px 3px;
 }
 .primary {
   font-size: 16px;
+}
+.dis {
+  padding: 10px, 0px;
 }
 </style>

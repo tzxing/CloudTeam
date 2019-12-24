@@ -30,11 +30,11 @@
         <el-button type="primary" icon="search" @click="search" style="width:70px height: 35px">搜索</el-button>
         
       </div>
-      <el-table :data="tableData">
-        <el-table-column prop="date" label="创建日期" sortable width="150"></el-table-column>
-        <el-table-column prop="name" label="工作流名称" width="120"></el-table-column>
-        <el-table-column prop="address" label="状态" :formatter="formatter"></el-table-column>
-        <el-table-column label="操作" width="180" align="center">
+      <el-table :data="tableData" :height="table_height" style="width: 100%" >
+        <el-table-column prop="date" label="创建日期" sortable :width="uniformwidth"></el-table-column>
+        <el-table-column prop="name" label="工作流名称" :width="uniformwidth"></el-table-column>
+        <el-table-column prop="address" label="状态" :formatter="formatter" :width="uniformwidth"></el-table-column>
+        <el-table-column label="操作" >
           <template slot-scope="scope">
             <el-button
               type="text"
@@ -57,6 +57,7 @@
           @current-change="handleCurrentChange"
           layout="prev, pager, next"
           :total="1000"
+          class = "pageview"
         ></el-pagination>
       </div>
     </el-card>
@@ -106,7 +107,8 @@ import { Component, Vue } from "vue-property-decorator";
 export default class BaseTableView extends Vue {
   collapse = false;
   activeIndex = "";
-
+ table_height = 0;
+ uniformwidth = 0;
   tableData = [];
   cur_page = 1;
   checkOptions = [];
@@ -158,6 +160,8 @@ export default class BaseTableView extends Vue {
 
   created() {
     this.getData();
+    this.table_height = window.innerHeight - 400;
+    this.uniformwidth = (window.innerWidth - 240) / 4;
   }
 
   getData() {
@@ -220,9 +224,14 @@ export default class BaseTableView extends Vue {
 }
 </script>
 <style lang = "scss" scoped>
-.aaa {
+/* .aaa {
   color: #fff;
   background: #7D8096;
+} */
+.pageview {
+  float: right; 
+  padding: 3px 5px;
 }
+
 
 </style>
