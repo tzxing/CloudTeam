@@ -10,7 +10,7 @@
         <el-breadcrumb-item>修改</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div>
+    <div style="height: 100%">
       <el-aside>
         <div>
           <!-- <input placeholder={{wfsname}}> -->
@@ -19,8 +19,8 @@
         </div>
       </el-aside>
 
-      <el-main>
-        <div>
+      <el-main style = "height: 100%">
+        <div style="height: 90%">
           <WorkflowChartAlter :chart_data="chart_data" ref="workflow_chart"></WorkflowChartAlter>
         </div>
         <div style="margin-left: 50%">
@@ -53,16 +53,16 @@ export default class wfsdetails extends Vue {
     this.wf_id = this.$route.query.wf_id;
     this.flag = this.$route.query.flag;
     this.input = this.$route.query.name;
-    if(this.flag=='1'){
+    if (this.flag == "1") {
       this.getDetailsInfo();
     }
-    
 
     this.chart = this.$refs.workflow_chart as WorkflowChartAlter;
   }
 
+
   wfs_data: any;
-  a:[]=[];
+  a: [] = [];
   async saveWfsInfo() {
     try {
       if (this.flag == "1") {
@@ -79,17 +79,13 @@ export default class wfsdetails extends Vue {
         if (data) {
           this.$message.info("保存成功");
         }
-      }
-      else{
+      } else {
         //新增
         this.wfs_data = JSON.parse(this.chart.get_chartjson());
-        const { data } = await this.$axios.post(
-          "wfs/workflows",
-          {
-            workflow_name: this.input,
-            topology: this.wfs_data
-          }
-        );
+        const { data } = await this.$axios.post("wfs/workflows", {
+          workflow_name: this.input,
+          topology: this.wfs_data
+        });
         if (data) {
           this.$message.info("保存成功");
         }
@@ -110,7 +106,7 @@ export default class wfsdetails extends Vue {
       } else {
         this.$message.error("没有数据");
       }
-    } catch (e) { 
+    } catch (e) {
       this.$message.error("失败，请稍后再试！");
     }
   }
@@ -140,5 +136,12 @@ export default class wfsdetails extends Vue {
 .row-bg {
   padding: 10px 0;
   background-color: #f9fafc;
+}
+
+body, html,#app{
+				height: 100%;
+}
+ .container {
+  height: 90%
 }
 </style>
