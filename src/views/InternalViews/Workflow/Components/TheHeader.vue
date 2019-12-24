@@ -1,12 +1,15 @@
 <template>
   <div class="header">
+    <!-- 按钮 -->
+    <div class="collapse-btn">
+      <i class="el-icon-menu"></i>
+    </div>
     <div class="logo">后台管理系统</div>
     <div class="header-right">
       <div class="header-user-con">
         <!-- 用户头像 -->
-        <div class="user-sign"  @click="signup">注册</div>
         <div class="user-name">{{name}}</div>
-        <div class="user-logout" @click="logout">退出</div>
+        <div class="user-logout curp" @click="logout">退出</div>
       </div>
     </div>
   </div>
@@ -17,10 +20,9 @@ import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class TheHeadView extends Vue {
   collapse = false;
-  name = "";
+  name = "管理员";
 
   logout() {
-    (this.$store as any).user.access_token="";
     this.$router.push("/internal");
   }
 }
@@ -30,9 +32,12 @@ export default class TheHeadView extends Vue {
 .header {
   position: relative;
   box-sizing: border-box;
+  left: 0px;
   width: 100%;
+  height: 70px;
   font-size: 22px;
-  color: rgb(7, 6, 6);
+  color: #fff;
+  box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.5);
 }
 
 .collapse-btn {
@@ -46,13 +51,13 @@ export default class TheHeadView extends Vue {
 
 .header .logo {
   float: left;
-  margin-left: 20px;
+  margin-left: 0;
   line-height: 70px;
 }
 
 .header-right {
   float: right;
-  padding-right: 20px;
+  padding-right: 0;
 }
 
 .header-user-con {
@@ -64,17 +69,6 @@ export default class TheHeadView extends Vue {
 
 .user-name {
   margin: 0 20px 0 10px;
-}
-
-.user-avator {
-  margin-left: 20px;
-}
-
-.user-avator img {
-  display: block;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
 }
 
 .user-logout {

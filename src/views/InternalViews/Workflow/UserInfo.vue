@@ -5,7 +5,11 @@
         <span>用户列表</span>
       </div>
       <div class="filter-box">
+<<<<<<< HEAD
         <el-select v-model="congitditions.selectclass" placeholder="检索条件" class="ml10 mr10">
+=======
+        <el-select v-model="searchdata.selectclass" placeholder="检索条件" class="ml10 mr10">
+>>>>>>> 1ec7d4de4250fcf26987934679a4c7e1dbdfab34
           <el-option label="昵称" value="nickname"></el-option>
           <el-option label="邮箱" value="email"></el-option>
           <el-option label="电话" value="phone"></el-option>
@@ -13,7 +17,7 @@
           <el-option label="角色" value="role"></el-option>
           <el-option label="学号" value="stuid"></el-option>
         </el-select>
-        <el-input v-model="conditions.text" placeholder="检索关键词" class="mr10"></el-input>
+        <el-input v-model="searchdata.text" placeholder="检索关键词" class="mr10"></el-input>
         <el-button type="primary" icon="search" @click="search">搜索</el-button>
         <el-button type="primary" icon="search" @click="getData">重置</el-button>
       </div>
@@ -94,7 +98,7 @@ import { Component, Vue } from "vue-property-decorator";
 export default class UserInfoTableView extends Vue {
   idx = -1;
   tableData = [];
-  conditions = {
+  searchdata = {
     selectclass: "",
     text: ""
   };
@@ -129,7 +133,7 @@ export default class UserInfoTableView extends Vue {
     try {
       const { data } = await this.$axios.post(
         "users/SearchUserInfo",
-        this.conditions
+        this.searchdata
       );
       if (data) {
        this.tableData = data;
