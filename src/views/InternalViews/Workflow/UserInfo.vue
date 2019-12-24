@@ -5,11 +5,7 @@
         <span>用户列表</span>
       </div>
       <div class="filter-box">
-<<<<<<< HEAD
-        <el-select v-model="congitditions.selectclass" placeholder="检索条件" class="ml10 mr10">
-=======
         <el-select v-model="searchdata.selectclass" placeholder="检索条件" class="ml10 mr10">
->>>>>>> 1ec7d4de4250fcf26987934679a4c7e1dbdfab34
           <el-option label="昵称" value="nickname"></el-option>
           <el-option label="邮箱" value="email"></el-option>
           <el-option label="电话" value="phone"></el-option>
