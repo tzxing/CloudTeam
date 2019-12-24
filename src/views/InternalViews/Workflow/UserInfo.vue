@@ -5,7 +5,7 @@
         <span>用户列表</span>
       </div>
       <div class="filter-box">
-        <el-select v-model="conditions.selectclass" placeholder="检索条件" class="ml10 mr10">
+        <el-select v-model="congitditions.selectclass" placeholder="检索条件" class="ml10 mr10">
           <el-option label="昵称" value="nickname"></el-option>
           <el-option label="邮箱" value="email"></el-option>
           <el-option label="电话" value="phone"></el-option>
@@ -24,7 +24,7 @@
         <el-table-column prop="username" label="真实姓名" width="100"></el-table-column>
         <el-table-column prop="phone" label="电话" width="120"></el-table-column>
         <el-table-column prop="stuid" label="学号" width="120"></el-table-column>
-        <el-table-column prop="stuid" label="学号" width="120"></el-table-column>
+        <el-table-column prop="idcard" label="身份证号" width="120"></el-table-column>
         <el-table-column label="操作" width="180" align="center">
           <template slot-scope="scope">
             <el-button
@@ -49,7 +49,7 @@
     <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
       <el-form ref="form" :model="form" label-width="100px">
         <el-form-item label="邮箱">
-          <el-input v-model="form.email" :disabled="true"></el-input>
+          <el-input v-model="form.email" ></el-input>
         </el-form-item>
         <el-form-item label="昵称">
           <el-input v-model="form.nickname"></el-input>
@@ -61,13 +61,13 @@
           <el-input v-model="form.phone"></el-input>
         </el-form-item>
         <el-form-item label="真实姓名">
-          <el-input v-model="form.username"></el-input>
+          <el-input v-model="form.username" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="身份证号">
-          <el-input v-model="form.idcard"></el-input>
+          <el-input v-model="form.idcard" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="学号">
-          <el-input v-model="form.stuid"></el-input>
+          <el-input v-model="form.stuid" :disabled="true"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
