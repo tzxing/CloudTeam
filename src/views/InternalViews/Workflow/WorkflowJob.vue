@@ -61,7 +61,7 @@ export default class WorkflowJobView extends Vue {
   }
 
   onchange(value:number){
-    console.log(value)
+    // console.log(value)
     this.stop()
     this.scheduler = self.setInterval(()=>{
       this.getData();
@@ -72,8 +72,8 @@ export default class WorkflowJobView extends Vue {
     const { data } = await this.$axios.get("wfs/workflowJobs/" + this.workflow_name);
     var result = JSON.parse(data)
     this.chart_data = JSON.stringify(result.topology)
-    console.log(JSON.stringify(result.topology))
-    console.log(result.phase)
+    // console.log(JSON.stringify(result.topology))
+    // console.log(result.phase)
     if(result.phase == "Succeeded"){
     this.stop()
     }
@@ -97,7 +97,7 @@ export default class WorkflowJobView extends Vue {
   }
 
   public get_chartjson() {
-    console.log(this.chart.get_chartjson());
+    // console.log(this.chart.get_chartjson());
   }
   // async get_message() {
   //   console.log(this.chart);

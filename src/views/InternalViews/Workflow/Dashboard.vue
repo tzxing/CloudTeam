@@ -24,12 +24,12 @@ export default class DashboardView extends Vue {
   public chart: any;
 
   created(){
-    console.log(this.$route.query.data)
+    // console.log(this.$route.query.data)
   }
 
   mounted() {
     this.chart = this.$refs.workflow_chart as WorkflowChart;
-    console.log(this.$route.query.data)
+    // console.log(this.$route.query.data)
     this.chart_data = this.$route.query.data.toString()
     //this.get_message()
 
@@ -37,7 +37,7 @@ export default class DashboardView extends Vue {
   }
 
   public get_chartjson() {
-    console.log(this.chart.get_chartjson());
+    // console.log(this.chart.get_chartjson());
     //console.log(this.chart.workflow_uuid_name_pairs)
   }
   // async get_message() {
