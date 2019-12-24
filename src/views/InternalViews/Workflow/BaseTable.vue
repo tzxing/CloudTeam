@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <el-card class="box-card">
-      <div slot="header">
+      <div slot="header" class ="aaa">
         <span>工作流列表</span>
       </div>
       <div class="filter-box">
@@ -219,6 +219,10 @@ export default class BaseTableView extends Vue {
   }
 }
 </script>
-<style scoped>
+<style lang = "scss" scoped>
+.aaa {
+  color: #fff;
+  background: #7D8096;
+}
 
 </style>

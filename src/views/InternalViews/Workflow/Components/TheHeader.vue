@@ -32,7 +32,8 @@ export default class TheHeadView extends Vue {
   box-sizing: border-box;
   width: 100%;
   font-size: 22px;
-  color: rgb(7, 6, 6);
+  /* color: rgb(7, 6, 6); */
+  color: #fff;
 }
 
 .collapse-btn {
