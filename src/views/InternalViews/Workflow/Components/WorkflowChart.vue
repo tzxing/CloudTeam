@@ -100,7 +100,7 @@ export default class WorkflowChart extends Vue {
 
   private draw_connections() {
     this.workflow_pairs = this.get_dependcy_pairs();
-    console.log(this.workflow_pairs);
+    // console.log(this.workflow_pairs);
 
     for (let item of this.workflow_pairs) {
       this.connect_node(item[0], item[1]);
@@ -160,7 +160,7 @@ export default class WorkflowChart extends Vue {
     g.nodes().forEach((n: string) => {
       (document.getElementById(n) as any).style.left = g.node(n).x + "px";
       (document.getElementById(n) as any).style.top = g.node(n).y + "px";
-      console.log(`${n} x: ${g.node(n).x}, y:${g.node(n).y}`);
+      // console.log(`${n} x: ${g.node(n).x}, y:${g.node(n).y}`);
     });
 
     this.plumbIns.repaintEverything();
