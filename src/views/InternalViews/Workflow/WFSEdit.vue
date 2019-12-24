@@ -2,11 +2,15 @@
   <div class="container">
     <!-- <el-page-header @back="goBack" content="详情页面">
     </el-page-header>-->
-    <div v-if="flag==='1'">
+    <div v-if="flag === '1'">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{path:'/internal/workflow'}">工作流管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{path:'/internal/workflow/wflistable'}">工作流列表</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/internal/workflow' }"
+          >工作流管理</el-breadcrumb-item
+        >
+        <el-breadcrumb-item :to="{ path: '/internal/workflow/wflistable' }"
+          >工作流列表</el-breadcrumb-item
+        >
         <el-breadcrumb-item>修改</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -21,7 +25,10 @@
 
       <el-main>
         <div>
-          <WorkflowChartAlter :chart_data="chart_data" ref="workflow_chart"></WorkflowChartAlter>
+          <WorkflowChartAlter
+            :chart_data="chart_data"
+            ref="workflow_chart"
+          ></WorkflowChartAlter>
         </div>
         <div style="margin-left: 700px;">
           <el-button type="primary" @click="saveWfsInfo()">保存</el-button>
@@ -53,56 +60,72 @@ export default class wfsdetails extends Vue {
     this.wf_id = this.$route.query.wf_id;
     this.flag = this.$route.query.flag;
     this.input = this.$route.query.name;
-    if(this.flag=='1'){
+    if (this.flag == "1") {
       this.getDetailsInfo();
     }
-    
 
     this.chart = this.$refs.workflow_chart as WorkflowChartAlter;
   }
 
   wfs_data: any;
-  a:[]=[];
+  a: [] = [];
   async saveWfsInfo() {
-    try {
-      if (this.flag == "1") {
-        // this.wfs_data = this.chart.get_chartjson()
-        this.wfs_data = JSON.parse(this.chart.get_chartjson());
+    if (this.flag == "1") {
+      try {
+        if (this.input == null || this.input == "") {
+          alert("请输入工作流名称");
+        } else {
+          this.wfs_data = JSON.parse(this.chart.get_chartjson());
 
-        const { data } = await this.$axios.patch(
-          "wfs/workflows/" + this.wf_id,
-          {
+          const { data } = await this.$axios.patch(
+            "wfs/workflows/" + this.wf_id,
+            {
+              workflow_name: this.input,
+              topology: this.wfs_data
+            }
+          );
+          if (data) {
+            this.$message.info("保存成功");
+            this.$router.push({
+              //跳转到工作流列表界面
+              name: "wflistable"
+            });
+          }
+        }
+        // this.wfs_data = this.chart.get_chartjson()
+      } catch (e) {
+        // alert(this.wfs_data);
+        this.$message.error("保存失败，请稍后再试！");
+      }
+    } else {
+      //新增
+      try {
+        if (this.input == null || this.input == "") {
+          alert("请输入工作流名称");
+        } else {
+          this.wfs_data = JSON.parse(this.chart.get_chartjson());
+
+          const { data } = await this.$axios.post("wfs/workflows", {
             workflow_name: this.input,
             topology: this.wfs_data
+          });
+          if (data) {
+            this.$message.info("保存成功");
+            this.$router.push({
+              //跳转到工作流列表界面
+              name: "wflistable"
+            });
           }
-        );
-        if (data) {
-          this.$message.info("保存成功");
         }
+      } catch (e) {
+        this.$message.error("保存失败，请稍后再试！");
       }
-      else{
-        //新增
-        this.wfs_data = JSON.parse(this.chart.get_chartjson());
-        const { data } = await this.$axios.post(
-          "wfs/workflows",
-          {
-            workflow_name: this.input,
-            topology: this.wfs_data
-          }
-        );
-        if (data) {
-          this.$message.info("保存成功");
-        }
-      }
-    } catch (e) {
-      alert(this.wfs_data);
-      this.$message.error("保存失败，请稍后再试！");
     }
   }
 
   async getDetailsInfo() {
     try {
-      const { data } = await this.$axios.get("wfs/workflow_info/" + this.wf_id);
+      const { data } = await this.$axios.get("wfs/workflow_list/" + this.wf_id);
 
       if (data) {
         this.chart_data = JSON.stringify(data);
@@ -110,7 +133,7 @@ export default class wfsdetails extends Vue {
       } else {
         this.$message.error("没有数据");
       }
-    } catch (e) { 
+    } catch (e) {
       this.$message.error("失败，请稍后再试！");
     }
   }

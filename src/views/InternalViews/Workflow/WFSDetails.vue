@@ -52,10 +52,10 @@
     
     async getDetailsInfo() {
       try {
-        const { data } = await this.$axios.get("wfs/workflow_info/"+this.wf_id);
+        const { data } = await this.$axios.get("wfs/workflow_list/"+this.wf_id);
         if (data) {
           this.chart_data = JSON.stringify(data);
-           alert(this.chart_data)
+          //  alert(this.chart_data)
         }
         else{
            this.$message.error("没有数据")
