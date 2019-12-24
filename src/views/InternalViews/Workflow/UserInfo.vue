@@ -15,7 +15,7 @@
         </el-select>
         <el-input v-model="searchdata.text" placeholder="检索关键词" class="mr10"></el-input>
         <el-button type="primary" icon="search" @click="search">搜索</el-button>
-        <el-button type="primary" icon="search" @click="getData">重置</el-button>
+        <el-button type="primary" icon="search" @click="resetdata">重置</el-button>
       </div>
       <el-table :data="tableData" ref="multipleTable">
         <el-table-column prop="email" label="邮箱" width="120"></el-table-column>
@@ -138,6 +138,13 @@ export default class UserInfoTableView extends Vue {
       this.$message.error("检索失败，请稍后再试！");
     }
   }
+  //重置检索数据
+  async resetdata() {
+  this.getData();
+  this.searchdata.selectclass = "",
+  this.searchdata.text = ""
+  }
+
 
   handleEdit(index: any, row: any) {
     this.idx = index;
