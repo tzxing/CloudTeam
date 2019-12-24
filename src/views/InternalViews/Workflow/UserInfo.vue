@@ -5,7 +5,7 @@
         <span>用户列表</span>
       </div>
       <div class="filter-box">
-        <el-select v-model="conditions.selectclass" placeholder="检索条件" class="ml10 mr10">
+        <el-select v-model="congitditions.selectclass" placeholder="检索条件" class="ml10 mr10">
           <el-option label="昵称" value="nickname"></el-option>
           <el-option label="邮箱" value="email"></el-option>
           <el-option label="电话" value="phone"></el-option>
