@@ -1,40 +1,58 @@
 <template>
   <div class="container">
     <el-card class="box-card">
-      <div slot="header" class ="aaa">
+      <div slot="header" class="aaa">
         <span>工作流列表</span>
       </div>
       <div class="filter-box">
-        <div style="position: relative">
-          <el-select v-model="conditions.abnormal" placeholder="运行状态" class="ml10">
-            <el-option key="0" label="运行" value="0"></el-option>
-            <el-option key="1" label="暂停" value="1"></el-option>
-            <el-option key="2" label="完成" value="2"></el-option>
-          </el-select>
-          &nbsp;
-          <el-date-picker
-            class="mr10"
-            style="width:480px"
-            v-model="conditions.time"
-            value-format="yyyy-MM-dd"
-            type="daterange"
-            align="right"
-            unlink-panels
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            :picker-options="pickerOptions2"
-          ></el-date-picker>
+        <div class="wflist">
+          <div >
+            <el-select v-model="conditions.abnormal" placeholder="运行状态" class="ml10" style="width: 200px">
+              <el-option key="0" label="运行" value="0"></el-option>
+              <el-option key="1" label="暂停" value="1"></el-option>
+              <el-option key="2" label="完成" value="2"></el-option>
+            </el-select>
+          </div>
+          <div class="rdate">
+            <el-date-picker
+              class="mr10"
+              style="width:480px"
+              v-model="conditions.time"
+              value-format="yyyy-MM-dd"
+              type="daterange"
+              align="right"
+              unlink-panels
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :picker-options="pickerOptions2"
+            ></el-date-picker>
+          </div>
         </div>
-        <el-input v-model="conditions.text" placeholder="筛选关键词" class="mr10" style="padding: 20px 0 20px 0"></el-input>
-        <el-button type="primary" icon="search" @click="search" style="width:70px height: 35px">搜索</el-button>
-        
+        <div class="wflist">
+          <div>
+            <el-input
+              v-model="conditions.text"
+              placeholder="筛选关键词"
+              class="mr10"
+              style="padding: 20px 0 20px 0; width: 200px"
+            ></el-input>
+          </div>
+          <div class="rbutton">
+            <el-button
+              type="primary"
+              icon="search"
+              @click="search"
+              style="width:70px height: 15px"
+            >搜索</el-button>
+          </div>
+        </div>
       </div>
-      <el-table :data="tableData" :height="table_height" style="width: 100%" >
+      <el-table :data="tableData" :height="table_height" style="width: 100%">
         <el-table-column prop="date" label="创建日期" sortable :width="uniformwidth"></el-table-column>
         <el-table-column prop="name" label="工作流名称" :width="uniformwidth"></el-table-column>
         <el-table-column prop="address" label="状态" :formatter="formatter" :width="uniformwidth"></el-table-column>
-        <el-table-column label="操作" >
+        <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
               type="text"
@@ -57,7 +75,7 @@
           @current-change="handleCurrentChange"
           layout="prev, pager, next"
           :total="1000"
-          class = "pageview"
+          class="pageview"
         ></el-pagination>
       </div>
     </el-card>
@@ -107,8 +125,8 @@ import { Component, Vue } from "vue-property-decorator";
 export default class BaseTableView extends Vue {
   collapse = false;
   activeIndex = "";
- table_height = 0;
- uniformwidth = 0;
+  table_height = 0;
+  uniformwidth = 0;
   tableData = [];
   cur_page = 1;
   checkOptions = [];
@@ -229,9 +247,19 @@ export default class BaseTableView extends Vue {
   background: #7D8096;
 } */
 .pageview {
-  float: right; 
+  float: right;
   padding: 3px 5px;
 }
-
-
+.wflist {
+  display: flex;
+  flex-direction: row;
+}
+.rbutton {
+  width: 70px;
+  height: 15px;
+  padding: 20px;
+}
+.rdate {
+  margin-left: 20px;
+}
 </style>

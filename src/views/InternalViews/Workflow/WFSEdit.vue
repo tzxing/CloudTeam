@@ -11,15 +11,22 @@
       </el-breadcrumb>
     </div>
     <div style="height: 100%">
-      <el-aside>
-        <div>
-          <!-- <input placeholder={{wfsname}}> -->
-          <!-- <span>工作流名称：{{wfsname}}</span> -->
-          <el-input v-model="input" placeholder="工作流名称"></el-input>
+      <!-- <el-aside> -->
+      <div class="list">
+        <!-- <input placeholder={{wfsname}}> -->
+        <!-- <span>工作流名称：{{wfsname}}</span> -->
+        <div class="input1">
+          <el-input v-model="input" placeholder="工作流名称" maxlength="100"></el-input>
         </div>
-      </el-aside>
+        <div class="buttons">
+          <el-button type="primary" >新增节点</el-button>
+          <el-button type="primary" >自动布局</el-button>
+        </div>
+      </div>
+      <!-- </el-aside> -->
 
-      <el-main style = "height: 100%">
+
+      <el-main style="height: 100%">
         <div style="height: 90%">
           <WorkflowChartAlter :chart_data="chart_data" ref="workflow_chart"></WorkflowChartAlter>
         </div>
@@ -59,7 +66,6 @@ export default class wfsdetails extends Vue {
 
     this.chart = this.$refs.workflow_chart as WorkflowChartAlter;
   }
-
 
   wfs_data: any;
   a: [] = [];
@@ -114,6 +120,10 @@ export default class wfsdetails extends Vue {
 </script>
 
 <style>
+.list {
+  display: flex;
+  flex-direction: row;
+}
 .el-row {
   margin-bottom: 20px;
 }
@@ -138,10 +148,20 @@ export default class wfsdetails extends Vue {
   background-color: #f9fafc;
 }
 
-body, html,#app{
-				height: 100%;
+body,
+html,
+#app {
+  height: 100%;
 }
- .container {
-  height: 90%
+.container {
+  height: 90%;
+}
+.buttons {
+  position: relative;
+  /* padding-left: 10%; */
+}
+.input1 {
+  width: 300px;
+  margin-right: 10px;
 }
 </style>

@@ -47,8 +47,8 @@ export default class TheHeadView extends Vue {
 
 .header .logo {
   float: left;
-  margin-left: 20px;
-  line-height: 70px;
+  margin-left: 7px;
+  line-height: 65px;
 }
 
 .header-right {
@@ -58,7 +58,7 @@ export default class TheHeadView extends Vue {
 
 .header-user-con {
   display: flex;
-  height: 70px;
+  height: 65px;
   align-items: center;
   font-size: 16px;
 }
