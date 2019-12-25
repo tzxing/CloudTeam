@@ -89,7 +89,7 @@ $border-size: 1px;
 }
 
 .wf-node-type-normal {
-  background-color: blue;
+  background-color: #20a0ff;
 }
 
 .wf-node-type-success {
