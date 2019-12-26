@@ -10,8 +10,15 @@ export default [
         children: [
             { path: 'dashboard', name: 'dashboard', component: () => import("@/views/InternalViews/Workflow/Dashboard.vue") },
             { path: 'basetable', name: 'basetable', component: () => import("@/views/InternalViews/Workflow/BaseTable.vue") },
+            // { path: 'baseform', name: 'baseform', component: () => import("@/views/InternalViews/Workflow/BaseForm.vue") },
+            { path: 'wflistable', name: 'wflistable', component: () => import("@/views/InternalViews/Workflow/WflistTable.vue") },
+            { path:'wflistable/wfsdetails',name:'wflistable/wfsdetails',component:() => import("@/views/InternalViews/Workflow/WFSDetails.vue")},
+            { path:'wflistable/wfsedit',name:'wflistable/wfsedit',component:() => import("@/views/InternalViews/Workflow/WFSEdit.vue")},
+
             { path: 'userinfo', name: 'userinfo', component: () => import("@/views/InternalViews/Workflow/UserInfo.vue") },
-            { path: 'baseform', name: 'baseform', component: () => import("@/views/InternalViews/Workflow/BaseForm.vue") }
+            { path: 'baseform', name: 'baseform', component: () => import("@/views/InternalViews/Workflow/BaseForm.vue") },
+            { path: 'workflowjoblist', name: 'workflowjoblist', component: () => import("@/views/InternalViews/Workflow/WorkflowJobList.vue") },
+            { path: 'workflowjob', name: 'workflowjob', component: () => import("@/views/InternalViews/Workflow/WorkflowJob.vue") }
         ]
     },
     {
