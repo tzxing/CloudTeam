@@ -402,7 +402,7 @@ export default class WflistTableView extends Vue {
         }
         //this.$message.success("添加成功");
       } else {
-        this.$message.error("添加重复！");
+        this.$message.error("添加失败，请确认输入的用户邮箱正确！");
       }
     } catch (e) {
       this.$message.error("添加失败，请稍后再试！");
