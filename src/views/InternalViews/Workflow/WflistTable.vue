@@ -400,7 +400,7 @@ export default class WflistTableView extends Vue {
         } catch (e) {
           this.$message.error("更新失败，请稍后再试！");
         }
-        this.$message.success("添加成功");
+        //this.$message.success("添加成功");
       } else {
         this.$message.error("添加重复！");
       }
