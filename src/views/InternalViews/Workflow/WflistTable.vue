@@ -395,14 +395,14 @@ export default class WflistTableView extends Vue {
           );
           if (data) {
             this.share = data;
-            this.$message.success("添加成功，更新成功");
+            this.$message.success("添加、更新成功");
           }
         } catch (e) {
           this.$message.error("更新失败，请稍后再试！");
         }
         // this.$message.success("添加成功");
       } else {
-        this.$message.error("添加重复！");
+        this.$message.error("添加失败，请确认输入的用户邮箱是否正确!");
       }
     } catch (e) {
       this.$message.error("添加失败，请稍后再试！");
