@@ -54,7 +54,7 @@ export default class WorkflowJobListView extends Vue {
     try {
       const { data } = await this.$axios.get("wfs/workflowJobs");
       this.tableData = JSON.parse(data);
-      console.log(this.tableData)
+      // console.log(this.tableData)
     } catch (e) {
       this.$message.error("请求用户数据失败，请稍后再试！");
     }

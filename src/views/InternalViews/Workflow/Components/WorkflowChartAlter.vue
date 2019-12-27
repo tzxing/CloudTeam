@@ -187,7 +187,7 @@ export default class WorkflowChartAlter extends Vue {
     g.nodes().forEach((n: string) => {
       (document.getElementById(n) as any).style.left = g.node(n).x + "px";
       (document.getElementById(n) as any).style.top = g.node(n).y + "px";
-      console.log(`${n} x: ${g.node(n).x}, y:${g.node(n).y}`);
+      // console.log(`${n} x: ${g.node(n).x}, y:${g.node(n).y}`);
     });
 
     this.plumbIns.repaintEverything();
