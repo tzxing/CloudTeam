@@ -34,10 +34,27 @@ export default class WorkflowIndexView extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
-.header {
-  background: #324157;
+<style lang="scss">
+.el-header {
+  // background: #324157;
+  // background: #148431;
+  background: #00662c;
 }
+
+.el-aside {
+  background: #7d8096;
+}
+
+html,
+body,
+#app,
+.el-container{
+  height: 100%;
+}
+
+// .header {
+//   background: #324157;
+// }
 
 .fade-enter-active,
 .fade-leave-active {

@@ -1,19 +1,15 @@
 <template>
   <div>
     <el-card class="box-card">
-      <div slot="header">
-        <div style="width:800px; height:auto; float:left; display:inline">
-          <span>自创工作流列表</span>
-        </div>
-        <div style="width:300px; height:auto; float:left; display:inline">
-          <el-button size="small" type="primary" @click="add_wf">新增工作流</el-button>
-        </div>
+      <div slot="header" class="selfwflist">
+        <span style="display: inline-block">自创工作流列表</span>
+        <el-button style="float: right; padding: 3px 0" type="primary" @click="add_wf">新增工作流</el-button>
       </div>
       <div>
-        <el-table :data="tableUserWFData" height="250">
-          <el-table-column property="date" label="创建日期" sortable width="200"></el-table-column>
-          <el-table-column property="name" label="工作流名称" width="380"></el-table-column>
-          <el-table-column label="操作" width="550" align="center">
+        <el-table :data="tableUserWFData" height="250" style = "width: 100%">
+          <el-table-column property="date" label="创建日期" sortable :width="uniformwidth"></el-table-column>
+          <el-table-column property="name" label="工作流名称" :width="uniformwidth"></el-table-column>
+          <el-table-column label="操作" :width="uniformwidth">
             <template slot-scope="scope">
               <el-button
                 type="text"
@@ -95,16 +91,21 @@
           </el-table-column>
         </el-table>
       </div>
-      <div
-        style="display:table-cell;height:50px;font-size:15px;font-height:14px;vertical-align:middle;text-align:center"
-      >
+    </el-card>
+    <p></p>
+    <el-card class="box-card dis" >
+      <!-- <div
+        style="display:table-cell;height:50px;font-size:15px;font-height:14px;vertical-align:middle;text-align:center" slot="header" 
+      >-->
+
+      <div class="selfwflist" slot="header">
         <span>分享工作流列表</span>
       </div>
       <div>
-        <el-table :data="tableToWFData" height="250">
-          <el-table-column prop="date" label="创建日期" sortable width="200"></el-table-column>
-          <el-table-column prop="name" label="工作流名称" width="380"></el-table-column>
-          <el-table-column label="操作" width="550" align="center">
+        <el-table :data="tableToWFData" height="250" style = "width: 100%">
+          <el-table-column prop="date" label="创建日期" sortable :width="uniformwidth"></el-table-column>
+          <el-table-column prop="name" label="工作流名称" :width="uniformwidth"></el-table-column>
+          <el-table-column label="操作" :width="uniformwidth" >
             <template slot-scope="scope">
               <el-button type="text" icon="el-icon-video-play" circle @click="Execute(scope.row)">运行</el-button>
               <el-button
@@ -191,6 +192,7 @@ export default class WflistTableView extends Vue {
     // alert("test");
     this.userWF();
     this.toWF();
+    this.uniformwidth = (window.innerWidth - 280)/3;
   }
 
   //获取用户工作流列表
@@ -215,7 +217,7 @@ export default class WflistTableView extends Vue {
       this.$message.error("失败，请稍后再试！");
     }
   }
-
+  uniformwidth = 0;
   dialogTableVisible = false;
   dialogFormVisible = false;
   form = {
@@ -453,5 +455,23 @@ export default class WflistTableView extends Vue {
 }
 .mb20 {
   margin-bottom: 20px;
+}
+.selfwflist::before,
+.selfwflist ::after {
+  display: table;
+  content: "";
+}
+.selfwflist ::after {
+  clear: both;
+}
+.addwf {
+  float: right;
+  padding: 0px 3px;
+}
+.primary {
+  font-size: 16px;
+}
+.dis {
+  padding: 10px, 0px;
 }
 </style>

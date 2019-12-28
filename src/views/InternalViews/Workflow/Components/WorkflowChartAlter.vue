@@ -1,14 +1,11 @@
 <template>
   <div class="wf-chart">
-    <div class="alter_button">
-      <div>
-        <el-button type="text" @click="dialogFormVisible = true">新增工作流节点</el-button>
-      </div>
-      <div>
-        <el-button type="text" @click="auto_layout">自动布局</el-button>
-      </div>
-    </div>
-
+    <!-- <el-form>
+    <el-form-item class="alter_button" >
+        <el-button type="primary" @click="dialogFormVisible = true">新增节点</el-button>
+        <el-button type="primary" @click="auto_layout">自动布局</el-button>
+    </el-form-item>
+    </el-form> -->
     <div>
       <WorkflowChartNode
         v-for="info in workflow_nodes"
@@ -169,8 +166,6 @@ export default class WorkflowChartAlter extends Vue {
     });
   }
 
-
-
   public auto_layout() {
     const g = new dagre.graphlib.Graph();
     g.setGraph({});
@@ -224,11 +219,12 @@ export default class WorkflowChartAlter extends Vue {
 <style lang="scss" scoped>
 .wf-chart {
   position: relative;
-  padding-left: 60%;
-  padding-top: 5%;
-  padding-bottom: 30%;
+  // padding-left: 60%;
+  // padding-top: 5%;
+  // padding-bottom: 30%;
 }
 .alter_button {
   position: relative;
+  float: right;
 }
 </style>
