@@ -36,8 +36,8 @@ export default class TheHeadView extends Vue {
   width: 100%;
   height: 70px;
   font-size: 22px;
+  /* color: rgb(7, 6, 6); */
   color: #fff;
-  box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.5);
 }
 
 .collapse-btn {
@@ -51,8 +51,8 @@ export default class TheHeadView extends Vue {
 
 .header .logo {
   float: left;
-  margin-left: 0;
-  line-height: 70px;
+  margin-left: 7px;
+  line-height: 65px;
 }
 
 .header-right {
@@ -62,7 +62,7 @@ export default class TheHeadView extends Vue {
 
 .header-user-con {
   display: flex;
-  height: 70px;
+  height: 65px;
   align-items: center;
   font-size: 16px;
 }
