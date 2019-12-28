@@ -21,7 +21,7 @@
           <span>工作流管理</span>
         </template>
         <!-- <el-menu-item index="/internal/workflow/wflistable/wfsedit">新增工作流</el-menu-item> -->
-        <!-- <el-menu-item index="/internal/workflow/wfsdetails">工作流详情-bzx</el-menu-item> -->
+        <!-- <el-menu-item index="/internal/workflow/wfsdetails">工作流详情-bzx</el-menu-item>
         <el-menu-item index="/internal/workflow/basetable">
           <i class="el-icon-s-operation"></i>
           <span slot="title">工作流列表</span>
@@ -29,10 +29,10 @@
         <el-menu-item index="/internal/workflow/baseform">
           <i class="el-icon-upload2"></i>
           <span slot="title">工作流上传</span>
-        </el-menu-item>
+        </el-menu-item> -->
         <el-menu-item index="/internal/workflow/wflistable">
           <i class="el-icon-s-order"></i>
-          <span slot="title">工作流列表-xy</span>
+          <span slot="title">工作流列表</span>
         </el-menu-item>
       </el-submenu>
 
