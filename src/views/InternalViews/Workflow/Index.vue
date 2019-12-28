@@ -52,9 +52,9 @@ body,
   height: 100%;
 }
 
-.header {
-  background: #324157;
-}
+// .header {
+//   background: #324157;
+// }
 
 .fade-enter-active,
 .fade-leave-active {
