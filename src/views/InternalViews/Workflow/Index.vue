@@ -9,7 +9,7 @@
       </el-aside>
       <el-main>
         <transition name="fade-transform" mode="out-in">
-          <router-view></router-view>
+          <router-view class="main-router-view"></router-view>
         </transition>
       </el-main>
     </el-container>
@@ -48,7 +48,8 @@ export default class WorkflowIndexView extends Vue {
 html,
 body,
 #app,
-.el-container{
+.el-container,
+.main-router-view{
   height: 100%;
 }
 

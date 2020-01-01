@@ -212,6 +212,10 @@ export default class UserInfoTableView extends Vue {
 </script>
 
 <style scoped>
+.el-card {
+  height: 100%;
+}
+
 .filter-box {
   display: flex;
 }
