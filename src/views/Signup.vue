@@ -166,7 +166,8 @@ export default class SignupView extends Vue {
       try {
         const { data } = await this.$axios.post("users/signup", this.form);
         if (data == "success") {
-          this.$message.success("注册成功");
+          this.$message.success("注册成功，请登录！");
+          this.$router.replace("/login");
         }
       } catch (e) {
         this.$message.error("注册失败，请检查用户名和密码后再试！");
