@@ -1,21 +1,19 @@
 <template>
-  <div class="wf-chart">
+  <div class="wf-chart" ref="wf_chart_area">
     <!-- <el-form>
     <el-form-item class="alter_button" >
         <el-button type="primary" @click="dialogFormVisible = true">新增节点</el-button>
         <el-button type="primary" @click="auto_layout">自动布局</el-button>
     </el-form-item>
-    </el-form> -->
-    <div>
-      <WorkflowChartNode
-        v-for="info in workflow_nodes"
-        :key="info.id"
-        :id="info.id"
-        :jsp_instance="plumbIns"
-        :label="info.name"
-        :style_type="info.phase"
-      ></WorkflowChartNode>
-    </div>
+    </el-form>-->
+    <WorkflowChartNode
+      v-for="info in workflow_nodes"
+      :key="info.id"
+      :id="info.id"
+      :jsp_instance="plumbIns"
+      :label="info.name"
+      :style_type="info.phase"
+    ></WorkflowChartNode>
 
     <el-dialog title="节点信息" :visible.sync="dialogFormVisible">
       <el-form :model="form">
@@ -70,11 +68,6 @@ export default class WorkflowChartAlter extends Vue {
     image: "",
     parallel: ""
   };
-
-  //   constructor(chart_data: any) {
-  //     super();
-  //     this.chart_data = chart_data;
-  //   }
 
   private plumbIns: jsPlumbInstance = jsPlumb.getInstance();
 
@@ -131,9 +124,6 @@ export default class WorkflowChartAlter extends Vue {
   }
 
   public mounted() {
-    // this.workflow_uuid_pairs = this.get_uuid_pairs()
-    //console.log(this.workflow_uuid_pairs)
-
     this.plumbIns.ready(() => {
       this.plumbIns.bind("beforeDrop", (info: any) => {
         this.workflow_pairs.push([info.sourceId, info.targetId]);
@@ -179,10 +169,12 @@ export default class WorkflowChartAlter extends Vue {
       g.setEdge(itm[0], itm[1]);
     });
     dagre.layout(g, { ranker: "tight-tree" });
+    const factor =
+      (this.$refs.wf_chart_area as any).offsetWidth / g.graph().width;
     g.nodes().forEach((n: string) => {
-      (document.getElementById(n) as any).style.left = g.node(n).x + "px";
+      (document.getElementById(n) as any).style.left =
+        g.node(n).x * factor - 50 + "px";
       (document.getElementById(n) as any).style.top = g.node(n).y + "px";
-      // console.log(`${n} x: ${g.node(n).x}, y:${g.node(n).y}`);
     });
 
     this.plumbIns.repaintEverything();
