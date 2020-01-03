@@ -211,7 +211,6 @@ export default class WorkflowChartAlter extends Vue {
       add_info["phase"] = "normal";
       add_info["id"] = this.guid();
       this.workflow_nodes.push(add_info);
-
       this.dialogFormVisible = false;
 
       this.form.node_name = "";
