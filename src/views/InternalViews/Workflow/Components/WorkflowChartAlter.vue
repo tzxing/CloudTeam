@@ -1,11 +1,5 @@
 <template>
   <div class="wf-chart" ref="wf_chart_area">
-    <!-- <el-form>
-    <el-form-item class="alter_button" >
-        <el-button type="primary" @click="dialogFormVisible = true">新增节点</el-button>
-        <el-button type="primary" @click="auto_layout">自动布局</el-button>
-    </el-form-item>
-    </el-form>-->
     <WorkflowChartNode
       v-for="info in workflow_nodes"
       :key="info.id"
@@ -16,17 +10,16 @@
     ></WorkflowChartNode>
 
     <el-dialog title="节点信息" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="名称">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+      <el-form :model="form" ref="form" :rules="formRule">
+        <el-form-item prop="node_name" label="节点名称" required>
+          <el-input v-model="form.node_name" placeholder="节点由字母，数字和横线构成，且以字母开始"></el-input>
         </el-form-item>
-
-        <el-form-item label="镜像">
-          <el-input v-model="form.image" autocomplete="off"></el-input>
+        <el-form-item prop="image" label="镜像" required>
+          <el-input v-model="form.image"></el-input>
         </el-form-item>
       </el-form>
 
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="add_node">确 定</el-button>
       </div>
@@ -38,6 +31,7 @@
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import WorkflowChartNode from "./WorkflowChartNode.vue";
 import { jsPlumb, jsPlumbInstance } from "jsplumb";
+import { Form } from "element-ui";
 const dagre = require("dagre");
 
 interface Workflownode {
@@ -55,6 +49,34 @@ export default class WorkflowChartAlter extends Vue {
   @Prop({ required: true, type: String })
   public chart_data!: string; //传入的json串，表示工作流树结构
 
+  public form = {
+    node_name: "",
+    image: "",
+    parallel: ""
+  };
+  public formRule = {
+    node_name: [
+      {
+        validator: (rule: any, value: any, callback: any) => {
+          const pattern = /^[A-Za-z]+[a-zA-Z0-9-]*$/g;
+          if (value === "") {
+            callback(new Error("节点名称为必填项"));
+          } else if (!pattern.test(value)) {
+            callback(
+              new Error(
+                "节点名称不合法，只能包含字母，数字和横线，且以字母开始"
+              )
+            );
+          }
+          callback();
+        },
+        trigger: "blur"
+      },
+      { required: true, message: "节点名是必填项", trigger: "blur" }
+    ],
+    image: [{ required: true, message: "镜像名是必填项", trigger: "blur" }]
+  };
+
   //public test_str = '[{"name":"A","dependencies":[],"id":"1","template":"alpine: 3.7","style_type":"success"},{"name":"B","id":"2","dependencies":["A"],"template":"alpine: 3.7","style_type":"error"},{"name":"C","dependencies":["A"],"id":"3","template":"alpine: 3.7","style_type":"disable"},{"name":"D","id":"4","dependencies":["B","C"],"template":"alpine: 3.7","style_type":"success"}]''
   public workflow_nodes = JSON.parse(this.chart_data);
   public workflow_pairs: any = [];
@@ -62,12 +84,6 @@ export default class WorkflowChartAlter extends Vue {
   public workflow_uuid_name_pairs: { [index: string]: string } = {};
   public dialogFormVisible = false;
   public chartjson: string = "";
-
-  public form = {
-    name: "",
-    image: "",
-    parallel: ""
-  };
 
   private plumbIns: jsPlumbInstance = jsPlumb.getInstance();
 
@@ -169,11 +185,11 @@ export default class WorkflowChartAlter extends Vue {
       g.setEdge(itm[0], itm[1]);
     });
     dagre.layout(g, { ranker: "tight-tree" });
-    const factor =
-      (this.$refs.wf_chart_area as any).offsetWidth / g.graph().width;
+    const move_offset =
+      ((this.$refs.wf_chart_area as any).offsetWidth - g.graph().width) / 2;
     g.nodes().forEach((n: string) => {
       (document.getElementById(n) as any).style.left =
-        g.node(n).x * factor - 50 + "px";
+        g.node(n).x + move_offset + "px";
       (document.getElementById(n) as any).style.top = g.node(n).y + "px";
     });
 
@@ -186,16 +202,23 @@ export default class WorkflowChartAlter extends Vue {
     return this.chartjson;
   }
 
-  public add_node() {
-    let add_info: { [index: string]: any } = {};
-    add_info["name"] = this.form.name;
-    add_info["template"] = this.form.image;
-    add_info["dependencies"] = [];
-    add_info["phase"] = "normal";
-    add_info["id"] = this.guid();
-    this.workflow_nodes.push(add_info);
+  public async add_node() {
+    if (await (this.$refs["form"] as Form).validate()) {
+      let add_info: { [index: string]: any } = {};
+      add_info["name"] = this.form.node_name;
+      add_info["template"] = this.form.image;
+      add_info["dependencies"] = [];
+      add_info["phase"] = "normal";
+      add_info["id"] = this.guid();
+      this.workflow_nodes.push(add_info);
 
-    this.dialogFormVisible = false;
+      this.dialogFormVisible = false;
+
+      this.form.node_name = "";
+      this.form.image = "";
+
+      console.log("ok");
+    }
   }
 
   public guid() {

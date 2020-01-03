@@ -1,14 +1,14 @@
 <template>
   <div class="wf-chart" ref="wf_chart_area">
-      <WorkflowChartNode
-        v-for="info in workflow_nodes"
-        :key="info.id"
-        :id="info.id"
-        :jsp_instance="plumbIns"
-        :label="info.name"
-        :style_type="info.phase"
-        :enable_edit="false"
-      ></WorkflowChartNode>
+    <WorkflowChartNode
+      v-for="info in workflow_nodes"
+      :key="info.id"
+      :id="info.id"
+      :jsp_instance="plumbIns"
+      :label="info.name"
+      :style_type="info.phase"
+      :enable_edit="false"
+    ></WorkflowChartNode>
   </div>
 </template>
 
@@ -62,7 +62,7 @@ export default class WorkflowChart extends Vue {
   }
 
   @Watch("chart_data")
-  private chart_data_changed(new_vaule:string) {
+  private chart_data_changed(new_vaule: string) {
     this.plumbIns.deleteEveryConnection();
     this.workflow_nodes = JSON.parse(new_vaule);
 
@@ -155,10 +155,11 @@ export default class WorkflowChart extends Vue {
       g.setEdge(itm[0], itm[1]);
     });
     dagre.layout(g, { ranker: "tight-tree" });
-    const factor =
-      (this.$refs.wf_chart_area as any).offsetWidth / g.graph().width;
+    const move_offset =
+      ((this.$refs.wf_chart_area as any).offsetWidth - g.graph().width) / 2;
     g.nodes().forEach((n: string) => {
-      (document.getElementById(n) as any).style.left = g.node(n).x * factor - 50 + "px";
+      (document.getElementById(n) as any).style.left =
+        g.node(n).x + move_offset + "px";
       (document.getElementById(n) as any).style.top = g.node(n).y + "px";
     });
 
