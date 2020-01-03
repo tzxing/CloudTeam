@@ -51,7 +51,7 @@ export default class WorkflowJobListView extends Vue {
   uniformwidth = 0;
   created() {
     this.getData();
-    this.table_height = window.innerHeight - 400;
+    this.table_height = window.innerHeight - 130;
     this.uniformwidth = (window.innerWidth - 260) / 4;
   }
   async getData() {
