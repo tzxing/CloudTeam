@@ -1,9 +1,9 @@
 <template>
   <div>
-    <el-card class="box-card">
+    <!-- <el-card class="box-card">
       <div slot="header">
         <span>用户列表</span>
-      </div>
+      </div> -->
       <div class="filter-box">
         <el-select v-model="searchdata.selectclass" placeholder="检索条件" class="ml10 mr10">
           <el-option label="昵称" value="nickname"></el-option>
@@ -43,7 +43,7 @@
         </el-table-column>
       </el-table>
 
-    </el-card>
+    <!-- </el-card> -->
 
     <!-- 编辑弹出框 -->
     <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
@@ -114,7 +114,7 @@ export default class UserInfoTableView extends Vue {
 
   created() {
     this.getData();
-    this.table_height = window.innerHeight - 400;
+    this.table_height = window.innerHeight - 140;
     this.uniformwidth = (window.innerWidth - 260)/8;
   }
 
