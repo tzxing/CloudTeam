@@ -216,8 +216,6 @@ export default class WorkflowChartAlter extends Vue {
 
       this.form.node_name = "";
       this.form.image = "";
-
-      console.log("ok");
     }
   }
 
