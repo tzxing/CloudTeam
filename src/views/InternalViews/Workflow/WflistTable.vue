@@ -1,7 +1,6 @@
 <template>
   <el-tabs v-model="activeName" @tab-click="handleClick">
     <el-tab-pane label="自创工作流列表" name="first" class="tabs1">
-      
       <el-table :data="tableUserWFData" style="width: 100%" :height="tableHeight">
         <el-table-column property="date" label="创建日期" sortable :width="uniformwidth"></el-table-column>
         <el-table-column property="name" label="工作流名称" :width="uniformwidth"></el-table-column>
@@ -97,6 +96,7 @@
         ></el-button>
       </div>
     </el-tab-pane>
+
     <el-tab-pane label="分享工作流列表" name="second">
       <div>
         <el-table :data="tableToWFData" :height="tableHeight" style="width: 100%">
