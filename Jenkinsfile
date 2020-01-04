@@ -25,10 +25,5 @@ pipeline {
                     }
             }
         }
-        stage('Remove Unused docker image') {
-            steps{
-                sh "docker rmi harbor.cloudcontrolsystems.cn/ccs/ccs-frontend:latest"
-            }
-        }
     }
 }
