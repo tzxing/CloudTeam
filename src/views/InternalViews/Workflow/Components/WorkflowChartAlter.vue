@@ -11,6 +11,9 @@
 
     <el-dialog title="节点信息" :visible.sync="dialogFormVisible">
       <el-form :model="form" ref="form" :rules="formRule">
+        <el-form-item label="批量取值终点">
+          <el-input v-model.number="form.range_end" placeholder="输入终点，起点默认从0开始"></el-input>
+        </el-form-item>
         <el-form-item prop="node_name" label="节点名称" required>
           <el-input v-model="form.node_name" placeholder="节点由字母，数字和横线构成，且以字母开始"></el-input>
         </el-form-item>
@@ -52,13 +55,14 @@ export default class WorkflowChartAlter extends Vue {
   public form = {
     node_name: "",
     image: "",
-    parallel: ""
+    parallel: "",
+    range_end: 0
   };
   public formRule = {
     node_name: [
       {
         validator: (rule: any, value: any, callback: any) => {
-          const pattern = /^[A-Za-z]+[a-zA-Z0-9-]*$/g;
+          const pattern = /^[A-Za-z]+[a-zA-Z0-9-]*(\{\})?$/g;
           if (value === "") {
             callback(new Error("节点名称为必填项"));
           } else if (!pattern.test(value)) {
@@ -205,15 +209,38 @@ export default class WorkflowChartAlter extends Vue {
 
   public async add_node() {
     if (await (this.$refs["form"] as Form).validate()) {
-      let add_info: { [index: string]: any } = {};
-      add_info["name"] = this.form.node_name;
-      add_info["template"] = this.form.image;
-      add_info["dependencies"] = [];
-      add_info["phase"] = "normal";
-      add_info["id"] = this.guid();
-      this.workflow_nodes.push(add_info);
-      this.dialogFormVisible = false;
+      // 检查是否为批量添加
+      const pattern_name = /^([A-Za-z]+[a-zA-Z0-9-]*)(\{\})?$/gm;
+      const pattern_image = /([a-zA-Z/._0-9]+)(\{\})?([a-zA-Z/._:0-9]+)/gm;
+      const reg_rst = pattern_name.exec(this.form.node_name)!;
+      console.log(reg_rst);
+      if (reg_rst.length == 3) {
+        const name_prefix = reg_rst[1];
+        const reg_rst_2 = pattern_image.exec(this.form.image)!;
+        const image_prefix = reg_rst_2[1];
+        const image_postfix = reg_rst_2[3];
 
+        for (let i = 0; i <= this.form.range_end; i++) {
+          let add_info: { [index: string]: any } = {};
+          add_info["name"] = `${name_prefix}${i}`;
+          add_info["template"] = `${image_prefix}${i}${image_postfix}`;
+          add_info["dependencies"] = [];
+          add_info["phase"] = "normal";
+          add_info["id"] = this.guid();
+          console.log(add_info);
+          this.workflow_nodes.push(add_info);
+        }
+      } else {
+        let add_info: { [index: string]: any } = {};
+        add_info["name"] = this.form.node_name;
+        add_info["template"] = this.form.image;
+        add_info["dependencies"] = [];
+        add_info["phase"] = "normal";
+        add_info["id"] = this.guid();
+        this.workflow_nodes.push(add_info);
+      }
+
+      this.dialogFormVisible = false;
       this.form.node_name = "";
       this.form.image = "";
     }
