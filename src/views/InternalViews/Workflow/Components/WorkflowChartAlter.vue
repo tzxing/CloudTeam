@@ -213,7 +213,6 @@ export default class WorkflowChartAlter extends Vue {
       const pattern_name = /^([A-Za-z]+[a-zA-Z0-9-]*)(\{\})?$/gm;
       const pattern_image = /([a-zA-Z/._0-9]+)(\{\})?([a-zA-Z/._:0-9]+)/gm;
       const reg_rst = pattern_name.exec(this.form.node_name)!;
-      console.log(reg_rst);
       if (reg_rst.length == 3) {
         const name_prefix = reg_rst[1];
         const reg_rst_2 = pattern_image.exec(this.form.image)!;
@@ -227,7 +226,6 @@ export default class WorkflowChartAlter extends Vue {
           add_info["dependencies"] = [];
           add_info["phase"] = "normal";
           add_info["id"] = this.guid();
-          console.log(add_info);
           this.workflow_nodes.push(add_info);
         }
       } else {
