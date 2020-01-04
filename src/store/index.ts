@@ -6,6 +6,7 @@ if (!(window as any).Vuex) Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: {
+      username: '',
       access_token: ''
     }
   },

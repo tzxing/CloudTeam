@@ -20,10 +20,11 @@ import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class TheHeadView extends Vue {
   collapse = false;
-  name = "管理员";
+  name = this.$store.state.user.username;
 
   logout() {
-    this.$router.push("/internal");
+    this.$store.state.user.access_token = '';
+    this.$router.replace("/internal");
   }
 }
 </script>
