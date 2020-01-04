@@ -186,7 +186,8 @@ export default class WorkflowChartAlter extends Vue {
     });
     dagre.layout(g, { ranker: "tight-tree" });
     const move_offset =
-      ((this.$refs.wf_chart_area as any).offsetWidth - g.graph().width) / 2;
+      ((this.$refs.wf_chart_area as any).offsetWidth - g.graph().width) / 2 -
+      50;
     g.nodes().forEach((n: string) => {
       (document.getElementById(n) as any).style.left =
         g.node(n).x + move_offset + "px";
