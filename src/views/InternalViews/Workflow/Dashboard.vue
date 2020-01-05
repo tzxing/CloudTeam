@@ -7,7 +7,7 @@
             <span>成功率</span>
           </div>-->
           <div class="text-item">
-            <VueEcharts :option="SuccRate" :ei.sync="ei" style="height: 100%"></VueEcharts>
+            <VueEcharts :option="SuccRate" :ei.sync="ei1" style="height: 100%"></VueEcharts>
           </div>
         </el-card>
 
@@ -16,7 +16,7 @@
             <span>卡片名称</span>
           </div>-->
           <div class="text-item">
-            <VueEcharts :option="IORate" :ei.sync="ei" style="z: 100%"></VueEcharts>
+            <VueEcharts :option="IORate" :ei.sync="ei2" style="height: 100%"></VueEcharts>
           </div>
         </el-card>
 
@@ -25,7 +25,7 @@
             <span>卡片名称</span>
           </div>-->
           <div class="text-item">
-            <VueEcharts :option="workLoad" :ei.sync="ei" style="height: 100%"></VueEcharts>
+            <VueEcharts :option="workLoad1" :ei.sync="ei3" style="height: 100%"></VueEcharts>
           </div>
         </el-card>
 
@@ -34,7 +34,7 @@
             <span>卡片名称</span>
           </div>-->
           <div class="text-item">
-            <VueEcharts :option="workLoad" :ei.sync="ei" style="height: 100%"></VueEcharts>
+            <VueEcharts :option="workLoad2" :ei.sync="ei4" style="height: 100%"></VueEcharts>
           </div>
         </el-card>
 
@@ -43,7 +43,7 @@
             <span>卡片名称</span>
           </div>-->
           <div class="text-item">
-            <VueEcharts :option="PredictError" :ei.sync="ei" style="height: 100%"></VueEcharts>
+            <VueEcharts :option="PredictError" :ei.sync="ei5" style="height: 100%"></VueEcharts>
           </div>
         </el-card>
       </div>
@@ -69,8 +69,8 @@ export default class DashboardView extends Vue {
   };
   public PredictError = {
     legend: {
-      data: ["bar", "bar2", "bar3"],
-      left: 10,
+      data: ["pred", "real", "error"],
+      left: 1,
       orient: "vertical"
     },
     title: {
@@ -78,7 +78,16 @@ export default class DashboardView extends Vue {
       left: "center"
     },
     xAxis: {
-      data: [1, 2, 3, 4, 5, 6, 7, 8],
+      data: (function (){
+                let now = new Date();
+                let res = [];
+                let len = 8;
+                while (len--) {
+                    res.unshift(now.toLocaleTimeString().replace(/^\D*/,''));
+                    now = new Date(Number(now) - 2000);
+                }
+                return res;
+            })(),
       name: "X Axis",
       axisLine: { onZero: true },
       splitLine: { show: false },
@@ -97,21 +106,21 @@ export default class DashboardView extends Vue {
         type: "bar",
         stack: "one",
         emphasis: this.emphasisStyle,
-        data: [1, 2, 3, 4, 5, 6, 7, 8]
+        data: [-69, -70, -65, -74, -69, -70, -63, -75]
       },
       {
         name: "bar2",
         type: "bar",
         stack: "one",
         emphasis: this.emphasisStyle,
-        data: [2, 3, 4, 5, 6, 7, 8, 9]
+        data: [71, 73, 68, 79, 65, 78, 68, 70]
       },
       {
         name: "bar3",
         type: "bar",
-        stack: "two",
+        stack: "one",
         emphasis: this.emphasisStyle,
-        data: [3, 4, 5, 6, 7, 8, 9, 10]
+        data: [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
       }
     ]
   };
@@ -122,14 +131,23 @@ export default class DashboardView extends Vue {
     },
     xAxis: {
       type: "category",
-      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+      data: (function (){
+                let now = new Date();
+                let res = [];
+                let len = 15;
+                while (len--) {
+                    res.unshift(now.toLocaleTimeString().replace(/^\D*/,''));
+                    now = new Date(Number(now) - 2000);
+                }
+                return res;
+            })()
     },
     yAxis: {
       type: "value"
     },
     series: [
       {
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
+        data: [81, 82, 83, 84, 84, 83, 80, 81, 85, 79, 80, 82, 83, 81, 76],
         type: "line"
       }
     ]
@@ -141,19 +159,28 @@ export default class DashboardView extends Vue {
     },
     xAxis: {
       type: "category",
-      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+      data: (function (){
+                let now = new Date();
+                let res = [];
+                let len = 15;
+                while (len--) {
+                    res.unshift(now.toLocaleTimeString().replace(/^\D*/,''));
+                    now = new Date(Number(now) - 2000);
+                }
+                return res;
+            })()
     },
     yAxis: {
       type: "value"
     },
     series: [
       {
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
+        data: [81, 82, 83, 84, 84, 83, 80, 81, 85, 79, 80, 82, 83, 81, 76],
         type: "line"
       }
     ]
   };
-  public workLoad = {
+  public workLoad1 = {
     title: {
       text: "任务负载",
       left: "center"
@@ -176,23 +203,96 @@ export default class DashboardView extends Vue {
       }
     ]
   };
-  private ei: any | ECharts = {};
+  public workLoad2 = {
+    title: {
+      text: "任务负载",
+      left: "center"
+    },
+    tooltip: {
+      formatter: "{a} <br/>{b} : {c}%"
+    },
+    toolbox: {
+      feature: {
+        restore: {},
+        saveAsImage: {}
+      }
+    },
+    series: [
+      {
+        name: "业务指标",
+        type: "gauge",
+        detail: { formatter: "{value}%" },
+        data: [{ value: 50, name: "完成率" }]
+      }
+    ]
+  };
+  private ei1: any | ECharts = {};
+  private ei2: any | ECharts = {};
+  private ei3: any | ECharts = {};
+  private ei4: any | ECharts = {};
+  private ei5: any | ECharts = {};
+
   public mounted() {
-    console.log("1")
     setInterval(() => {
-      this.workLoad.series[0].data[0].value =parseFloat((Math.random() * 100 - 0).toFixed(2));
-      console.log(this.workLoad);
-      (this.ei as ECharts).setOption(this.workLoad, true);
+      let randBase = 30 // 任务基准数目
+      let randPM1 = Math.random(); // 任务判断+/-
+      let randPM2 = Math.random(); // 成功率判断+/-
+      let randPM3 = Math.random(); // 失败占(失败+未完成)的比例
+      let randBias1 = parseInt((Math.random() * 10).toFixed(1)); // 加减任务值
+      let succPercentBase = 85; // 成功率基准值
+      let randBias2 = Math.random() * 5 + 7; // 变化范围
+      let WorkNum = 0;
+      let surate = 0;
+      let axisData = (new Date()).toLocaleTimeString().replace(/^\D*/, ''); // 当前时间
+      if (randPM1 > 0.5) {
+        WorkNum = randBase + randBias1;
+      }
+      else WorkNum = randBase - randBias1;
+
+      if (randPM2 > 0.5) {
+        surate = succPercentBase * (1 + randBias2 / 100)
+      }
+      else surate = succPercentBase * (1 - randBias2 / 100)
+      let wkload = ((WorkNum * (1 - surate/100) * randPM3 + WorkNum * surate)/WorkNum).toFixed(2)
+      
+      this.workLoad1.series[0].data[0].value =parseFloat(wkload);
+      this.SuccRate.series[0].data.shift()
+      this.SuccRate.series[0].data.push(surate)
+      this.SuccRate.xAxis.data.shift()
+      this.SuccRate.xAxis.data.push(axisData)
+
+      this.IORate.series[0].data.shift()
+      this.IORate.series[0].data.push(parseFloat(wkload))
+      this.IORate.xAxis.data.shift()
+      this.IORate.xAxis.data.push(axisData)
     }, 2000);
+    setInterval(()=> {
+      let realTimeBase = 75;
+      let randPM4 = Math.random(); // 判断真实+/-
+      let randPM5 = Math.random(); // 判断预测+/-
+      let realTime = 0;
+      let predTime = 0;
+      
+      if (randPM4 > 0.5)
+      {realTime = realTimeBase + (Math.random() * 0.3 + 1)}
+      else
+      {realTime = realTimeBase - (Math.random() * 0.3 + 1)}
+
+      if(randPM5 > 0.5) {predTime = realTime + (Math.random() * 0.1 + 1)}
+      else {predTime = realTime - (Math.random() * 0.1 + 1)}
+      let err = realTime - predTime;
+      let axisData = (new Date()).toLocaleTimeString().replace(/^\D*/, ''); // 当前时间
+      this.PredictError.series[0].data.shift()
+      this.PredictError.series[0].data.push(parseFloat((-predTime).toFixed(2)))
+      this.PredictError.series[1].data.shift()
+      this.PredictError.series[1].data.push(parseFloat((realTime).toFixed(2)))
+      this.PredictError.series[2].data.shift()
+      this.PredictError.series[2].data.push(parseFloat((err).toFixed(2)))
+      this.PredictError.xAxis.data.shift()
+      this.PredictError.xAxis.data.push(axisData)
+    }, 2000)
   }
 }
-<<<<<<< HEAD
-=======
-// setInterval(function () {
-//     workLoad.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
-//     // .setOption(this.workLoad, true);
-// },2000);
->>>>>>> adde9ed0e4effddcdc9e9b33803c5afe3a6f35fd
 </script>
 
 
