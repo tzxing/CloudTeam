@@ -34,7 +34,7 @@
             <span>卡片名称</span>
           </div>-->
           <div class="text-item">
-            <VueEcharts  :option="workLoad" :ei.sync="ei" style="height: 100%"></VueEcharts>
+            <VueEcharts :option="workLoad" :ei.sync="ei" style="height: 100%"></VueEcharts>
           </div>
         </el-card>
 
@@ -56,6 +56,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import { ECharts } from "echarts";
 
+@Component({})
 export default class DashboardView extends Vue {
   public emphasisStyle = {
     itemStyle: {
@@ -176,11 +177,15 @@ export default class DashboardView extends Vue {
     ]
   };
   private ei: any | ECharts = {};
+  public mounted() {
+    console.log("1")
+    setInterval(() => {
+      this.workLoad.series[0].data[0].value =parseFloat((Math.random() * 100 - 0).toFixed(2));
+      console.log(this.workLoad);
+      (this.ei as ECharts).setOption(this.workLoad, true);
+    }, 2000);
+  }
 }
-setInterval(function () {
-    workLoad.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
-    // .setOption(this.workLoad, true);
-},2000);
 </script>
 
 
