@@ -16,7 +16,7 @@
             <span>卡片名称</span>
           </div>-->
           <div class="text-item">
-            <VueEcharts :option="IORate" :ei.sync="ei" style="height: 100%"></VueEcharts>
+            <VueEcharts :option="IORate" :ei.sync="ei" style="z: 100%"></VueEcharts>
           </div>
         </el-card>
 
@@ -186,6 +186,13 @@ export default class DashboardView extends Vue {
     }, 2000);
   }
 }
+<<<<<<< HEAD
+=======
+// setInterval(function () {
+//     workLoad.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
+//     // .setOption(this.workLoad, true);
+// },2000);
+>>>>>>> adde9ed0e4effddcdc9e9b33803c5afe3a6f35fd
 </script>
 
 
