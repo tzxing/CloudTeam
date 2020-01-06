@@ -25,7 +25,7 @@
             <span>卡片名称</span>
           </div>-->
           <div class="text-item">
-            <VueEcharts :option="workLoad1" :ei.sync="ei3" style="height: 100%" theme="westeros"></VueEcharts>
+            <VueEcharts :option="workLoad1" :ei.sync="ei3" style="height: 100%" theme="walden"></VueEcharts>
           </div>
         </el-card>
 
@@ -61,7 +61,6 @@
 import { Component, Vue } from "vue-property-decorator";
 import { ECharts } from "echarts";
 import "./DashTheme/walden.js";
-import "./DashTheme/westeros.js";
 import echarts from "echarts";
 
 @Component({})
