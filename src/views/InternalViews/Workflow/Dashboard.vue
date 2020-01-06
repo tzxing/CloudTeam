@@ -7,7 +7,7 @@
             <span>成功率</span>
           </div>-->
           <div class="text-item">
-            <VueEcharts :option="SuccRate" :ei.sync="ei1" style="height: 100%"></VueEcharts>
+            <VueEcharts :option="SuccRate" :ei.sync="ei1" style="height: 100%" theme="helianthus"></VueEcharts>
           </div>
         </el-card>
 
@@ -16,7 +16,7 @@
             <span>卡片名称</span>
           </div>-->
           <div class="text-item">
-            <VueEcharts :option="IORate" :ei.sync="ei2" style="height: 100%"></VueEcharts>
+            <VueEcharts :option="IORate" :ei.sync="ei2" style="height: 100%" theme="helianthus"></VueEcharts>
           </div>
         </el-card>
 
@@ -25,7 +25,7 @@
             <span>卡片名称</span>
           </div>-->
           <div class="text-item">
-            <VueEcharts :option="workLoad1" :ei.sync="ei3" style="height: 100%"></VueEcharts>
+            <VueEcharts :option="workLoad1" :ei.sync="ei3" style="height: 100%" theme="helianthus"></VueEcharts>
           </div>
         </el-card>
 
@@ -39,7 +39,7 @@
               <p >节点数</p>
               <p class="pstyle">28</p>
             </div> -->
-            <VueEcharts :option="workLoad2" :ei.sync="ei4" style="height: 80%"></VueEcharts>
+            <VueEcharts :option="workLoad2" :ei.sync="ei4" style="height: 100%" theme="helianthus"></VueEcharts>
           </div>
         </el-card>
 
@@ -48,7 +48,7 @@
             <span>卡片名称</span>
           </div>-->
           <div class="text-item">
-            <VueEcharts :option="PredictError" :ei.sync="ei5" style="height: 100%"></VueEcharts>
+            <VueEcharts :option="PredictError" :ei.sync="ei5" style="height: 100%" theme="helianthus"></VueEcharts>
           </div>
         </el-card>
       </div>
@@ -60,6 +60,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { ECharts } from "echarts";
+import "echarts/theme/helianthus.js";
 
 @Component({})
 export default class DashboardView extends Vue {
@@ -384,7 +385,6 @@ public makeSeriesData(year: number, negative:boolean) {
 .pstyle {
   height: 100%; 
   font-size:40px; 
-  /* font-family: 'Times New Roman', Times, serif; */
   color:#6B6854;
   /* top: 50%; */
   display:flex;
