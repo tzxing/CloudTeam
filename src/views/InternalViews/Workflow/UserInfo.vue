@@ -1,47 +1,50 @@
 <template>
   <div>
-    <!-- <el-card class="box-card">
-      <div slot="header">
-        <span>用户列表</span>
-    </div>-->
-    <div class="filter-box">
-      <el-select v-model="searchdata.selectclass" placeholder="检索条件" class="ml10 mr10">
-        <el-option label="昵称" value="nickname"></el-option>
-        <el-option label="邮箱" value="email"></el-option>
-        <el-option label="电话" value="phone"></el-option>
-        <el-option label="姓名" value="username"></el-option>
-        <el-option label="角色" value="role"></el-option>
-        <el-option label="学号" value="stuid"></el-option>
-      </el-select>
-      <el-input v-model="searchdata.text" placeholder="检索关键词" class="mr10"></el-input>
-      <el-button type="primary" icon="search" @click="search">搜索</el-button>
-      <el-button type="primary" icon="search" @click="resetdata">重置</el-button>
-    </div>
-    <el-table :data="tableData" ref="multipleTable" max-height="100%">
-      <el-table-column prop="email" label="邮箱"></el-table-column>
-      <el-table-column prop="role" label="角色"></el-table-column>
-      <el-table-column prop="nickname" label="用户昵称"></el-table-column>
-      <el-table-column prop="username" label="真实姓名"></el-table-column>
-      <el-table-column prop="phone" label="电话"></el-table-column>
-      <el-table-column prop="stuid" label="学号"></el-table-column>
-      <el-table-column prop="idcard" label="身份证号" sortable></el-table-column>
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button
-            type="text"
-            icon="el-icon-edit"
-            @click="handleEdit(scope.$index, scope.row)"
-            title="编辑"
-          ></el-button>
-          <el-button
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.$index, scope.row)"
-            title="删除"
-          ></el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <el-container>
+      <el-header>
+        <div class="filter-box">
+          <el-select v-model="searchdata.selectclass" placeholder="检索条件" class="ml10 mr10">
+            <el-option label="昵称" value="nickname"></el-option>
+            <el-option label="邮箱" value="email"></el-option>
+            <el-option label="电话" value="phone"></el-option>
+            <el-option label="姓名" value="username"></el-option>
+            <el-option label="角色" value="role"></el-option>
+            <el-option label="学号" value="stuid"></el-option>
+          </el-select>
+          <el-input v-model="searchdata.text" placeholder="检索关键词" class="mr10"></el-input>
+          <el-button type="primary" icon="search" @click="search">搜索</el-button>
+          <el-button type="primary" icon="search" @click="resetdata">重置</el-button>
+        </div>
+      </el-header>
+
+      <el-main>
+        <el-table :data="tableData" ref="multipleTable" max-height="100%">
+          <el-table-column prop="email" label="邮箱"></el-table-column>
+          <el-table-column prop="role" label="角色"></el-table-column>
+          <el-table-column prop="nickname" label="用户昵称"></el-table-column>
+          <el-table-column prop="username" label="真实姓名"></el-table-column>
+          <el-table-column prop="phone" label="电话"></el-table-column>
+          <el-table-column prop="stuid" label="学号"></el-table-column>
+          <el-table-column prop="idcard" label="身份证号" sortable></el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button
+                type="text"
+                icon="el-icon-edit"
+                @click="handleEdit(scope.$index, scope.row)"
+                title="编辑"
+              ></el-button>
+              <el-button
+                type="text"
+                icon="el-icon-delete"
+                @click="handleDelete(scope.$index, scope.row)"
+                title="删除"
+              ></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-main>
+    </el-container>
 
     <!-- </el-card> -->
 
@@ -212,22 +215,21 @@ export default class UserInfoTableView extends Vue {
 }
 </script>
 
-<style scoped>
-.el-card {
+<style lang="scss" scoped>
+.el-container {
   height: 100%;
 }
 
 .filter-box {
   display: flex;
 }
+
 .mr10 {
   margin-right: 10px;
   width: 300px;
 }
+
 .ml10 {
   margin-left: 10px;
-}
-.mb20 {
-  margin-bottom: 20px;
 }
 </style>
