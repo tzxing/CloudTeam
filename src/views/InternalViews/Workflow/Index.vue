@@ -38,7 +38,7 @@ export default class WorkflowIndexView extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .el-header {
   background: #41485b;
   // background: #148431;
@@ -49,9 +49,6 @@ export default class WorkflowIndexView extends Vue {
   background: #303439;
 }
 
-html,
-body,
-#app,
 .el-container,
 .main-router-view {
   height: 100%;
