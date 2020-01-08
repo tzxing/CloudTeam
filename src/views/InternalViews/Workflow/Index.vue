@@ -31,12 +31,16 @@ export default class WorkflowIndexView extends Vue {
   collapse = false;
   crumbList = "";
   keepAlive = [];
+
+  public mounted() {
+    this.$router.replace("/internal/workflow/dashboard");
+  }
 }
 </script>
 
 <style lang="scss">
 .el-header {
-   background:#41485B;
+  background: #41485b;
   // background: #148431;
   //background: #00662c;
 }
@@ -49,7 +53,7 @@ html,
 body,
 #app,
 .el-container,
-.main-router-view{
+.main-router-view {
   height: 100%;
 }
 
