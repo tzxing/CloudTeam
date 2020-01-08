@@ -1,7 +1,7 @@
 <template>
   <el-tabs v-model="activeName" @tab-click="handleClick">
     <el-tab-pane label="自创工作流列表" name="first" class="tabs1">
-      <el-table :data="tableUserWFData" :height="tableHeight" ref="table">
+      <el-table :data="tableUserWFData" max-height="100%">
         <el-table-column property="date" label="创建日期" sortable width="200"></el-table-column>
         <el-table-column property="name" label="工作流名称" width="250"></el-table-column>
         <el-table-column label="操作">
@@ -435,6 +435,9 @@ export default class WflistTableView extends Vue {
 </script>
 
 <style scoped>
+.el-tabs__content {
+  height: 100%;
+}
 .filter-box {
   display: flex;
 }

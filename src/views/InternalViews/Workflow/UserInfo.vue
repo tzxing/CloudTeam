@@ -17,7 +17,7 @@
       <el-button type="primary" icon="search" @click="search">搜索</el-button>
       <el-button type="primary" icon="search" @click="resetdata">重置</el-button>
     </div>
-    <el-table :data="tableData" ref="multipleTable">
+    <el-table :data="tableData" ref="multipleTable" max-height="100%">
       <el-table-column prop="email" label="邮箱"></el-table-column>
       <el-table-column prop="role" label="角色"></el-table-column>
       <el-table-column prop="nickname" label="用户昵称"></el-table-column>
