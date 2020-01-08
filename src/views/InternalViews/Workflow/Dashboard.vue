@@ -145,7 +145,7 @@ export default class DashboardView extends Vue {
         let len = 15;
         while (len--) {
           res.unshift(now.toLocaleTimeString().replace(/^\D*/, ""));
-          now = new Date(Number(now) - 120000);
+          now = new Date(Number(now) - 5000);
         }
         return res;
       })()
@@ -157,16 +157,30 @@ export default class DashboardView extends Vue {
       {
         data: [81, 82, 83, 84, 84, 83, 80, 81, 85, 79, 80, 82, 83, 81, 76],
         type: "line",
+        showSymbol: false,
         smooth: true,
+        itemStyle: {
+          color: "rgb(255, 70, 131)"
+        },
         areaStyle: {
+          // color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          //   {
+          //     offset: 0,
+          //     color: "#516b91"
+          //   },
+          //   {
+          //     offset: 1,
+          //     color: "#59c4e6"
+          //   }
+          // ])
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
               offset: 0,
-              color: "#516b91"
+              color: "rgb(255, 158, 68)"
             },
             {
               offset: 1,
-              color: "#59c4e6"
+              color: "rgb(255, 70, 131)"
             }
           ])
         }
@@ -198,6 +212,7 @@ export default class DashboardView extends Vue {
       {
         data: [81, 82, 83, 84, 84, 83, 80, 81, 85, 79, 80, 82, 83, 81, 76],
         type: "line",
+        showSymbol: false,
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
