@@ -410,7 +410,7 @@ export default class DashboardView extends Vue {
       this.IORate.series[0].data.push(parseFloat(wkload));
       this.IORate.xAxis.data.shift();
       this.IORate.xAxis.data.push(axisData);
-    }, 120000);
+    }, 5000);
     setInterval(() => {
       let realTimeBase = 75;
       let randPM4 = Math.random(); // 判断真实+/-

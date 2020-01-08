@@ -1,10 +1,10 @@
 <template>
   <el-tabs v-model="activeName" @tab-click="handleClick">
     <el-tab-pane label="自创工作流列表" name="first" class="tabs1">
-      <el-table :data="tableUserWFData" style="width: 100%" :height="tableHeight">
-        <el-table-column property="date" label="创建日期" sortable :width="uniformwidth"></el-table-column>
-        <el-table-column property="name" label="工作流名称" :width="uniformwidth"></el-table-column>
-        <el-table-column label="操作" :width="uniformwidth">
+      <el-table :data="tableUserWFData" :height="tableHeight">
+        <el-table-column property="date" label="创建日期" sortable width="200"></el-table-column>
+        <el-table-column property="name" label="工作流名称" width="250"></el-table-column>
+        <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
               type="text"
@@ -99,10 +99,10 @@
 
     <el-tab-pane label="分享工作流列表" name="second">
       <div>
-        <el-table :data="tableToWFData" :height="tableHeight" style="width: 100%">
-          <el-table-column prop="date" label="创建日期" sortable :width="uniformwidth"></el-table-column>
-          <el-table-column prop="name" label="工作流名称" :width="uniformwidth"></el-table-column>
-          <el-table-column label="操作" :width="uniformwidth">
+        <el-table :data="tableToWFData" :height="tableHeight">
+          <el-table-column prop="date" label="创建日期" sortable width="200"></el-table-column>
+          <el-table-column prop="name" label="工作流名称" width="250"></el-table-column>
+          <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button type="text" icon="el-icon-video-play" circle @click="Execute(scope.row)">运行</el-button>
               <el-button
@@ -189,14 +189,9 @@ export default class WflistTableView extends Vue {
     // alert("test");
     this.userWF();
     this.toWF();
-    this.uniformwidth = (window.innerWidth - 280) / 3;
     this.tableHeight = window.innerHeight - 180;
   }
-  data() {
-    return {
-      activeName: "first"
-    };
-  }
+  activeName = "first";
 
   //获取用户工作流列表
   async userWF() {
@@ -220,7 +215,6 @@ export default class WflistTableView extends Vue {
       this.$message.error("失败，请稍后再试！");
     }
   }
-  uniformwidth = 0;
   tableHeight = 0;
   dialogTableVisible = false;
   dialogFormVisible = false;

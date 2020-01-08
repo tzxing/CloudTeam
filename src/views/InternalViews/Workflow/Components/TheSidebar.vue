@@ -6,9 +6,9 @@
       :default-active="activeIndex"
       unique-opened
       router
-      background-color="#7D8096"
-      text-color="#fff"
-      active-text-color="#7BC980"
+      background-color="#303439"
+      text-color="#B0B3C0"
+      active-text-color="#409EFF"
     >
       <el-menu-item index="/internal/workflow/dashboard">
         <i class="el-icon-menu"></i>
@@ -50,15 +50,5 @@ export default class TheSidebarView extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.el-icon-menu,
-.el-icon-more,
-.el-icon-s-operation,
-.el-icon-upload2,
-.el-icon-s-order,
-.el-icon-user-solid,
-.el-icon-s-data,
-.el-icon-discover,
-.el-icon-s-check {
-  color: #fff;
-}
+
 </style>

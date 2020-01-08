@@ -1,10 +1,10 @@
 <template>
   <el-container>
-    <el-header>
+    <el-header height="3em">
       <TheHeader></TheHeader>
     </el-header>
     <el-container>
-      <el-aside width="200px">
+      <el-aside width="13em">
         <TheSidebar></TheSidebar>
       </el-aside>
       <el-main>
@@ -36,13 +36,13 @@ export default class WorkflowIndexView extends Vue {
 
 <style lang="scss">
 .el-header {
-  // background: #324157;
+   background:#41485B;
   // background: #148431;
-  background: #00662c;
+  //background: #00662c;
 }
 
 .el-aside {
-  background: #7d8096;
+  background: #303439;
 }
 
 html,

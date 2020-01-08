@@ -3,45 +3,45 @@
     <!-- <el-card class="box-card">
       <div slot="header">
         <span>用户列表</span>
-      </div> -->
-      <div class="filter-box">
-        <el-select v-model="searchdata.selectclass" placeholder="检索条件" class="ml10 mr10">
-          <el-option label="昵称" value="nickname"></el-option>
-          <el-option label="邮箱" value="email"></el-option>
-          <el-option label="电话" value="phone"></el-option>
-          <el-option label="姓名" value="username"></el-option>
-          <el-option label="角色" value="role"></el-option>
-          <el-option label="学号" value="stuid"></el-option>
-        </el-select>
-        <el-input v-model="searchdata.text" placeholder="检索关键词" class="mr10"></el-input>
-        <el-button type="primary" icon="search" @click="search">搜索</el-button>
-        <el-button type="primary" icon="search" @click="resetdata">重置</el-button>
-      </div>
-      <el-table :data="tableData" ref="multipleTable"  :height="table_height">
-        <el-table-column prop="email" label="邮箱" :width="uniformwidth"></el-table-column>
-        <el-table-column prop="role" label="角色" :width="uniformwidth"></el-table-column>
-        <el-table-column prop="nickname" label="用户昵称" :width="uniformwidth"></el-table-column>
-        <el-table-column prop="username" label="真实姓名" :width="uniformwidth"></el-table-column>
-        <el-table-column prop="phone" label="电话" :width="uniformwidth"></el-table-column>
-        <el-table-column prop="stuid" label="学号" :width="uniformwidth"></el-table-column>
-        <el-table-column prop="idcard" label="身份证号" sortable :width="uniformwidth"></el-table-column>
-        <el-table-column label="操作"  >
-          <template slot-scope="scope">
-            <el-button
-              type="text"
-              icon="el-icon-edit"
-              @click="handleEdit(scope.$index, scope.row)"
-              title="编辑"
-            ></el-button>
-            <el-button
-              type="text"
-              icon="el-icon-delete"
-              @click="handleDelete(scope.$index, scope.row)"
-              title="删除"
-            ></el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+    </div>-->
+    <div class="filter-box">
+      <el-select v-model="searchdata.selectclass" placeholder="检索条件" class="ml10 mr10">
+        <el-option label="昵称" value="nickname"></el-option>
+        <el-option label="邮箱" value="email"></el-option>
+        <el-option label="电话" value="phone"></el-option>
+        <el-option label="姓名" value="username"></el-option>
+        <el-option label="角色" value="role"></el-option>
+        <el-option label="学号" value="stuid"></el-option>
+      </el-select>
+      <el-input v-model="searchdata.text" placeholder="检索关键词" class="mr10"></el-input>
+      <el-button type="primary" icon="search" @click="search">搜索</el-button>
+      <el-button type="primary" icon="search" @click="resetdata">重置</el-button>
+    </div>
+    <el-table :data="tableData" ref="multipleTable">
+      <el-table-column prop="email" label="邮箱"></el-table-column>
+      <el-table-column prop="role" label="角色"></el-table-column>
+      <el-table-column prop="nickname" label="用户昵称"></el-table-column>
+      <el-table-column prop="username" label="真实姓名"></el-table-column>
+      <el-table-column prop="phone" label="电话"></el-table-column>
+      <el-table-column prop="stuid" label="学号"></el-table-column>
+      <el-table-column prop="idcard" label="身份证号" sortable></el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button
+            type="text"
+            icon="el-icon-edit"
+            @click="handleEdit(scope.$index, scope.row)"
+            title="编辑"
+          ></el-button>
+          <el-button
+            type="text"
+            icon="el-icon-delete"
+            @click="handleDelete(scope.$index, scope.row)"
+            title="删除"
+          ></el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
     <!-- </el-card> -->
 
@@ -49,7 +49,7 @@
     <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
       <el-form ref="form" :model="form" label-width="100px">
         <el-form-item label="邮箱">
-          <el-input v-model="form.email" ></el-input>
+          <el-input v-model="form.email"></el-input>
         </el-form-item>
         <el-form-item label="昵称">
           <el-input v-model="form.nickname"></el-input>
@@ -115,7 +115,7 @@ export default class UserInfoTableView extends Vue {
   created() {
     this.getData();
     this.table_height = window.innerHeight - 140;
-    this.uniformwidth = (window.innerWidth - 260)/8;
+    this.uniformwidth = (window.innerWidth - 260) / 8;
   }
 
   //得到用户数据
@@ -136,7 +136,7 @@ export default class UserInfoTableView extends Vue {
         this.searchdata
       );
       if (data) {
-       this.tableData = data;
+        this.tableData = data;
       }
     } catch (e) {
       this.$message.error("检索失败，请稍后再试！");
@@ -144,11 +144,9 @@ export default class UserInfoTableView extends Vue {
   }
   //重置检索数据
   async resetdata() {
-  this.getData();
-  this.searchdata.selectclass = "",
-  this.searchdata.text = ""
+    this.getData();
+    (this.searchdata.selectclass = ""), (this.searchdata.text = "");
   }
-
 
   handleEdit(index: any, row: any) {
     this.idx = index;
@@ -183,7 +181,10 @@ export default class UserInfoTableView extends Vue {
   // 保存编辑
   async saveEdit() {
     try {
-      const { data } = await this.$axios.post("users/updateUserInfo", this.form);
+      const { data } = await this.$axios.post(
+        "users/updateUserInfo",
+        this.form
+      );
       if (data == "success") {
         this.$message.success("更改成功");
       }
