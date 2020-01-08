@@ -1,7 +1,7 @@
 <template>
   <el-tabs v-model="activeName" @tab-click="handleClick">
     <el-tab-pane label="自创工作流列表" name="first" class="tabs1">
-      <el-table :data="tableUserWFData" :height="tableHeight">
+      <el-table :data="tableUserWFData" :height="tableHeight" ref="table">
         <el-table-column property="date" label="创建日期" sortable width="200"></el-table-column>
         <el-table-column property="name" label="工作流名称" width="250"></el-table-column>
         <el-table-column label="操作">
@@ -162,36 +162,31 @@
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class WflistTableView extends Vue {
-  // share = {
-  //   to_user_id: "",
-  //   name: ""
-  // };
   private wf_id: any = "";
   private to_user_name: any = "";
-  delVisible = false;
-  delshareVisible = false;
-  cansoshareVisible = false;
-  share = [];
-  shareadd = {
+  private delVisible = false;
+  private delshareVisible = false;
+  private cansoshareVisible = false;
+  private share = [];
+  private shareadd = {
     selectclass: "",
     name: ""
   };
-  // tableUserWFData = {
-  //   wf_id:"",
-  //   date:"",
-  //   name:"",
-  //   current_user:""
-  // }
-  tableUserWFData = [];
-  tableToWFData = [];
 
-  created() {
-    // alert("test");
+  private tableUserWFData = [];
+  private tableToWFData = [];
+  private activeName = "first";
+
+  public created() {
     this.userWF();
     this.toWF();
-    this.tableHeight = window.innerHeight - 180;
   }
-  activeName = "first";
+
+  public mounted() {
+    this.$nextTick(() => {
+      this.tableHeight = window.innerHeight - 198;
+    });
+  }
 
   //获取用户工作流列表
   async userWF() {
