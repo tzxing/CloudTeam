@@ -7,7 +7,7 @@
       <router-view />
     </el-main>
     <el-footer height="117px">
-      <div>京ICP备19050641号</div>
+      <a href="http://www.beian.miit.gov.cn/">京ICP备19050641号</a>
     </el-footer>
   </el-container>
 </template>
