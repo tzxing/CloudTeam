@@ -6,7 +6,10 @@
     <el-main>
       <router-view />
     </el-main>
-    <el-footer height="117px">
+    <el-footer height="3rem">
+      <div>网络化信息处理与控制研究室 版权所有</div>
+      <div>地址：北京理工大学中关村校区国防科技园</div>
+      <div>邮编：100081</div>
       <a href="http://www.beian.miit.gov.cn/">京ICP备19050641号</a>
     </el-footer>
   </el-container>
@@ -48,5 +51,19 @@ export default class ExternalMain extends Vue {
   background-image: url("../../assets/foot.jpg");
   font-size: 12px;
   color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+
+  & > :not(:last-child) {
+    margin-right: 2em;
+  }
+
+  a {
+    
+    color: white;
+    text-decoration-line: none;
+  }
 }
 </style>
