@@ -1,42 +1,47 @@
 <template>
   <div class="wf-chart">
     <div>
-      <WorkflowChartNode
+      <WorkflowChartNodeDetail
         v-for="info in workflow_nodes"
         :key="info.id"
         :id="info.id"
         :jsp_instance="plumbIns"
         :label="info.name"
         :style_type="info.phase"
+        :node_info="info.node_info"
         :enable_edit="false"
-      ></WorkflowChartNode>
+      ></WorkflowChartNodeDetail>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
-import WorkflowChartNode from "./WorkflowChartNode.vue";
+import WorkflowChartNodeDetail from "./WorkflowChartNodeDetail.vue";
 import { jsPlumb, jsPlumbInstance } from "jsplumb";
 const dagre = require("dagre");
 
-interface Workflownode {
+interface WorkflowChartNode {
   id: string;
   name: string;
   dependencies: string[];
   image: string;
   style_type: string;
+  node_info: string;
+
 }
 
 @Component({
-  components: { WorkflowChartNode }
+  components: { WorkflowChartNodeDetail }
 })
 export default class WorkflowChart extends Vue {
   @Prop({ required: true, type: String })
   public chart_data!: string; //传入的json串，表示工作流树结构
-
-  //public test_str = '[{"name":"A","dependencies":[],"id":"1","template":"alpine: 3.7","style_type":"success"},{"name":"B","id":"2","dependencies":["A"],"template":"alpine: 3.7","style_type":"error"},{"name":"C","dependencies":["A"],"id":"3","template":"alpine: 3.7","style_type":"disable"},{"name":"D","id":"4","dependencies":["B","C"],"template":"alpine: 3.7","style_type":"success"}]''
   public workflow_nodes = JSON.parse(this.chart_data);
+
+  // public test_str = '[{"name":"A","dependencies":[],"id":"1","template":"alpine: 3.7","style_type":"success","node_info":"A11"},{"name":"B","id":"2","dependencies":["A"],"template":"alpine: 3.7","style_type":"error","node_info":"B22"},{"name":"C","dependencies":["A"],"id":"3","template":"alpine: 3.7","style_type":"disable","node_info":"C33"},{"name":"D","id":"4","dependencies":["B","C"],"template":"alpine: 3.7","style_type":"success","node_info":"D44"}]';
+  // public workflow_nodes = JSON.parse(this.test_str);
+
   public workflow_pairs: any = [];
   public workflow_uuid_pairs: { [index: string]: string } = {};
   public workflow_uuid_name_pairs: { [index: string]: string } = {};
@@ -58,7 +63,7 @@ export default class WorkflowChart extends Vue {
 
   //获取节点名称-uuid的map映射
   public get_uuid_pairs() {
-    this.workflow_nodes.forEach((item: Workflownode) => {
+    this.workflow_nodes.forEach((item: WorkflowChartNode) => {
       this.workflow_uuid_pairs[item["name"]] = item["id"];
     });
   }
@@ -75,7 +80,7 @@ export default class WorkflowChart extends Vue {
 
   //获取uuid-节点名称的map映射
   public get_uuid_name_pairs() {
-    this.workflow_nodes.forEach((item: Workflownode) => {
+    this.workflow_nodes.forEach((item: WorkflowChartNode) => {
       this.workflow_uuid_name_pairs[item["id"]] = item["name"];
     });
   }
@@ -84,7 +89,7 @@ export default class WorkflowChart extends Vue {
   public get_dependcy_pairs() {
     this.get_uuid_pairs();
     let pairs: any = [];
-    this.workflow_nodes.forEach((item: Workflownode) => {
+    this.workflow_nodes.forEach((item: WorkflowChartNode) => {
       let node_name = item["name"];
       if (item["dependencies"].length != 0) {
         item["dependencies"].forEach(element_dependcy => {
@@ -117,7 +122,7 @@ export default class WorkflowChart extends Vue {
       this.plumbIns.bind("beforeDrop", (info: any) => {
         this.workflow_pairs.push([info.sourceId, info.targetId]);
         //this.connect_node(info.sourceId, info.targetId);
-        this.workflow_nodes.forEach((item: Workflownode) => {
+        this.workflow_nodes.forEach((item: WorkflowChartNode) => {
           if (item.id == info.targetId) {
             item.dependencies.push(
               this.workflow_uuid_name_pairs[info.sourceId]
@@ -150,7 +155,7 @@ export default class WorkflowChart extends Vue {
     g.setDefaultEdgeLabel(function() {
       return {};
     });
-    this.workflow_nodes.forEach((n: Workflownode) => {
+    this.workflow_nodes.forEach((n: WorkflowChartNode) => {
       g.setNode(n.id, { width: 100, height: 40 });
     });
     this.workflow_pairs.forEach((itm: any) => {
