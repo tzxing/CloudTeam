@@ -47,8 +47,12 @@ export default class WorkflowJobListView extends Vue {
   tableData = [];
   dialogVisible = false;
   workflowName = "";
+  table_height = 0;
+  uniformwidth = 0;
   created() {
     this.getData();
+    this.table_height = window.innerHeight - 130;
+    this.uniformwidth = (window.innerWidth - 260) / 4;
   }
   async getData() {
     try {

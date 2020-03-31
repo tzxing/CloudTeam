@@ -5,6 +5,12 @@
 </template>
 
 <style lang="scss">
+html,
+body,
+#app {
+  height: 100%;
+}
+
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

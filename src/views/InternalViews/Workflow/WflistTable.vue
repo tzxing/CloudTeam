@@ -1,110 +1,108 @@
 <template>
-  <div>
-    <el-card class="box-card">
-      <div slot="header">
-        <div style="width:800px; height:auto; float:left; display:inline">
-          <span>自创工作流列表</span>
-        </div>
-        <div style="width:300px; height:auto; float:left; display:inline">
-          <el-button size="small" type="primary" @click="add_wf">新增工作流</el-button>
-        </div>
-      </div>
-      <div>
-        <el-table :data="tableUserWFData" height="250">
-          <el-table-column property="date" label="创建日期" sortable width="200"></el-table-column>
-          <el-table-column property="name" label="工作流名称" width="380"></el-table-column>
-          <el-table-column label="操作" width="550" align="center">
-            <template slot-scope="scope">
-              <el-button
-                type="text"
-                icon="el-icon-video-play"
-                circle
-                @click="Execute(scope.row)"
-                title="启动工作流"
-              >运行</el-button>
-              <el-button
-                type="text"
-                icon="el-icon-edit"
-                circle
-                @click="to_wfsedit(scope.row)"
-                title="修改工作流"
-              >修改</el-button>
-              <el-button
-                type="text"
-                icon="el-icon-document-copy"
-                circle
-                @click="Copy(scope.row)"
-                title="复制工作流"
-              >复制</el-button>
-              <el-button
-                type="text"
-                icon="el-icon-document"
-                circle
-                @click="to_wfsdetails(scope.row)"
-                title="查看详细信息"
-              >详细信息</el-button>
-              <el-button
-                type="text"
-                icon="el-icon-delete"
-                circle
-                @click="Confirm_Delete_wf(scope.$index,scope.row)"
-                title="删除工作流"
-              >删除</el-button>
-              <el-button
-                type="text"
-                icon="el-icon-share"
-                circle
-                @click="ShareDialog(scope.row)"
-                title="分享工作流"
-              >分享</el-button>
+  <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tab-pane label="自创工作流列表" name="first" class="tabs1">
+      <el-table :data="tableUserWFData" max-height="100%">
+        <el-table-column property="date" label="创建日期" sortable width="200"></el-table-column>
+        <el-table-column property="name" label="工作流名称" width="250"></el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button
+              type="text"
+              icon="el-icon-video-play"
+              circle
+              @click="Execute(scope.row)"
+              title="启动工作流"
+            >运行</el-button>
+            <el-button
+              type="text"
+              icon="el-icon-edit"
+              circle
+              @click="to_wfsedit(scope.row)"
+              title="修改工作流"
+            >修改</el-button>
+            <el-button
+              type="text"
+              icon="el-icon-document-copy"
+              circle
+              @click="Copy(scope.row)"
+              title="复制工作流"
+            >复制</el-button>
+            <el-button
+              type="text"
+              icon="el-icon-document"
+              circle
+              @click="to_wfsdetails(scope.row)"
+              title="查看详细信息"
+            >详细信息</el-button>
+            <el-button
+              type="text"
+              icon="el-icon-delete"
+              circle
+              @click="Confirm_Delete_wf(scope.$index,scope.row)"
+              title="删除工作流"
+            >删除</el-button>
+            <el-button
+              type="text"
+              icon="el-icon-share"
+              circle
+              @click="ShareDialog(scope.row)"
+              title="分享工作流"
+            >分享</el-button>
 
-              <!-- 分享弹框 -->
-              <el-dialog title="分享给其他用户" :visible.sync="dialogTableVisible" width="40%">
-                <el-form :model="form">
-                  <div class="filter-box">
-                    <el-input
-                      v-model="shareadd.name"
-                      placeholder="查找用户"
-                      autocomplete="off"
-                      class="mr10"
-                    ></el-input>
-                    <el-button size="small" type="primary" @click="add">添加分享</el-button>
-                  </div>
-                </el-form>
-                <!-- <span>已分享过的用户:{{wf_id}}</span> -->
-                <el-table :data="share" height="250">
-                  <el-table-column property="name" label="分享过的用户" width="300"></el-table-column>
-                  <el-table-column label="操作" width="200" align="center">
-                    <template slot-scope="scope">
-                      <el-button
-                        type="text"
-                        icon="el-icon-delete"
-                        circle
-                        @click="Confirm_Delete_share(scope.$index,scope.row)"
-                        title="删除分享"
-                      >删除</el-button>
-                    </template>
-                  </el-table-column>
-                </el-table>
-                <div slot="footer" class="dialog-footer">
-                  <el-button @click="dialogTableVisible = false">取 消</el-button>
-                  <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>
+            <!-- 分享弹框 -->
+            <el-dialog title="分享给其他用户" :visible.sync="dialogTableVisible" width="40%">
+              <el-form :model="form">
+                <div class="filter-box">
+                  <el-input
+                    v-model="shareadd.name"
+                    placeholder="查找用户"
+                    autocomplete="off"
+                    class="mr10"
+                  ></el-input>
+                  <el-button size="small" type="primary" @click="add">添加分享</el-button>
                 </div>
-              </el-dialog>
-            </template>
-          </el-table-column>
-        </el-table>
+              </el-form>
+              <!-- <span>已分享过的用户:{{wf_id}}</span> -->
+              <el-table :data="share" height="250">
+                <el-table-column property="name" label="分享过的用户" width="300"></el-table-column>
+                <el-table-column label="操作" width="200" align="center">
+                  <template slot-scope="scope">
+                    <el-button
+                      type="text"
+                      icon="el-icon-delete"
+                      circle
+                      @click="Confirm_Delete_share(scope.$index,scope.row)"
+                      title="删除分享"
+                    >删除</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogTableVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>
+              </div>
+            </el-dialog>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div style="height:  20px">
+        <el-button
+          style="float: right; margin-top: 3px; position: sticky"
+          size="medium"
+          icon="el-icon-plus"
+          circle
+          type="primary"
+          @click="add_wf"
+        ></el-button>
       </div>
-      <div
-        style="display:table-cell;height:50px;font-size:15px;font-height:14px;vertical-align:middle;text-align:center"
-      >
-        <span>分享工作流列表</span>
-      </div>
+    </el-tab-pane>
+
+    <el-tab-pane label="分享工作流列表" name="second">
       <div>
-        <el-table :data="tableToWFData" height="250">
+        <el-table :data="tableToWFData" :height="tableHeight">
           <el-table-column prop="date" label="创建日期" sortable width="200"></el-table-column>
-          <el-table-column prop="name" label="工作流名称" width="380"></el-table-column>
-          <el-table-column label="操作" width="550" align="center">
+          <el-table-column prop="name" label="工作流名称" width="250"></el-table-column>
+          <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button type="text" icon="el-icon-video-play" circle @click="Execute(scope.row)">运行</el-button>
               <el-button
@@ -132,7 +130,7 @@
           </el-table-column>
         </el-table>
       </div>
-    </el-card>
+    </el-tab-pane>
     <!-- 删除工作流提示框 -->
     <el-dialog title="删除提示" :visible.sync="delVisible" width="300px" center>
       <div class="del-dialog-cnt">删除不可恢复，是否确定删除？</div>
@@ -157,40 +155,37 @@
         <el-button type="primary" @click="Delete">确 定</el-button>
       </span>
     </el-dialog>
-  </div>
+  </el-tabs>
 </template> 
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class WflistTableView extends Vue {
-  // share = {
-  //   to_user_id: "",
-  //   name: ""
-  // };
   private wf_id: any = "";
   private to_user_name: any = "";
-  delVisible = false;
-  delshareVisible = false;
-  cansoshareVisible = false;
-  share = [];
-  shareadd = {
+  private delVisible = false;
+  private delshareVisible = false;
+  private cansoshareVisible = false;
+  private share = [];
+  private shareadd = {
     selectclass: "",
     name: ""
   };
-  // tableUserWFData = {
-  //   wf_id:"",
-  //   date:"",
-  //   name:"",
-  //   current_user:""
-  // }
-  tableUserWFData = [];
-  tableToWFData = [];
 
-  created() {
-    // alert("test");
+  private tableUserWFData = [];
+  private tableToWFData = [];
+  private activeName = "first";
+
+  public created() {
     this.userWF();
     this.toWF();
+  }
+
+  public mounted() {
+    this.$nextTick(() => {
+      this.tableHeight = window.innerHeight - 198;
+    });
   }
 
   //获取用户工作流列表
@@ -215,7 +210,7 @@ export default class WflistTableView extends Vue {
       this.$message.error("失败，请稍后再试！");
     }
   }
-
+  tableHeight = 0;
   dialogTableVisible = false;
   dialogFormVisible = false;
   form = {
@@ -272,7 +267,6 @@ export default class WflistTableView extends Vue {
     this.wf_id = row.wf_id;
     this.cansoshareVisible = true;
   }
-  
 
   //跳转工作流详情页面
   to_wfsdetails(row: any) {
@@ -441,6 +435,9 @@ export default class WflistTableView extends Vue {
 </script>
 
 <style scoped>
+.el-tabs__content {
+  height: 100%;
+}
 .filter-box {
   display: flex;
 }
@@ -453,5 +450,30 @@ export default class WflistTableView extends Vue {
 }
 .mb20 {
   margin-bottom: 20px;
+}
+.selfwflist::before,
+.selfwflist ::after {
+  display: table;
+  content: "";
+}
+.selfwflist ::after {
+  clear: both;
+}
+.addwf {
+  float: right;
+  padding: 0px 3px;
+}
+.primary {
+  font-size: 16px;
+}
+.dis {
+  padding: 10px, 0px;
+}
+.table1 {
+  width: 100%;
+  height: 100%;
+}
+.tabs1 {
+  height: 100%;
 }
 </style>

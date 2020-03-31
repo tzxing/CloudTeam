@@ -4,7 +4,7 @@
     <div class="collapse-btn">
       <i class="el-icon-menu"></i>
     </div>
-    <div class="logo">后台管理系统</div>
+    <div class="logo">云工作流服务子系统</div>
     <div class="header-right">
       <div class="header-user-con">
         <!-- 用户头像 -->
@@ -20,22 +20,24 @@ import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class TheHeadView extends Vue {
   collapse = false;
-  name = "管理员";
+  name = this.$store.state.user.username;
 
   logout() {
-    this.$router.push("/internal");
+    this.$store.state.user.access_token = "";
+    this.$router.replace("/internal");
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
 .header {
   position: relative;
   box-sizing: border-box;
   left: 0px;
   width: 100%;
-  height: 70px;
-  font-size: 22px;
+  font-size: 1.2em;
+  /* color: rgb(7, 6, 6); */
   color: #fff;
   box-shadow: 2px 2px 10px 2px rgba(0, 0, 0, 0.5);
 }
@@ -46,13 +48,13 @@ export default class TheHeadView extends Vue {
   text-align: center;
   height: 100%;
   cursor: pointer;
-  line-height: 70px;
+  line-height: 2.5em;
 }
 
 .header .logo {
   float: left;
-  margin-left: 0;
-  line-height: 70px;
+  margin-left: 7px;
+  line-height: 2.5em;
 }
 
 .header-right {
@@ -62,7 +64,7 @@ export default class TheHeadView extends Vue {
 
 .header-user-con {
   display: flex;
-  height: 70px;
+  height: 3em;
   align-items: center;
   font-size: 16px;
 }

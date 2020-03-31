@@ -1,15 +1,15 @@
 <template>
   <el-container>
-    <el-header>
+    <el-header height="3em">
       <TheHeader></TheHeader>
     </el-header>
     <el-container>
-      <el-aside width="200px">
+      <el-aside width="13em">
         <TheSidebar></TheSidebar>
       </el-aside>
       <el-main>
         <transition name="fade-transform" mode="out-in">
-          <router-view></router-view>
+          <router-view class="main-router-view"></router-view>
         </transition>
       </el-main>
     </el-container>
@@ -31,13 +31,32 @@ export default class WorkflowIndexView extends Vue {
   collapse = false;
   crumbList = "";
   keepAlive = [];
+
+  public mounted() {
+    this.$router.replace("/internal/workflow/dashboard");
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.header {
-  background: #324157;
+.el-header {
+  background: #41485b;
+  // background: #148431;
+  //background: #00662c;
 }
+
+.el-aside {
+  background: #303439;
+}
+
+.el-container,
+.main-router-view {
+  height: 100%;
+}
+
+// .header {
+//   background: #324157;
+// }
 
 .fade-enter-active,
 .fade-leave-active {

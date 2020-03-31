@@ -6,7 +6,7 @@
       <el-checkbox v-model="remember_me" style="align-self: flex-start;">记住登录</el-checkbox>
       <div id="buttons">
         <el-button type="primary" @click="do_login">登录</el-button>
-        <el-button @click="go_signin">注册</el-button>
+        <el-button @click="$router.replace('/signup')">注册</el-button>
       </div>
     </div>
   </div>
@@ -33,20 +33,20 @@ export default class LoginView extends Vue {
       user_login_data.set("username", this.username);
       user_login_data.set("password", this.password);
       const {
-        data: { access_token }
+        data: { access_token, username }
       } = await this.$axios.post("users/login", user_login_data);
       this.$store.state.user.access_token = access_token;
+      this.$store.state.user.username = username;
       this.$router.replace("/internal");
     } catch (e) {
       this.$message.error("登录失败，请检查用户名和密码后再试！");
     }
 
     // this.$store.state.user.access_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsInVzZXJuYW1lIjoiaGFoYSIsImVtYWlsIjoiMTIzIiwicm9sZSI6MX0.SPjFd-QZ9TG9QHdA0_3Dz4hclw0PRUOBOqP401IlXQI"
+    // this.$store.state.user.username = "管理员"
     // this.$router.replace("/internal")
   }
-  public async go_signin() {
-    this.$router.replace("/signin")
-  }
+
 }
 </script>
 

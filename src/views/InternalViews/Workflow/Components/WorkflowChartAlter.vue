@@ -21,17 +21,19 @@
     </div>
 
     <el-dialog title="节点信息" :visible.sync="dialogFormVisible">
-      <el-form :model="form">
-        <el-form-item label="名称">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+      <el-form :model="form" ref="form" :rules="formRule">
+        <el-form-item label="批量取值终点">
+          <el-input v-model.number="form.range_end" placeholder="输入终点，起点默认从0开始"></el-input>
         </el-form-item>
-
-        <el-form-item label="镜像">
-          <el-input v-model="form.image" autocomplete="off"></el-input>
+        <el-form-item prop="node_name" label="节点名称" required>
+          <el-input v-model="form.node_name" placeholder="节点由字母，数字和横线构成，且以字母开始"></el-input>
+        </el-form-item>
+        <el-form-item prop="image" label="镜像" required>
+          <el-input v-model="form.image"></el-input>
         </el-form-item>
       </el-form>
 
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="add_node">确 定</el-button>
       </div>
@@ -43,6 +45,7 @@
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import WorkflowChartNode from "./WorkflowChartNode.vue";
 import { jsPlumb, jsPlumbInstance } from "jsplumb";
+import { Form } from "element-ui";
 const dagre = require("dagre");
 
 interface Workflownode {
@@ -60,6 +63,35 @@ export default class WorkflowChartAlter extends Vue {
   @Prop({ required: true, type: String })
   public chart_data!: string; //传入的json串，表示工作流树结构
 
+  public form = {
+    node_name: "",
+    image: "",
+    parallel: "",
+    range_end: 0
+  };
+  public formRule = {
+    node_name: [
+      {
+        validator: (rule: any, value: any, callback: any) => {
+          const pattern = /^[A-Za-z]+[a-zA-Z0-9-]*(\{\})?$/g;
+          if (value === "") {
+            callback(new Error("节点名称为必填项"));
+          } else if (!pattern.test(value)) {
+            callback(
+              new Error(
+                "节点名称不合法，只能包含字母，数字和横线，且以字母开始"
+              )
+            );
+          }
+          callback();
+        },
+        trigger: "blur"
+      },
+      { required: true, message: "节点名是必填项", trigger: "blur" }
+    ],
+    image: [{ required: true, message: "镜像名是必填项", trigger: "blur" }]
+  };
+
   //public test_str = '[{"name":"A","dependencies":[],"id":"1","template":"alpine: 3.7","style_type":"success"},{"name":"B","id":"2","dependencies":["A"],"template":"alpine: 3.7","style_type":"error"},{"name":"C","dependencies":["A"],"id":"3","template":"alpine: 3.7","style_type":"disable"},{"name":"D","id":"4","dependencies":["B","C"],"template":"alpine: 3.7","style_type":"success"}]''
   public workflow_nodes = JSON.parse(this.chart_data);
   public workflow_pairs: any = [];
@@ -67,17 +99,6 @@ export default class WorkflowChartAlter extends Vue {
   public workflow_uuid_name_pairs: { [index: string]: string } = {};
   public dialogFormVisible = false;
   public chartjson: string = "";
-
-  public form = {
-    name: "",
-    image: "",
-    parallel: ""
-  };
-
-  //   constructor(chart_data: any) {
-  //     super();
-  //     this.chart_data = chart_data;
-  //   }
 
   private plumbIns: jsPlumbInstance = jsPlumb.getInstance();
 
@@ -134,9 +155,6 @@ export default class WorkflowChartAlter extends Vue {
   }
 
   public mounted() {
-    // this.workflow_uuid_pairs = this.get_uuid_pairs()
-    //console.log(this.workflow_uuid_pairs)
-
     this.plumbIns.ready(() => {
       this.plumbIns.bind("beforeDrop", (info: any) => {
         this.workflow_pairs.push([info.sourceId, info.targetId]);
@@ -184,10 +202,13 @@ export default class WorkflowChartAlter extends Vue {
       g.setEdge(itm[0], itm[1]);
     });
     dagre.layout(g, { ranker: "tight-tree" });
+    const move_offset =
+      ((this.$refs.wf_chart_area as any).offsetWidth - g.graph().width) / 2 -
+      50;
     g.nodes().forEach((n: string) => {
-      (document.getElementById(n) as any).style.left = g.node(n).x + "px";
+      (document.getElementById(n) as any).style.left =
+        g.node(n).x + move_offset + "px";
       (document.getElementById(n) as any).style.top = g.node(n).y + "px";
-      // console.log(`${n} x: ${g.node(n).x}, y:${g.node(n).y}`);
     });
 
     this.plumbIns.repaintEverything();
@@ -199,16 +220,41 @@ export default class WorkflowChartAlter extends Vue {
     return this.chartjson;
   }
 
-  public add_node() {
-    let add_info: { [index: string]: any } = {};
-    add_info["name"] = this.form.name;
-    add_info["template"] = this.form.image;
-    add_info["dependencies"] = [];
-    add_info["phase"] = "normal";
-    add_info["id"] = this.guid();
-    this.workflow_nodes.push(add_info);
+  public async add_node() {
+    if (await (this.$refs["form"] as Form).validate()) {
+      // 检查是否为批量添加
+      const pattern_name = /^([A-Za-z]+[a-zA-Z0-9-]*)(\{\})?$/gm;
+      const pattern_image = /([a-zA-Z/._0-9]+)(\{\})?([a-zA-Z/._:0-9]+)/gm;
+      const reg_rst = pattern_name.exec(this.form.node_name)!;
+      if (reg_rst.length == 3) {
+        const name_prefix = reg_rst[1];
+        const reg_rst_2 = pattern_image.exec(this.form.image)!;
+        const image_prefix = reg_rst_2[1];
+        const image_postfix = reg_rst_2[3];
 
-    this.dialogFormVisible = false;
+        for (let i = 0; i <= this.form.range_end; i++) {
+          let add_info: { [index: string]: any } = {};
+          add_info["name"] = `${name_prefix}${i}`;
+          add_info["template"] = `${image_prefix}${i}${image_postfix}`;
+          add_info["dependencies"] = [];
+          add_info["phase"] = "normal";
+          add_info["id"] = this.guid();
+          this.workflow_nodes.push(add_info);
+        }
+      } else {
+        let add_info: { [index: string]: any } = {};
+        add_info["name"] = this.form.node_name;
+        add_info["template"] = this.form.image;
+        add_info["dependencies"] = [];
+        add_info["phase"] = "normal";
+        add_info["id"] = this.guid();
+        this.workflow_nodes.push(add_info);
+      }
+
+      this.dialogFormVisible = false;
+      this.form.node_name = "";
+      this.form.image = "";
+    }
   }
 
   public guid() {

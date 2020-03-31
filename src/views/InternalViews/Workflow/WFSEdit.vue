@@ -1,37 +1,31 @@
 <template>
   <div class="container">
-    <!-- <el-page-header @back="goBack" content="详情页面">
-    </el-page-header>-->
     <div v-if="flag === '1'">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/internal/workflow' }"
-          >工作流管理</el-breadcrumb-item
-        >
-        <el-breadcrumb-item :to="{ path: '/internal/workflow/wflistable' }"
-          >工作流列表</el-breadcrumb-item
-        >
+        <el-breadcrumb-item :to="{ path: '/internal/workflow' }">工作流管理</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/internal/workflow/wflistable' }">工作流列表</el-breadcrumb-item>
         <el-breadcrumb-item>修改</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div>
-      <el-aside>
-        <div>
-          <!-- <input placeholder={{wfsname}}> -->
-          <!-- <span>工作流名称：{{wfsname}}</span> -->
-          <el-input v-model="input" placeholder="工作流名称"></el-input>
-        </div>
-      </el-aside>
-
-      <el-main>
-        <div>
-          <WorkflowChartAlter
-            :chart_data="chart_data"
-            ref="workflow_chart"
-          ></WorkflowChartAlter>
-        </div>
-        <div style="margin-left: 700px;">
-          <el-button type="primary" @click="saveWfsInfo()">保存</el-button>
+    <div style="height: 100%">
+      <el-form :inline="true" class="demo-form-inline">
+        <el-form-item label="工作流(模版)名称">
+          <el-input style="width: 31em;" v-model="input" placeholder="名称由字母，数字和横线构成，不允许包含下划线或特殊字符等" maxlength="100"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="add_node">新增节点</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="auto_layout">自动布局</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="saveWfsInfo">保存</el-button>
+        </el-form-item>
+      </el-form>
+      <el-main style="height: 100%">
+        <div style="height: 90%">
+          <WorkflowChartAlter :chart_data="chart_data" ref="workflow_chart"></WorkflowChartAlter>
         </div>
       </el-main>
     </div>
@@ -46,7 +40,7 @@ import WorkflowChartAlter from "./Components/WorkflowChartAlter.vue";
 @Component({
   components: { WorkflowChartAlter }
 })
-export default class wfsdetails extends Vue {
+export default class WFSEdit extends Vue {
   private wfsname: any = "";
   private chart_data = "[]";
   private chart: any = null;
@@ -66,7 +60,12 @@ export default class wfsdetails extends Vue {
 
     this.chart = this.$refs.workflow_chart as WorkflowChartAlter;
   }
-
+  public add_node() {
+    this.chart.dialogFormVisible = true;
+  }
+  public auto_layout() {
+    this.chart.auto_layout();
+  }
   wfs_data: any;
   a: [] = [];
   async saveWfsInfo() {
@@ -163,5 +162,14 @@ export default class wfsdetails extends Vue {
 .row-bg {
   padding: 10px 0;
   background-color: #f9fafc;
+}
+
+body,
+html,
+#app {
+  height: 100%;
+}
+.container {
+  height: 90%;
 }
 </style>

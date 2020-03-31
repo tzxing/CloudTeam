@@ -69,7 +69,7 @@ export default class WorkflowChart extends Vue {
   }
 
   @Watch("chart_data")
-  private chart_data_changed(new_vaule:string) {
+  private chart_data_changed(new_vaule: string) {
     this.plumbIns.deleteEveryConnection();
     this.workflow_nodes = JSON.parse(new_vaule);
 
@@ -162,10 +162,13 @@ export default class WorkflowChart extends Vue {
       g.setEdge(itm[0], itm[1]);
     });
     dagre.layout(g, { ranker: "tight-tree" });
+    const move_offset =
+      ((this.$refs.wf_chart_area as any).offsetWidth - g.graph().width) / 2 -
+      50;
     g.nodes().forEach((n: string) => {
-      (document.getElementById(n) as any).style.left = g.node(n).x + "px";
+      (document.getElementById(n) as any).style.left =
+        g.node(n).x + move_offset + "px";
       (document.getElementById(n) as any).style.top = g.node(n).y + "px";
-      // console.log(`${n} x: ${g.node(n).x}, y:${g.node(n).y}`);
     });
 
     this.plumbIns.repaintEverything();
