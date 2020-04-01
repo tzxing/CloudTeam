@@ -22,7 +22,7 @@
 
 
 
-        <el-menu-item index="/internal/workflow/userinfo">
+        <el-menu-item v-show=showuserinfo index="/internal/workflow/userinfo">
           <i class="el-icon-s-check"></i>
           <span slot="title">用户列表</span>
         </el-menu-item>
@@ -45,6 +45,13 @@ import { Component, Vue } from "vue-property-decorator";
 export default class TheSidebarView extends Vue {
   collapse = false;
   activeIndex = "";
+  showuserinfo = false;
+  created() {
+    if(this.$store.state.user.role == "admin")
+    {
+      this.showuserinfo= true
+    }
+  }
 }
 </script>
 
