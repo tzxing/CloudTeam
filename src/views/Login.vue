@@ -23,30 +23,30 @@ export default class LoginView extends Vue {
   private remember_me: boolean = false;
 
   public async do_login() {
-    if (this.username === "" || this.password === "") {
-      this.$message.warning("用户名和密码不能为空");
-      return;
-    }
+    // if (this.username === "" || this.password === "") {
+    //   this.$message.warning("用户名和密码不能为空");
+    //   return;
+    // }
 
-    try {
-      const user_login_data = new FormData();
-      user_login_data.set("username", this.username);
-      user_login_data.set("password", this.password);
-      const {
-        data: { access_token, username ,stuid ,role}
-      } = await this.$axios.post("users/login", user_login_data);
-      this.$store.state.user.access_token = access_token;
-      this.$store.state.user.username = username;
-      this.$store.state.user.stuid = stuid;
-      this.$store.state.user.role = role;
-      this.$router.replace("/internal");
-    } catch (e) {
-      this.$message.error("登录失败，请检查用户名和密码后再试！");
-    }
+    // try {
+    //   const user_login_data = new FormData();
+    //   user_login_data.set("username", this.username);
+    //   user_login_data.set("password", this.password);
+    //   const {
+    //     data: { access_token, username ,stuid ,role}
+    //   } = await this.$axios.post("users/login", user_login_data);
+    //   this.$store.state.user.access_token = access_token;
+    //   this.$store.state.user.username = username;
+    //   this.$store.state.user.stuid = stuid;
+    //   this.$store.state.user.role = role;
+    //   this.$router.replace("/internal");
+    // } catch (e) {
+    //   this.$message.error("登录失败，请检查用户名和密码后再试！");
+    // }
 
-    // this.$store.state.user.access_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsInVzZXJuYW1lIjoiaGFoYSIsImVtYWlsIjoiMTIzIiwicm9sZSI6MX0.SPjFd-QZ9TG9QHdA0_3Dz4hclw0PRUOBOqP401IlXQI"
-    // this.$store.state.user.username = "管理员"
-    // this.$router.replace("/internal")
+    this.$store.state.user.access_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsInVzZXJuYW1lIjoiaGFoYSIsImVtYWlsIjoiMTIzIiwicm9sZSI6MX0.SPjFd-QZ9TG9QHdA0_3Dz4hclw0PRUOBOqP401IlXQI"
+    this.$store.state.user.username = "管理员"
+    this.$router.replace("/internal")
   }
 
 }
