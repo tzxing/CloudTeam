@@ -187,8 +187,6 @@ export default class WorkflowChartAlter extends Vue {
     });
   }
 
-
-
   public auto_layout() {
     const g = new dagre.graphlib.Graph();
     g.setGraph({});
@@ -225,17 +223,20 @@ export default class WorkflowChartAlter extends Vue {
       // 检查是否为批量添加
       const pattern_name = /^([A-Za-z]+[a-zA-Z0-9-]*)(\{\})?$/gm;
       const pattern_image = /([a-zA-Z/._0-9]+)(\{\})?([a-zA-Z/._:0-9]+)/gm;
-      const reg_rst = pattern_name.exec(this.form.node_name)!;
-      if (reg_rst.length == 3) {
-        const name_prefix = reg_rst[1];
-        const reg_rst_2 = pattern_image.exec(this.form.image)!;
-        const image_prefix = reg_rst_2[1];
-        const image_postfix = reg_rst_2[3];
+      const pattern_match_name = pattern_name.exec(this.form.node_name)!;
+      if (pattern_match_name.length == 3 && pattern_match_name[2]) {
+        const name_prefix = pattern_match_name[1];
+
+        const pattern_match_image = pattern_image.exec(this.form.image)!;
+        const image_prefix = pattern_match_image[1];
+        const image_postfix = pattern_match_image[3];
 
         for (let i = 0; i <= this.form.range_end; i++) {
           let add_info: { [index: string]: any } = {};
           add_info["name"] = `${name_prefix}${i}`;
-          add_info["template"] = `${image_prefix}${i}${image_postfix}`;
+          add_info["template"] = pattern_match_image[2]
+            ? `${image_prefix}${i}${image_postfix}`
+            : pattern_match_image[0];
           add_info["dependencies"] = [];
           add_info["phase"] = "normal";
           add_info["id"] = this.guid();
