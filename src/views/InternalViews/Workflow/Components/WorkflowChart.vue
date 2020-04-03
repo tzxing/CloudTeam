@@ -35,12 +35,12 @@ interface WorkflowChartnodeDetail {
   components: { WorkflowChartNodeDetail }
 })
 export default class WorkflowChart extends Vue {
-  //@Prop({ required: true, type: String })
-  // public chart_data!: string; //传入的json串，表示工作流树结构
-  // public workflow_nodes = JSON.parse(this.chart_data);
+  @Prop({ required: true, type: String })
+  public chart_data!: string; //传入的json串，表示工作流树结构
+  public workflow_nodes = JSON.parse(this.chart_data);
 
-  public test_str = '[{"name":"A","dependencies":[],"id":"1","template":"alpine: 3.7","style_type":"success","node_info":"A11"},{"name":"B","id":"2","dependencies":["A"],"template":"alpine: 3.7","style_type":"error","node_info":"B22"},{"name":"C","dependencies":["A"],"id":"3","template":"alpine: 3.7","style_type":"disable","node_info":"C33"},{"name":"D","id":"4","dependencies":["B","C"],"template":"alpine: 3.7","style_type":"success","node_info":"D44"}]';
-  public workflow_nodes = JSON.parse(this.test_str);
+  // public test_str = '[{"name":"A","dependencies":[],"id":"1","template":"alpine: 3.7","style_type":"success","node_info":"A11"},{"name":"B","id":"2","dependencies":["A"],"template":"alpine: 3.7","style_type":"error","node_info":"B22"},{"name":"C","dependencies":["A"],"id":"3","template":"alpine: 3.7","style_type":"disable","node_info":"C33"},{"name":"D","id":"4","dependencies":["B","C"],"template":"alpine: 3.7","style_type":"success","node_info":"D44"}]';
+  // public workflow_nodes = JSON.parse(this.test_str);
 
   public workflow_pairs: any = [];
   public workflow_uuid_pairs: { [index: string]: string } = {};
