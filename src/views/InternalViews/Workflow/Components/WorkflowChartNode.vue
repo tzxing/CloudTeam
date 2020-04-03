@@ -8,7 +8,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import { jsPlumbInstance } from "jsplumb";
+import { jsPlumbInstance, Endpoint } from "jsplumb";
+
 
 @Component({
   components: { WorkflowChartNode }
@@ -46,11 +47,13 @@ export default class WorkflowChartNode extends Vue {
         isSource: true,
         isTarget: true,
         reattachConnections: false,
-        type: "Dot",
-        paintStyle: { fill: "blue" }
+        type: "Rectangle",
+        paintStyle: { fill: "transparent" },
       });
     }
   }
+ 
+ 
 }
 </script>
 
@@ -86,7 +89,7 @@ $border-size: 1px;
 }
 
 .wf-node-type-normal {
-  background-color: blue;
+  background-color: #20a0ff;
 }
 
 .wf-node-type-success {

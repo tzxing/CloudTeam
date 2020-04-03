@@ -1,21 +1,20 @@
 <template>
   <div class="wf-node-wrapper" :id="id" :class="[_style_type]">
-    <div >
+    <div>
       <!-- <span>{{label}}</span>
-            <span>{{node_info}}</span> -->
+      <span>{{node_info}}</span>-->
 
       <el-tooltip class="wf-node-text" effect="dark" :content="node_info" placement="right">
-      <el-button>{{label}}</el-button>
-    </el-tooltip>
-
+        <el-button>{{label}}</el-button>
+      </el-tooltip>
     </div>
   </div>
 </template>
 
+
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import { jsPlumbInstance, Endpoint } from "jsplumb";
-
 
 @Component({
   components: { WorkflowChartNodeDetail }
@@ -37,7 +36,7 @@ export default class WorkflowChartNodeDetail extends Vue {
   public node_info!: string;
 
   @Prop({ required: false, default: true })
-  public  readonly enable_edit!:boolean;
+  public readonly enable_edit!: boolean;
 
   private get _style_type(): string {
     return `wf-node-type-${this.style_type}`;
@@ -57,12 +56,10 @@ export default class WorkflowChartNodeDetail extends Vue {
         isTarget: true,
         reattachConnections: false,
         type: "Rectangle",
-        paintStyle: { fill: "transparent" },
+        paintStyle: { fill: "transparent" }
       });
     }
   }
- 
- 
 }
 </script>
 
@@ -114,9 +111,7 @@ $border-size: 1px;
 }
 
 .wf-node-type-running {
-  background-color: #FFCC00;
+  background-color: #ffcc00;
 }
-
 </style>
-
 

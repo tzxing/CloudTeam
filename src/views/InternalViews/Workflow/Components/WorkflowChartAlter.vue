@@ -1,15 +1,7 @@
 <template>
-  <div class="wf-chart">
-    <div class="alter_button">
-      <div>
-        <el-button type="text" @click="dialogFormVisible = true">新增工作流节点</el-button>
-      </div>
-      <div>
-        <el-button type="text" @click="auto_layout">自动布局</el-button>
-      </div>
-    </div>
+  <div class="wf-chart" >
 
-    <div>
+    <div ref="wf_chart_area">
       <WorkflowChartNode
         v-for="info in workflow_nodes"
         :key="info.id"
