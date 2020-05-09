@@ -42,8 +42,8 @@ export default class LoginView extends Vue {
     //   this.$router.replace("/internal");
     // } catch (e) {
     //   this.$message.error("登录失败，请检查用户名和密码后再试！");
-    // }
-
+    // }下面的代码主要是用来进行无后端测试，如果真正运行应该删掉:当role为admin的时候，显示帕金森模块的两个侧边栏否则不显示
+    this.$store.state.user.role="user"
     this.$store.state.user.access_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsInVzZXJuYW1lIjoiaGFoYSIsImVtYWlsIjoiMTIzIiwicm9sZSI6MX0.SPjFd-QZ9TG9QHdA0_3Dz4hclw0PRUOBOqP401IlXQI"
     this.$store.state.user.username = "管理员"
     this.$router.replace("/internal")

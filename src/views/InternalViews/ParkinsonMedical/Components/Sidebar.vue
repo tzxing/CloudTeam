@@ -28,12 +28,12 @@
           <i class="el-icon-s-order"></i>
           <span slot="title">个人信息管理</span>
         </el-menu-item>
-        <el-menu-item index="/internal/parkinson/password">
+        <el-menu-item index="/internal/parkinson/password" v-if=permission.c1>
           <i class="el-icon-lock"></i>
           <span slot="title">密码管理</span>
         </el-menu-item>
       </el-submenu>
-      <el-menu-item index="/internal/parkinson/pardata">
+      <el-menu-item index="/internal/parkinson/pardata" v-if=permission.c2>
         <i class="el-icon-s-check"></i>
         <span slot="title">数据查看</span>
       </el-menu-item>
@@ -70,6 +70,19 @@ import { Component, Vue } from "vue-property-decorator"
 export default class SidebarView extends Vue {
   collapse = false;
   activeIndex = "";
+  adminpermission={c1:true,c2:true};
+  userpermission={c1:false,c2:false};
+  permissionlist={};
+  get permission () {
+    if (this.$store.state.user.role==="admin"){
+      this.permissionlist=this.adminpermission;
+    } 
+    else if (this.$store.state.user.role==="user")
+    {
+      this.permissionlist=this.userpermission;
+    }
+      return this.permissionlist    
+    }
 }
 </script>
 
