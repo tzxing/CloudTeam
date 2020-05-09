@@ -7,7 +7,7 @@
       <el-header style="text-align: right; font-size: 12px"> <!--顶栏-->
         <Navbar></Navbar>
       </el-header>
-      <el-main> <!--网页内容部分111-->
+      <el-main> <!--网页内容部分-->
         <transition name="fade-transform" mode="out-in">
           <router-view class="main-router-view"></router-view>
         </transition>
