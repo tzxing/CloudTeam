@@ -47,7 +47,7 @@ export default class LoginView extends Vue {
     // this.$store.state.user.access_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsInVzZXJuYW1lIjoiaGFoYSIsImVtYWlsIjoiMTIzIiwicm9sZSI6MX0.SPjFd-QZ9TG9QHdA0_3Dz4hclw0PRUOBOqP401IlXQI"
     // this.$store.state.user.username = "管理员"
     // this.$router.replace("/internal")
-    //测试
+    
   }
 
 }
