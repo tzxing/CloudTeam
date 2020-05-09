@@ -10,9 +10,13 @@ export default new Vuex.Store({
       role:'',
       username: '',
       access_token: ''
-    }
+    },
+    title:""
   },
   mutations: {
+    committitle (state,title) {
+      state.title=title
+    }
   },
   actions: {
   },

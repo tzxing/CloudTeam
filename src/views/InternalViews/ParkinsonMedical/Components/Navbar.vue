@@ -2,7 +2,7 @@
   <div class="navbar">
     <!-- 按钮 -->
     <div class="logo">
-      首页
+      {{shouyeming}}
     </div>
     <div class="navbar-right">
       <div class="navbar-user-con">
@@ -26,6 +26,10 @@ export default class NavbarView extends Vue {
 
   logout() {
     this.$router.push("/internal");
+  }
+    get shouyeming () {
+     return this.$store.state.title
+
   }
 
   // @Watch('$route')
