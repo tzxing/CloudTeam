@@ -40,7 +40,7 @@ import { Component, Vue } from "vue-property-decorator"
 @Component({})
 export default class datadetailView extends Vue {
   private form = {
-    dataset: '1',
+    dataset: '2',
     id: '',
     /* 下面表格相关 */
     base : +new Date(1968, 9, 3),
