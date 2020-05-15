@@ -58,6 +58,12 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
+  if ((to.path.startsWith('/internal/parkinson'))
+  && store.state.user.role === "user") {
+  next("/login");
+} else {
+  next();
+}
 });
 
 //增加一个后置的钩子，用于改变页面的标题

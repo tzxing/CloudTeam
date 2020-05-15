@@ -14,8 +14,8 @@
         <el-form-item prop="repassword" label="再次输入密码" required>
           <el-input v-model="form.repassword" placeholder="请再次输入密码" show-password></el-input>
         </el-form-item>
-        <el-form-item prop="username" label="姓名" required>
-          <el-input v-model="form.username" placeholder="请输入用于登陆的真实姓名"></el-input>
+        <el-form-item prop="username" label="用户名" required>
+          <el-input v-model="form.username" placeholder="请输入用于登陆的用户名"></el-input>
         </el-form-item>
         <el-form-item prop="phone" label="电话" required>
           <el-input v-model="form.phone" placeholder="请输入您的11位电话号码"></el-input>
@@ -119,11 +119,11 @@ export default class SignupView extends Vue {
     username: [
       {
         validator: (rule: any, value: any, callback: any) => {
-          const pattern = /^([\u4e00-\u9fa5]+|([a-zA-Z]+\s?)+){2,10}$/g;
+          const pattern = /^[\w\u4e00-\u9fa5]{3,10}$/g;
           if (value === "") {
-            callback(new Error("请输入真实姓名"));
+            callback(new Error("请输入用户名"));
           } else if (!pattern.test(value)) {
-            callback(new Error("请输入2-10个汉字"));
+            callback(new Error("请输入3-10个字母/汉字/数字/下划线"));
           } else {
             callback();
           }

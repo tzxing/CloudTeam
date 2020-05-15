@@ -23,20 +23,25 @@
         >
           <el-option
             label="男性"
-            value="1"
+            value="男性"
           />
           <el-option
             label="女性"
-            value="2"
+            value="女性"
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="测试组别">
+      <el-form-item label="地址">
+        <el-col :span="3">
+          <el-input v-model="form.address" :disabled="form.status" />
+        </el-col>
+      </el-form-item>
+      <!-- <el-form-item label="测试组别">
         <el-radio-group v-model="form.group" :disabled="form.status">
           <el-radio label="帕金森患者" />
           <el-radio label="非帕金森患者" />
         </el-radio-group>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button
           type="primary"
@@ -131,15 +136,15 @@ import { Component, Vue } from 'vue-property-decorator'
 export default class extends Vue {
   private form = {
     name: '张大壮',
-    age: '21',
-    gender: '1',
-    group: '帕金森患者',
-    date1: '',
-    date2: '',
-    delivery: false,
-    type: [],
-    resource: '',
-    desc: '',
+    age: '0',
+    gender: '男性',
+    // group: '帕金森患者',
+    // date1: '',
+    // date2: '',
+    // delivery: false,
+    // type: [],
+    // resource: '',
+    address: '',
     status: true
   };
 

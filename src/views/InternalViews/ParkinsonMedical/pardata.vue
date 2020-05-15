@@ -55,35 +55,50 @@ export default class PardataView extends Vue {
   collapse = false;
   activeIndex = "";
   dialogVisible = false;
-  tableData = [{
-      date: '2016-05-02',
-      name: '王小虎',
-      province: '上海',
-      city: '普陀区',
-      address: '上海市普陀区金沙江路 1518 弄',
-      id: '000001'
-  }, {
-      date: '2016-05-04',
-      name: '李晓丽',
-      province: '上海',
-      city: '普陀区',
-      address: '上海市普陀区金沙江路 1517 弄',
-      id: '000002'
-  }, {
-      date: '2016-05-01',
-      name: '王小明',
-      province: '上海',
-      city: '普陀区',
-      address: '上海市普陀区金沙江路 1519 弄',
-      id: '000003'
-  }, {
-      date: '2016-05-03',
-      name: '孙晓达',
-      province: '上海',
-      city: '普陀区',
-      address: '上海市普陀区金沙江路 1516 弄',
-      id: '000004'
-  }];
+  // tableData = [{
+  //     date: '2016-05-02',
+  //     name: '王小虎',
+  //     province: '上海',
+  //     city: '普陀区',
+  //     address: '上海市普陀区金沙江路 1518 弄',
+  //     id: '000001'
+  // }, {
+  //     date: '2016-05-04',
+  //     name: '李晓丽',
+  //     province: '上海',
+  //     city: '普陀区',
+  //     address: '上海市普陀区金沙江路 1517 弄',
+  //     id: '000002'
+  // }, {
+  //     date: '2016-05-01',
+  //     name: '王小明',
+  //     province: '上海',
+  //     city: '普陀区',
+  //     address: '上海市普陀区金沙江路 1519 弄',
+  //     id: '000003'
+  // }, {
+  //     date: '2016-05-03',
+  //     name: '孙晓达',
+  //     province: '上海',
+  //     city: '普陀区',
+  //     address: '上海市普陀区金沙江路 1516 弄',
+  //     id: '000004'
+  // }];
+  tableData = [];
+//组件加载的同时向后端取数据
+  created() {
+    this.getData();
+  }
+
+  //得到用户数据
+  async getData() {
+    try {
+      const { data } = await this.$axios.get("medical/find_all_patients/");
+      this.tableData = data;
+    } catch (e) {
+      this.$message.error("请求患者数据失败，请稍后再试！");
+    }
+  }
   public $echarts: any;
   private options: object = {
     title: {
