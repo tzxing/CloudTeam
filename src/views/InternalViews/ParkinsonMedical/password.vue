@@ -51,41 +51,52 @@ import { Component, Vue } from 'vue-property-decorator'
 })
 export default class extends Vue {
   private form = {
-    password: '123456',
     pwdInput: '',
     pwdNew: '',
     pwdNew2: ''
   };
 
-  private onChange() {
-    if (this.form.password !== this.form.pwdInput) {
-      this.$message({
-        message: '原密码输入有误',
-        type: 'warning'
-      })
-      return
-    }
+  async onChange() {
+    // if (this.form.password !== this.form.pwdInput) {
+    //   this.$message({
+    //     message: '原密码输入有误',
+    //     type: 'warning'
+    //   })
+    //   return
+    // }
     if (this.form.pwdNew !== this.form.pwdNew2) {
       this.$message({
         message: '两次新密码输入不正确',
         type: 'warning'
-      })
-      return
+      });
+      return;
     }
-    this.form.password = this.form.pwdNew
-    this.$message('修改密码成功')
+    try {
+      const { data } = await this.$axios.post(
+        "medical/change_pwd",
+        this.form
+      );
+      if (data == "pwdnotright") {
+        this.$message.warning("原始密码不对，请重新输入");
+      }
+      else if (data == "success") {
+            this.$message('修改密码成功');
+      }
+    } catch (e) {
+      this.$message.error("更改失败，请稍后再试！");
+    }
   }
 
-  private onSubmit() {
-    this.$message('submit!')
-  }
+  // private onSubmit() {
+  //   this.$message('submit!')
+  // }
 
-  private onCancel() {
-    this.$message({
-      message: 'cancel!',
-      type: 'warning'
-    })
-  }
+  // private onCancel() {
+  //   this.$message({
+  //     message: 'cancel!',
+  //     type: 'warning'
+  //   })
+  // }
 }
 </script>
 

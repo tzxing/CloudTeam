@@ -15,13 +15,13 @@
         width="120">
       </el-table-column>
       <el-table-column
-        prop="province"
-        label="省份"
+        prop="age"
+        label="年龄"
         width="120">
       </el-table-column>
       <el-table-column
-        prop="city"
-        label="市区"
+        prop="gender"
+        label="性别"
         width="120">
       </el-table-column>
       <el-table-column
@@ -30,7 +30,7 @@
         width="300">
       </el-table-column>
       <el-table-column
-        prop="id"
+        prop="username"
         label="患者ID"
         width="120">
       </el-table-column>
