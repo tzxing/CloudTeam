@@ -17,7 +17,7 @@
       </el-form-item>
       <el-form-item label="重复新密码：">
         <el-col :span="3">
-          <el-input v-model="form.pwdNew2" show-password />
+          <el-input v-model="pwdNew2" show-password />
         </el-col>
       </el-form-item>
       <el-form-item>
@@ -50,10 +50,10 @@ import { Component, Vue } from 'vue-property-decorator'
   name: 'Form'
 })
 export default class extends Vue {
+  pwdNew2= ''
   private form = {
     pwdInput: '',
-    pwdNew: '',
-    pwdNew2: ''
+    pwdNew: ''
   };
 
   async onChange() {
@@ -64,7 +64,7 @@ export default class extends Vue {
     //   })
     //   return
     // }
-    if (this.form.pwdNew !== this.form.pwdNew2) {
+    if (this.form.pwdNew !== this.pwdNew2) {
       this.$message({
         message: '两次新密码输入不正确',
         type: 'warning'
