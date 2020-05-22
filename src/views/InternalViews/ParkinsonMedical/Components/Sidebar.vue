@@ -28,12 +28,12 @@
           <i class="el-icon-s-order"></i>
           <span slot="title">个人信息管理</span>
         </el-menu-item>
-        <el-menu-item index="/internal/parkinson/password" v-if=c1>
+        <el-menu-item v-show=c1 index="/internal/parkinson/password">
           <i class="el-icon-lock"></i>
           <span slot="title">密码管理</span>
         </el-menu-item>
       </el-submenu>
-      <el-menu-item index="/internal/parkinson/pardata" v-if=c2>
+      <el-menu-item  v-show=c2 index="/internal/parkinson/pardata">
         <i class="el-icon-s-check"></i>
         <span slot="title">数据查看</span>
       </el-menu-item>
@@ -73,11 +73,11 @@ export default class SidebarView extends Vue {
   c1=false;
   c2=false;
   created () {
-    if (this.$store.state.user.role==="admin"){
+    if (this.$store.state.user.role=="admin"){
       this.c1=true;
       this.c2=true;
     } 
-    else if (this.$store.state.user.role==="user")
+    else if (this.$store.state.user.role=="user")
     {
       this.c1=true;
       this.c2=false;

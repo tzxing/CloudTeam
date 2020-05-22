@@ -19,9 +19,9 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 @Component({})
 
 export default class NavbarView extends Vue {
-  collapse = false;
-  path = this.$route.path;
-  rootpath = "/internal/parkinson/dashboard";
+  // collapse = false;
+  // path = this.$route.path;
+  // rootpath = "/internal/parkinson/dashboard";
   name="";
   logout() {
     this.$router.push("/internal");
