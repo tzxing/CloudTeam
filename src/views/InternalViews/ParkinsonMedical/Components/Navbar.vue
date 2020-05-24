@@ -7,7 +7,7 @@
     <div class="navbar-right">
       <div class="navbar-user-con">
         <!-- 用户名称 -->
-        <div class="user-name">{{name}}</div>
+        <div class="user-name">您好{{name}}</div>
         <div class="user-logout curp" @click="logout">退出</div>
       </div>
     </div>
@@ -19,20 +19,19 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 @Component({})
 
 export default class NavbarView extends Vue {
-  collapse = false;
-  path = this.$route.path;
-  rootpath = "/internal/parkinson/dashboard";
-
+  // collapse = false;
+  // path = this.$route.path;
+  // rootpath = "/internal/parkinson/dashboard";
+  name="";
   logout() {
     this.$router.push("/internal");
   }
   get shouyeming () {
      return this.$store.state.title
-
   }
 
-  get name() {
-    return "username"
+  created() {
+    this.name=this.$store.state.user.username
   }
   
 }

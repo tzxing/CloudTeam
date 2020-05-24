@@ -20,18 +20,34 @@
 import { Component, Vue } from "vue-property-decorator";
 import Navbar from "./Components/Navbar.vue";
 import Sidebar from "./Components/Sidebar.vue";
-
+// import { Route } from 'vue-router';
+import store from '@/store'
 @Component({
   components: {
     Navbar,
     Sidebar
+  },
+  beforeRouteEnter(to,from,next){
+  if (store.state.user.medicalsignup === "N"){
+    next(vm=>{vm.$router.push("/internal/parkinsonsignup")});
+  } else
+  {
+    next()
   }
+}
+
 })
 export default class ParkinsonMedicalIndexView extends Vue {
   collapse = false;
   crumbList = "";
   keepAlive = [];
+
+
+
 }
+
+
+
 </script>
 
 <style lang="scss">

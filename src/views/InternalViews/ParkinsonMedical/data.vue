@@ -7,19 +7,18 @@
     >
       <el-form-item label="姓名">
         <el-col :span="3">
-          <el-input v-model="form.name" :disabled="form.status" />
+          <el-input v-model="form.name"  />
         </el-col>
       </el-form-item>
       <el-form-item label="年龄">
         <el-col :span="3">
-          <el-input v-model="form.age" :disabled="form.status" />
+          <el-input v-model="form.age"  />
         </el-col>
       </el-form-item>
       <el-form-item label="性别">
         <el-select
           v-model="form.gender"
           placeholder="选择您的性别"
-          :disabled="form.status"
         >
           <el-option
             label="男性"
@@ -33,7 +32,7 @@
       </el-form-item>
       <el-form-item label="地址">
         <el-col :span="3">
-          <el-input v-model="form.address" :disabled="form.status" />
+          <el-input v-model="form.address" />
         </el-col>
       </el-form-item>
       <!-- <el-form-item label="测试组别">
@@ -43,12 +42,12 @@
         </el-radio-group>
       </el-form-item> -->
       <el-form-item>
-        <el-button
+        <!-- <el-button
           type="primary"
           @click="onChange"
         >
           修改
-        </el-button>
+        </el-button> -->
         <el-button @click="onFinish">
           完成
         </el-button>
@@ -135,37 +134,66 @@ import { Component, Vue } from 'vue-property-decorator'
 })
 export default class extends Vue {
   private form = {
-    name: '张大壮',
-    age: '0',
+    name: '',
+    age: '',
     gender: '男性',
+    address: ''
     // group: '帕金森患者',
     // date1: '',
     // date2: '',
     // delivery: false,
     // type: [],
     // resource: '',
-    address: '',
-    status: true
+    // status: true
   };
+  created() {
+    this.getData();
+  }
+    //得到用户数据
+  async getData() {
+    try {
+      const { data } = await this.$axios.get("medical/finduserinformation/");
+      this.form = {
+      name:data.name,
+      age: data.age,
+      gender: data.gender,
+      address: data.address
+      // username: this.$store.state.user.username
+      };
+    } catch (e) {
+      this.$message.error("请求用户数据失败，请稍后再试！");
+    }
+  }
+  // private onChange() {
+  //   this.form.status = false
+  // }
 
-  private onChange() {
-    this.form.status = false
+
+  async onFinish() {
+    try {
+      const { data } = await this.$axios.post(
+        "medical/change_userinfo",
+        this.form
+      );
+      if (data == "success") {
+        this.$message.success("更改成功");
+      }
+    } catch (e) {
+      this.$message.error("更改失败，请稍后再试！");
+    }
   }
 
-  private onFinish() {
-    this.form.status = true
-  }
 
-  private onSubmit() {
-    this.$message('submit!')
-  }
+  // private onSubmit() {
+  //   this.$message('submit!')
+  // }
 
-  private onCancel() {
-    this.$message({
-      message: 'cancel!',
-      type: 'warning'
-    })
-  }
+  // private onCancel() {
+  //   this.$message({
+  //     message: 'cancel!',
+  //     type: 'warning'
+  //   })
+  // }
 }
 </script>
 

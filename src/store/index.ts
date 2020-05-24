@@ -9,7 +9,8 @@ export default new Vuex.Store({
       stuid: '',
       role:'',
       username: '',
-      access_token: ''
+      access_token: '',
+      medicalsignup:''
     },
     title:""
   },

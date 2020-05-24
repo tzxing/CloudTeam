@@ -58,12 +58,12 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
-  if ((to.path.startsWith('/internal/parkinson'))
-  && store.state.user.role === "user") {
-  next("/login");
-} else {
-  next();
-}
+//   if ((to.path.startsWith('/internal/parkinson'))李晖：现将这个钩子注释掉，这个钩子是用来根据用户的role判断是否进行跳转的功能的
+//   && store.state.user.role === "user") {
+//   next("/login");
+// } else {
+//   next();
+// }
 });
 
 //增加一个后置的钩子，用于改变页面的标题
