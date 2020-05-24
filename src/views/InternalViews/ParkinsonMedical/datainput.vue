@@ -50,23 +50,19 @@
             <el-divider>身份信息</el-divider>
             <el-form-item label="身份">
               <el-radio-group v-model="form.user.identity" @change="change($event)">
-                <el-radio label="测试人员" />
-                <el-radio label="医疗人员" />
+                <el-radio :label="true" >测试人员</el-radio>
+                <el-radio :label="false" >医疗人员</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item label="验证码">
                 <el-col :span="8">
-                <el-input v-model="form.user.vericode" :hidden="form.user.identity" placeholder="请输入验证码" @input="change($event)" />
+                <el-input v-model="form.user.vericode" :disabled="form.user.identity" :placeholder="form.message" @input="change($event)" />
                 </el-col>
             </el-form-item>
-            
-
-            <el-form-item>
-                <el-button @click="doLogin">
-                完成
-                </el-button>
-            </el-form-item>
-            </el-form>
+            </el-form >
+              <el-button type="primary" @click="doLogin" style="float:right; margin-right:350px" >
+                  完成
+              </el-button>
       </el-card>
     </div>
   </div>
@@ -88,10 +84,13 @@ export default class datainput extends Vue {
         address:'',
         identity:true,
         vericode:'',
-    }
+    },
+    message:'无需输入验证码'
   };
 
   public change(e:any) {
+    if (this.form.user.identity == true) this.form.message = '无需输入验证码';
+    else this.form.message = '请输入验证码';
     this.$forceUpdate()
   }
   public doLogin() {
