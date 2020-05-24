@@ -67,9 +67,9 @@ router.beforeEach((to, from, next) => {
 });
 
 //增加一个后置的钩子，用于改变页面的标题
-router.afterEach((to, from) => {
-  store.commit('committitle',to.meta.title) ;
-})
+// router.afterEach((to, from) => {
+//   store.commit('committitle',to.meta.title) ;
+// })
 
 
 export default router
