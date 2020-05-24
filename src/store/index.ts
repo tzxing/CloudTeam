@@ -12,7 +12,7 @@ export default new Vuex.Store({
       access_token: '',
       medicalsignup:''
     },
-    title:""
+    title:"首页"
   },
   mutations: {
     committitle (state,title) {

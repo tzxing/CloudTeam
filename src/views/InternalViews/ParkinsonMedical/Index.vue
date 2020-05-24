@@ -34,6 +34,10 @@ import store from '@/store'
   {
     next()
   }
+},
+beforeRouteUpdate(to,from,next){
+  this.$store.commit('committitle',to.meta.title)
+  next()
 }
 
 })
