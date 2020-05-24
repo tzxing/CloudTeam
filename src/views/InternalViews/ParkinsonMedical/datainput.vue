@@ -89,7 +89,10 @@ export default class datainput extends Vue {
   };
 
   public change(e:any) {
-    if (this.form.user.identity == true) this.form.message = '无需输入验证码';
+    if (this.form.user.identity == true) {
+      this.form.user.vericode = '';
+      this.form.message = '无需输入验证码';
+    }
     else this.form.message = '请输入验证码';
     this.$forceUpdate()
   }
