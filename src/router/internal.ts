@@ -40,7 +40,7 @@ export default [
     },
     {
         path: '/internal/parkinsonsignup', name: 'parkinsonsignup',
-        component: () => import("@/views/InternalViews/ParkinsonMedical/parkinsonsignup.vue")
+        component: () => import("@/views/InternalViews/ParkinsonMedical/datainput.vue")
     },
     {
         path: '/internal/deep_space', name: 'deep_space',

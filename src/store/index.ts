@@ -17,6 +17,10 @@ export default new Vuex.Store({
   mutations: {
     committitle (state,title) {
       state.title=title
+    },
+    medicalsignup(state,role){
+      state.user.role=role,
+      state.user.medicalsignup="Y"
     }
   },
   actions: {
