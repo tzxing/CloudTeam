@@ -1,5 +1,87 @@
 <template>
   <div class="pardata">
+    <el-button type="primary" round @click="dialogVisible = true">添加患者</el-button>
+    <el-dialog
+      title="添加管理的患者"
+      :visible.sync="dialogVisible"
+      width="50%"
+      :before-close="handleClose"
+      center>
+
+        <el-input v-model="searchInput" placeholder="请输入患者的姓名" @keyup.enter.native="searchPatientInfo" style="margin: 10px 45px; width: 500px;"></el-input>
+        <el-button type="primary" style="margin: 0 0px;" @click="searchPatientInfo">查询</el-button>
+      <div style="height: 45vh; overflow: auto;">
+        <el-table
+          :data="searchData"
+          style="width: 100%">
+          <el-table-column type="expand">
+            <template slot-scope="props">
+              <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="姓名">
+                  <span>{{ props.row.name }}</span>
+                </el-form-item>
+                <el-form-item label="用户名">
+                  <span>{{ props.row.username }}</span>
+                </el-form-item>
+                <el-form-item label="年龄">
+                  <span>{{ props.row.age }}</span>
+                </el-form-item>
+                <el-form-item label="性别">
+                  <span>{{ props.row.gender }}</span>
+                </el-form-item>
+                <el-form-item label="电话">
+                  <span>{{ props.row.phone }}</span>
+                </el-form-item>
+                <el-form-item label="身份证号">
+                  <span>{{ props.row.idcard }}</span>
+                </el-form-item>
+                <el-form-item label="邮箱">
+                  <span>{{ props.row.email }}</span>
+                </el-form-item>
+                <el-form-item label="地址">
+                  <span>{{ props.row.address }}</span>
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="姓名"
+            prop="name"
+            width="100"
+            align="center">
+          </el-table-column>
+          <el-table-column
+            label="电话"
+            prop="phone"
+            width="150"
+            align="center">
+          </el-table-column>
+          <el-table-column
+            label="身份证号"
+            prop="idcard"
+            width="300"
+            align="center">
+          </el-table-column>
+          <el-table-column label="操作" width="80" align="center">
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                type="success"
+                icon="el-icon-plus"
+                circle
+                @click="searchEdit(scope.$index, scope.row)"/>
+            </template>
+          </el-table-column>
+        </el-table>
+
+      </div>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        </span>
+      
+    </el-dialog>
+
     <el-table
       :data="tableData"
       border
@@ -52,9 +134,19 @@ import { Component, Vue } from "vue-property-decorator"
 
 @Component({})
 export default class PardataView extends Vue {
-  collapse = false;
   activeIndex = "";
   dialogVisible = false;
+  searchInput = '';
+  searchData:{ //searchData用于接收检索信息，其内容在下方声明
+    name:string;
+    username:string;
+    age:number;
+    gender:string;
+    phone:string;
+    idcard:string;
+    email:string;
+    address:string;
+    }[] = [];
   // tableData = [{
   //     date: '2016-05-02',
   //     name: '王小虎',
@@ -99,6 +191,63 @@ export default class PardataView extends Vue {
       this.$message.error("请求患者数据失败，请稍后再试！");
     }
   }
+
+  private searchPatientInfo() { //查询患者的函数，之后替换成与数据库交互的内容
+    if(this.searchInput == '王小明') {
+      this.searchData = [{
+        name:'王小明',
+        username:'WXM',
+        age:64,
+        gender:'男性',
+        phone:'18888888766',
+        idcard:'389942195603133843',
+        email:'wangxiaoming@gmail.com',
+        address:'北京市海淀区',
+      }];
+    }
+    else if(this.searchInput == '李晓霞') {
+      this.searchData = [{
+        name:'李晓霞',
+        username:'xiaoxia_li',
+        age:35,
+        gender:'女性',
+        phone:'18837462345',
+        idcard:'389942198508243965',
+        email:'lixiaoxia@sina.com',
+        address:'北京市朝阳区',
+      }];
+    }
+    else if(this.searchInput == '陆桥山') {
+      this.searchData = [{
+        name:'陆桥山',
+        username:'luqiaoshan',
+        age:26,
+        gender:'男性',
+        phone:'15731132245',
+        idcard:'130304199402231517',
+        email:'ya@163.com',
+        address:'上海市普陀区金沙江路1518弄',
+      }, {
+        name:'陆桥山',
+        username:'qiaoshan_LU',
+        age:28,
+        gender:'男性',
+        phone:'18800359483',
+        idcard:'130304199212310483',
+        email:'qiaoshan@163.com',
+        address:'上海市黄浦区人民大道',
+      }];
+    }
+    else this.searchData = [];
+  }
+
+  handleClose(done:any) { //关闭对话框时的函数
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+  }
   
   handleEdit(index:any, row:any) {
     console.log(index, row.id);
@@ -107,105 +256,20 @@ export default class PardataView extends Vue {
       query:{ id:row.id }
     })
   }
-  // public $echarts: any;
-  // private options: object = {
-  //   title: {
-  //       text: '堆叠区域图'
-  //   },
-  //   tooltip : {
-  //       trigger: 'axis',
-  //       axisPointer: {
-  //           type: 'cross',
-  //           label: {
-  //               backgroundColor: '#6a7985'
-  //           }
-  //       }
-  //   },
-  //   legend: {
-  //       data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
-  //   },
-  //   toolbox: {
-  //       feature: {
-  //           saveAsImage: {}
-  //       }
-  //   },
-  //   grid: {
-  //       left: '3%',
-  //       right: '4%',
-  //       bottom: '3%',
-  //       containLabel: true
-  //   },
-  //   xAxis : [
-  //       {
-  //           type : 'category',
-  //           boundaryGap : false,
-  //           data : ['周一','周二','周三','周四','周五','周六','周日']
-  //       }
-  //   ],
-  //   yAxis : [
-  //       {
-  //           type : 'value'
-  //       }
-  //   ],
-  //   series : [
-  //       {
-  //           name:'邮件营销',
-  //           type:'line',
-  //           stack: '总量',
-  //           areaStyle: {},
-  //           data:[120, 132, 101, 134, 90, 230, 210]
-  //       },
-  //       {
-  //           name:'联盟广告',
-  //           type:'line',
-  //           stack: '总量',
-  //           areaStyle: {},
-  //           data:[220, 182, 191, 234, 290, 330, 310]
-  //       },
-  //       {
-  //           name:'视频广告',
-  //           type:'line',
-  //           stack: '总量',
-  //           areaStyle: {},
-  //           data:[150, 232, 201, 154, 190, 330, 410]
-  //       },
-  //       {
-  //           name:'直接访问',
-  //           type:'line',
-  //           stack: '总量',
-  //           areaStyle: {normal: {}},
-  //           data:[320, 332, 301, 334, 390, 330, 320]
-  //       },
-  //       {
-  //           name:'搜索引擎',
-  //           type:'line',
-  //           stack: '总量',
-  //           label: {
-  //               normal: {
-  //                   show: true,
-  //                   position: 'top'
-  //               }
-  //           },
-  //           areaStyle: {normal: {}},
-  //           data:[820, 932, 901, 934, 1290, 1330, 1320]
-  //       }
-  //   ]
-  // };
-  // private mounted() {
-  //   const ele = document.getElementById('myEcharts');
-  //   const chart: any = this.$echarts.init(ele);
-  //   chart.setOption(this.options);
-  // }
-
-
-  // open() {
-  //   const ele = document.getElementById('myEcharts');
-  //   const chart: any = this.$echarts.init(ele);
-  //   chart.setOption(this.options);
-  // }
-
-  // getDetailedInfo() {
-    
-  // }
 }
 </script>
+
+<style>
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
+</style>
