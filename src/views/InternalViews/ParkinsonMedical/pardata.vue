@@ -8,7 +8,7 @@
       :before-close="handleClose"
       center>
 
-        <el-input v-model="searchInput" placeholder="请输入患者的姓名" @keyup.enter.native="searchPatientInfo" style="margin: 10px 45px; width: 500px;"></el-input>
+        <el-input v-model="searchInput.UserInfo" placeholder="请输入患者的姓名" @keyup.enter.native="searchPatientInfo" style="margin: 10px 45px; width: 500px;"></el-input>
         <el-button type="primary" style="margin: 0 0px;" @click="searchPatientInfo">查询</el-button>
       <div style="height: 45vh; overflow: auto;">
         <el-table
@@ -136,17 +136,8 @@ import { Component, Vue } from "vue-property-decorator"
 export default class PardataView extends Vue {
   activeIndex = "";
   dialogVisible = false;
-  searchInput = '';
-  searchData:{ //searchData用于接收检索信息，其内容在下方声明
-    name:string;
-    username:string;
-    age:number;
-    gender:string;
-    phone:string;
-    idcard:string;
-    email:string;
-    address:string;
-    }[] = [];
+  searchInput = {UserInfo:""};
+  searchData=[];
   // tableData = [{
   //     date: '2016-05-02',
   //     name: '王小虎',
@@ -186,60 +177,79 @@ export default class PardataView extends Vue {
   async getData() {
     try {
       const { data } = await this.$axios.get("medical/find_all_patients/");
+      if (data=="nopatients"){
+         this.$message.warning("您当前没有监管病人，请添加");
+      }else{
       this.tableData = data;
+      }
     } catch (e) {
       this.$message.error("请求患者数据失败，请稍后再试！");
     }
   }
 
-  private searchPatientInfo() { //查询患者的函数，之后替换成与数据库交互的内容
-    if(this.searchInput == '王小明') {
-      this.searchData = [{
-        name:'王小明',
-        username:'WXM',
-        age:64,
-        gender:'男性',
-        phone:'18888888766',
-        idcard:'389942195603133843',
-        email:'wangxiaoming@gmail.com',
-        address:'北京市海淀区',
-      }];
+  //检索用户数据
+  async searchPatientInfo() {
+    try {
+      const { data } = await this.$axios.post(
+        "medical/finduserinfo",
+        this.searchInput
+      );
+      if (data) {
+        this.searchData = data;
+      }
+    } catch (e) {
+      this.$message.error("检索失败，请稍后再试！");
     }
-    else if(this.searchInput == '李晓霞') {
-      this.searchData = [{
-        name:'李晓霞',
-        username:'xiaoxia_li',
-        age:35,
-        gender:'女性',
-        phone:'18837462345',
-        idcard:'389942198508243965',
-        email:'lixiaoxia@sina.com',
-        address:'北京市朝阳区',
-      }];
-    }
-    else if(this.searchInput == '陆桥山') {
-      this.searchData = [{
-        name:'陆桥山',
-        username:'luqiaoshan',
-        age:26,
-        gender:'男性',
-        phone:'15731132245',
-        idcard:'130304199402231517',
-        email:'ya@163.com',
-        address:'上海市普陀区金沙江路1518弄',
-      }, {
-        name:'陆桥山',
-        username:'qiaoshan_LU',
-        age:28,
-        gender:'男性',
-        phone:'18800359483',
-        idcard:'130304199212310483',
-        email:'qiaoshan@163.com',
-        address:'上海市黄浦区人民大道',
-      }];
-    }
-    else this.searchData = [];
   }
+
+  // private searchPatientInfo() { //查询患者的函数，之后替换成与数据库交互的内容
+  //   if(this.searchInput == '王小明') {
+  //     this.searchData = [{
+  //       name:'王小明',
+  //       username:'WXM',
+  //       age:64,
+  //       gender:'男性',
+  //       phone:'18888888766',
+  //       idcard:'389942195603133843',
+  //       email:'wangxiaoming@gmail.com',
+  //       address:'北京市海淀区',
+  //     }];
+  //   }
+  //   else if(this.searchInput == '李晓霞') {
+  //     this.searchData = [{
+  //       name:'李晓霞',
+  //       username:'xiaoxia_li',
+  //       age:35,
+  //       gender:'女性',
+  //       phone:'18837462345',
+  //       idcard:'389942198508243965',
+  //       email:'lixiaoxia@sina.com',
+  //       address:'北京市朝阳区',
+  //     }];
+  //   }
+  //   else if(this.searchInput == '陆桥山') {
+  //     this.searchData = [{
+  //       name:'陆桥山',
+  //       username:'luqiaoshan',
+  //       age:26,
+  //       gender:'男性',
+  //       phone:'15731132245',
+  //       idcard:'130304199402231517',
+  //       email:'ya@163.com',
+  //       address:'上海市普陀区金沙江路1518弄',
+  //     }, {
+  //       name:'陆桥山',
+  //       username:'qiaoshan_LU',
+  //       age:28,
+  //       gender:'男性',
+  //       phone:'18800359483',
+  //       idcard:'130304199212310483',
+  //       email:'qiaoshan@163.com',
+  //       address:'上海市黄浦区人民大道',
+  //     }];
+  //   }
+  //   else this.searchData = [];
+  // }
 
   handleClose(done:any) { //关闭对话框时的函数
         this.$confirm('确认关闭？')
