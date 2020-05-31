@@ -1,6 +1,9 @@
 <template>
   <div class="pardata">
-    <el-button type="primary" round @click="dialogVisible = true">添加患者</el-button>
+    <el-button-group style="margin: 10px 0;float:right;">
+      <el-button type="primary" icon="el-icon-plus" @click="dialogVisible = true">添加患者</el-button>
+      <el-button type="primary" icon="el-icon-refresh-right" @click="getData">刷新列表</el-button>
+    </el-button-group>
     <el-dialog
       title="添加管理的患者"
       :visible.sync="dialogVisible"
