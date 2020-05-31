@@ -309,7 +309,7 @@ export default class PardataView extends Vue {
       this.$message({
       message: '已将该患者从您的管理下移除',
       type: 'info'})
-      this.getData();
+      // this.getData();
       this.tableData = this.tableData.filter(
         item => item["username"] != row.username
       );
