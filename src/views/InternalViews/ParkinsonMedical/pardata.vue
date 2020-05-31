@@ -5,11 +5,11 @@
       title="添加管理的患者"
       :visible.sync="dialogVisible"
       width="50%"
-      :before-close="handleClose"
+      @closed="handleClose"
       center>
 
         <el-input v-model="searchInput.UserInfo" placeholder="请输入患者的姓名" @keyup.enter.native="searchPatientInfo" style="margin: 10px 45px; width: 500px;"></el-input>
-        <el-button type="primary" style="margin: 0 0px;" @click="searchPatientInfo">查询</el-button>
+        <el-button type="primary" style="margin: 0 0px;" @click="searchPatientInfo">查 询</el-button>
       <div style="height: 45vh; overflow: auto;">
         <el-table
           :data="searchData"
@@ -69,7 +69,7 @@
                 type="success"
                 icon="el-icon-plus"
                 circle
-                @click="searchEdit(scope.$index, scope.row)"/>
+                @click="addPatient(scope.$index, scope.row)"/>
             </template>
           </el-table-column>
         </el-table>
@@ -137,7 +137,23 @@ export default class PardataView extends Vue {
   activeIndex = "";
   dialogVisible = false;
   searchInput = {UserInfo:""};
-  searchData=[];
+  searchData:{
+    name:string;
+    username:string;
+    age:string;
+    gender:string;
+    phone:string;
+    idcard:string;
+    email:string;
+    address:string;
+    }[] = [];
+  tableData:{
+    name:string;
+    age:string;
+    gender:string;
+    address:string;
+    username:string;
+    }[] = [];
   // tableData = [{
   //     date: '2016-05-02',
   //     name: '王小虎',
@@ -167,7 +183,6 @@ export default class PardataView extends Vue {
   //     address: '上海市普陀区金沙江路 1516 弄',
   //     id: '000004'
   // }];
-  tableData = [];
 //组件加载的同时向后端取数据
   created() {
     this.getData();
@@ -251,21 +266,20 @@ export default class PardataView extends Vue {
   //   else this.searchData = [];
   // }
 
-  handleClose(done:any) { //关闭对话框时的函数
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
+  addPatient(index:any, row:any) {
+    //用row.username来索引用户名传回后端
   }
   
-  handleEdit(index:any, row:any) {
-    console.log(index, row.id);
-    this.$router.push({
-      path:'data_detail',
-      query:{ id:row.id }
-    })
+  handleOpen() {
+    //对话框弹出动画开始时的回调函数
   }
+
+  handleClose(done:any) {  //对话框动画结束后的回调函数
+    this.searchData = [];
+    this.searchInput.UserInfo = '';
+    this.getData(); //重新拉取管理的患者数据
+  }
+
 }
 </script>
 
