@@ -280,22 +280,44 @@ export default class PardataView extends Vue {
     return flag;
   }
 
-  addPatient(index:any, row:any) {
+  async addPatient(index:any, row:any) {
     //成功信息前先写和后端的交互语句，用row.username来索引用户名传回后端
-    this.$message({
+    try {
+      const { data } = await this.$axios.post(
+        "medical/addpatients",
+         {username:row.username}
+      );
+      if (data=="success"){
+     this.$message({
       message: '已将该患者添加到您的管理下',
       type: 'success'
-    })
-    this.getData();
+     })
+     this.getData();}
+    } catch (e) {
+      this.$message.error("添加失败，请稍后再试！");
+    }
   }
 
-  deletePatient(index:any, row:any) {
+  async deletePatient(index:any, row:any) {
     //成功信息前先写和后端的交互语句，用row.username来索引用户名传回后端
-    this.$message({
+     try {
+      const { data } = await this.$axios.post(
+        "medical/deletepatients",
+         {username:row.username}
+      );
+      if (data=="success"){
+      this.$message({
       message: '已将该患者从您的管理下移除',
-      type: 'info'
-    })
-    this.getData();
+      type: 'info'})
+      this.getData();
+      this.tableData = this.tableData.filter(
+        item => item["username"] != row.username
+      );
+
+    }
+    } catch (e) {
+      this.$message.error("添加失败，请稍后再试！");
+    }
   }
   
   handleOpen() {
