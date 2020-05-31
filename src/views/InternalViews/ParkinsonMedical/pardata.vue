@@ -76,8 +76,7 @@
 
       </div>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+          <el-button type="primary" @click="dialogVisible=false">关 闭</el-button>
         </span>
       
     </el-dialog>
@@ -125,7 +124,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- <div id="myEcharts" style="height: 400px;"></div> -->
   </div>
 </template>
 
@@ -278,6 +276,15 @@ export default class PardataView extends Vue {
     this.searchData = [];
     this.searchInput.UserInfo = '';
     this.getData(); //重新拉取管理的患者数据
+  }
+ 
+
+  handleEdit(index:any, row:any) { //转跳详情页面
+    console.log(index, row.id);
+    this.$router.push({
+      path:'data_detail',
+      query:{ id:row.id }
+    })
   }
 
 }
