@@ -65,11 +65,11 @@
           <el-table-column label="操作" width="80" align="center">
             <template slot-scope="scope">
               <el-button
-                size="mini"
-                type="success"
-                icon="el-icon-plus"
-                circle
-                @click="addPatient(scope.$index, scope.row)"/>
+                  size="mini"
+                  type="success"
+                  icon="el-icon-plus"
+                  round
+                  @click="addPatient(scope.$index, scope.row)">添加</el-button>
             </template>
           </el-table-column>
         </el-table>
