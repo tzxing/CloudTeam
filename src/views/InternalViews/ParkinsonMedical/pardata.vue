@@ -7,7 +7,7 @@
     <el-dialog
       title="添加管理的患者"
       :visible.sync="dialogVisible"
-      width="50%"
+      width="750px"
       @closed="handleClose"
       center>
 
@@ -65,13 +65,14 @@
             width="300"
             align="center">
           </el-table-column>
-          <el-table-column label="操作" width="80" align="center">
+          <el-table-column label="操作" width="85" align="center">
             <template slot-scope="scope">
               <el-button
                   size="mini"
                   type="success"
                   icon="el-icon-plus"
                   round
+                  :disabled="IsExistInList(scope.$index, scope.row)"
                   @click="addPatient(scope.$index, scope.row)">添加</el-button>
             </template>
           </el-table-column>
@@ -122,8 +123,8 @@
         label="操作"
         width="200">
         <template slot-scope="scope">
-          <el-button @click="handleEdit(scope.$index, scope.row)" type="info" size="mini" icon="el-icon-search">详情</el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete">删除</el-button>
+          <el-button @click="toDetailedInfo(scope.$index, scope.row)" type="info" size="mini" icon="el-icon-search">详情</el-button>
+          <el-button @click="deletePatient(scope.$index, scope.row)" type="danger" size="mini" icon="el-icon-delete">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -267,40 +268,47 @@ export default class PardataView extends Vue {
   //   else this.searchData = [];
   // }
 
-  addPatient(index:any, row:any) {
-    //用row.username来索引用户名传回后端
+  IsExistInList(index:any, row:any) { //判断对应患者是否已经在医生的数据库中
     let count = this.tableData.length;
-    let flag = false; //查询到患者的标志
+    let flag = false;
     for(let i = 0; i < count; i++) {
       if(this.tableData[i].username == row.username) {
         flag = true;
         break;
       }
     }
-    if(flag == true) {
-      this.$message({
-        message: '该患者已存在于您的数据库中，无须重复添加',
-        type: 'warning'
-      })
-    }
-    else{
-      //写和后端的交互语句
-      this.$message('已将该患者添加到您的管理下')
-    }
+    return flag;
+  }
+
+  addPatient(index:any, row:any) {
+    //成功信息前先写和后端的交互语句，用row.username来索引用户名传回后端
+    this.$message({
+      message: '已将该患者添加到您的管理下',
+      type: 'success'
+    })
+    this.getData();
+  }
+
+  deletePatient(index:any, row:any) {
+    //成功信息前先写和后端的交互语句，用row.username来索引用户名传回后端
+    this.$message({
+      message: '已将该患者从您的管理下移除',
+      type: 'info'
+    })
+    this.getData();
   }
   
   handleOpen() {
-    //对话框弹出动画开始时的回调函数
+    //预留，对话框弹出动画开始时的回调函数
   }
 
   handleClose(done:any) {  //对话框动画结束后的回调函数
     this.searchData = [];
     this.searchInput.UserInfo = '';
-    this.getData(); //重新拉取管理的患者数据
   }
  
 
-  handleEdit(index:any, row:any) { //转跳详情页面
+  toDetailedInfo(index:any, row:any) { //转跳详情页面
     console.log(index, row.id);
     this.$router.push({
       path:'data_detail',
