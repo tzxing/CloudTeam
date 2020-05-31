@@ -120,10 +120,10 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        width="100">
+        width="200">
         <template slot-scope="scope">
-          <el-button @click="handleEdit(scope.$index, scope.row)" type="text" size="small">查看</el-button>
-          <el-button type="text" size="small">编辑</el-button>
+          <el-button @click="handleEdit(scope.$index, scope.row)" type="info" size="mini" icon="el-icon-search">详情</el-button>
+          <el-button type="danger" size="mini" icon="el-icon-delete">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -269,6 +269,24 @@ export default class PardataView extends Vue {
 
   addPatient(index:any, row:any) {
     //用row.username来索引用户名传回后端
+    let count = this.tableData.length;
+    let flag = false; //查询到患者的标志
+    for(let i = 0; i < count; i++) {
+      if(this.tableData[i].username == row.username) {
+        flag = true;
+        break;
+      }
+    }
+    if(flag == true) {
+      this.$message({
+        message: '该患者已存在于您的数据库中，无须重复添加',
+        type: 'warning'
+      })
+    }
+    else{
+      //写和后端的交互语句
+      this.$message('已将该患者添加到您的管理下')
+    }
   }
   
   handleOpen() {
