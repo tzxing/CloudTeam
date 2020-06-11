@@ -176,17 +176,17 @@ export default class datadetailView extends Vue {
         type: 'line'
     }]
   };
-  private mounted() {
-    this.form.id = String(this.$route.query.id);
-    // for(var i:number = 1; i < 20000; i++){
-    //   var now:Date = new Date(this.form.base += this.form.oneDay);
-    //   this.form.date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
-    //   this.form.data.push(Math.round((Math.random() - 0.5) * 20 + this.form.data[i - 1]));
-    // }
-    this.drawBarChart();
-  }
+  // private mounted() {
+  //   this.form.id = String(this.$route.query.id);
+  //   // for(var i:number = 1; i < 20000; i++){
+  //   //   var now:Date = new Date(this.form.base += this.form.oneDay);
+  //   //   this.form.date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
+  //   //   this.form.data.push(Math.round((Math.random() - 0.5) * 20 + this.form.data[i - 1]));
+  //   // }
+  //   // this.drawBarChart();
+  // }
   
- async drawBarChart(){
+ async drawBarChart(selectdataset:any,pasttime:any,grouptime:any){
     const ele = document.getElementById('myEcharts');
     const chart: any = this.$echarts.init(ele);
     chart.setOption(this.options);
@@ -194,7 +194,7 @@ export default class datadetailView extends Vue {
     try {
       const { data:{acceleration ,time} } = await this.$axios.post(
         "medical/find_acceleration_data",
-        {username:"lihui1",pasttime:"1h",grouptime:"5m"}
+        {username:String(this.$route.query.id),pasttime:"1h",grouptime:"5m"}
       );
       // this.form.date=gyro_z0;
       // this.form.data=time
@@ -257,7 +257,7 @@ export default class datadetailView extends Vue {
   dataGraph() { //按下绘图按钮的时候触发的函数
     if(this.form.dataset != '' && this.form.duration != '' && this.form.precision != '') {
       //写和服务器的交互语句，dataset、duration、precision三个变量分别储存用户在下拉菜单中的选择项
-      this.drawBarChart(); //可以直接调用吗？
+      this.drawBarChart(this.form.dataset,this.form.duration,this.form.precision); //可以直接调用吗？
     }
     else
       this.$message({
