@@ -194,7 +194,7 @@ export default class datadetailView extends Vue {
     try {
       const { data:{acceleration ,time} } = await this.$axios.post(
         "medical/find_acceleration_data",
-        {username:"lihui1",pasttime:"1h"}
+        {username:"lihui1",pasttime:"1h",grouptime:"5m"}
       );
       // this.form.date=gyro_z0;
       // this.form.data=time
