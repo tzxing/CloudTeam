@@ -2,29 +2,66 @@
   <div class="data_detail">
     {{this.$route.query.id}}
     <el-form
+      :inline="true"
       ref="form"
       :model="form"
-      label-width="200px"
+      label-width="80px"
     >
-      <el-form-item label="请选择要查看的数据：">
+      <el-form-item label="数据集">
         <el-select
           v-model="form.dataset"
-          placeholder="数据集"
+          placeholder="请选择要查看的数据集"
         >
           <el-option
-            label="测试数据1"
-            value="1"
-          />
-          <el-option
-            label="测试数据2"
-            value="2"
+            v-for="item in form.datasetList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
           />
         </el-select>
+      </el-form-item>
+
+      <el-form-item label="时间区间">
+        <el-select
+          v-model="form.duration"
+          placeholder="请选择要查看的时间区间"
+          @change="durationChange"
+        >
+          <el-option
+            v-for="item in form.durationList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="数据精度">
+        <el-select
+          v-model="form.precision"
+          placeholder="请选择曲线的数据绘制精度"
+        >
+          <el-option
+            v-for="item in form.precisionList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+
+      <el-form-item>
         <el-button
           type="primary"
+          @click="dataGraph"
+        >
+          查看数据
+        </el-button>
+        <el-button
+          type="primary"
+          plain
           label-width="200px"
           @click="goBack"
-          style="float:right; margin-right:750px"
         >
           返回
         </el-button>
@@ -40,7 +77,21 @@ import { Component, Vue } from "vue-property-decorator"
 @Component({})
 export default class datadetailView extends Vue {
   private form = {
-    dataset: '2',
+    datasetList:[//数据集下拉菜单内容
+      { value:'1', label:'测试数据1' },
+      { value:'2', label:'测试数据2' }
+    ],
+    dataset: '',
+    durationList:[//数据集下拉菜单内容
+      { value:'1', label:'过去一天内' },
+      { value:'2', label:'过去一周内' },
+      { value:'3', label:'过去15天内' },
+      { value:'4', label:'过去一个月内' },
+      { value:'5', label:'过去半年内' }
+    ],
+    duration:'',
+    precisionList:[] as Array< {value: string; label: string} >,
+    precision:'',
     id: '',
     /* 下面表格相关 */
     base : +new Date(1968, 9, 3),
@@ -157,7 +208,65 @@ export default class datadetailView extends Vue {
     }
   }
 
-  goBack() {
+  durationChange() { //当时间区间变化的时候触发的函数
+    this.form.precision = '';
+    switch (this.form.duration) {
+    case '1': //过去一天
+      this.form.precisionList = [
+        { value:'per5s', label:'每5秒' },
+        { value:'per30s', label:'每30秒' },
+        { value:'per1m', label:'每分钟' },
+        { value:'per5m', label:'每5分钟' },
+      ];
+      break;
+    case '2': //过去一周
+      this.form.precisionList = [
+        { value:'per1m', label:'每分钟' },
+        { value:'per5m', label:'每5分钟' },
+        { value:'per30m', label:'每半小时' },
+        { value:'per1h', label:'每小时' },
+      ];
+      break;
+    case '3': //过去15天
+      this.form.precisionList = [
+        { value:'per30m', label:'每半小时' },
+        { value:'per1h', label:'每小时' },
+        { value:'per6h', label:'每6小时' },
+        { value:'per12h', label:'每12小时' },
+      ];
+      break;
+    case '4': //过去一个月
+      this.form.precisionList = [
+        { value:'per1h', label:'每小时' },
+        { value:'per6h', label:'每6小时' },
+        { value:'per12h', label:'每12小时' },
+        { value:'per1d', label:'每24小时' },
+      ];
+      break;
+    case '5': //过去半年
+      this.form.precisionList = [
+        { value:'per1h', label:'每小时' },
+        { value:'per6h', label:'每6小时' },
+        { value:'per12h', label:'每12小时' },
+        { value:'per1d', label:'每24小时' },
+      ];
+      break;
+    }
+  }
+
+  dataGraph() { //按下绘图按钮的时候触发的函数
+    if(this.form.dataset != '' && this.form.duration != '' && this.form.precision != '') {
+      //写和服务器的交互语句
+      this.drawBarChart(); //可以直接调用吗？
+    }
+    else
+      this.$message({
+        message: '请选择前面下拉菜单内容',
+        type: 'warning'
+      })
+  }
+
+  goBack() { //按下返回按钮时路由跳转
     this.$router.push({
       path:`pardata`
     })
