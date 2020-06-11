@@ -116,7 +116,7 @@
       </el-table-column>
       <el-table-column
         prop="username"
-        label="患者ID"
+        label="患者用户名"
         width="120">
       </el-table-column>
       <el-table-column
@@ -365,10 +365,10 @@ export default class PardataView extends Vue {
  
 
   toDetailedInfo(index:any, row:any) { //转跳详情页面
-    console.log(index, row.id);
+    //console.log(index, row.id);
     this.$router.push({
       path:'data_detail',
-      query:{ id:row.id }
+      query:{ username:row.username }
     })
   }
 

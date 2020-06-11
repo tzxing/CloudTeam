@@ -1,6 +1,6 @@
 <template>
   <div class="data_detail">
-    {{this.$route.query.id}}
+    {{this.$route.query.username}}
     <el-form
       :inline="true"
       ref="form"
@@ -194,7 +194,7 @@ export default class datadetailView extends Vue {
     try {
       const { data:{acceleration ,time} } = await this.$axios.post(
         "medical/find_acceleration_data",
-        {username:String(this.$route.query.id),pasttime:"1h",grouptime:"5m"}
+        {username:String(this.$route.query.username),pasttime:"1h",grouptime:"5m"}
       );
       // this.form.date=gyro_z0;
       // this.form.data=time
