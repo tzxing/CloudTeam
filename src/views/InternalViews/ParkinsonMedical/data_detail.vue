@@ -87,7 +87,7 @@ export default class datadetailView extends Vue {
         {
             type : 'category',
             boundaryGap : false,
-            data : this.form.date
+            data : [] as Array<string>
         }
     ],
     yAxis : [
@@ -115,7 +115,7 @@ export default class datadetailView extends Vue {
     }],
     series: [{
         name: '模拟数据',
-        data: this.form.data,
+        data: [] as Array<number>,
         sampling: 'average',
         smooth: true,
         symbol: 'none',
@@ -127,18 +127,36 @@ export default class datadetailView extends Vue {
   };
   private mounted() {
     this.form.id = String(this.$route.query.id);
-
-    for(var i:number = 1; i < 20000; i++){
-      var now:Date = new Date(this.form.base += this.form.oneDay);
-      this.form.date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
-      this.form.data.push(Math.round((Math.random() - 0.5) * 20 + this.form.data[i - 1]));
-    }
-
+    // for(var i:number = 1; i < 20000; i++){
+    //   var now:Date = new Date(this.form.base += this.form.oneDay);
+    //   this.form.date.push([now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'));
+    //   this.form.data.push(Math.round((Math.random() - 0.5) * 20 + this.form.data[i - 1]));
+    // }
+    this.drawBarChart();
+  }
+  
+ async drawBarChart(){
     const ele = document.getElementById('myEcharts');
     const chart: any = this.$echarts.init(ele);
     chart.setOption(this.options);
+    chart.showLoading();
+    try {
+      const { data:{gyro_z0,time} } = await this.$axios.post(
+        "medical/find_acceleration_data",
+        {username:"this.searchdata"}
+      );
+      // this.form.date=gyro_z0;
+      // this.form.data=time
+      chart.hideLoading();
+      chart.setOption({
+      xAxis:[{data:time}],
+      series:[{data:gyro_z0}]
+    })
+    } catch (e) {
+      this.$message.error("信息拉取失败，请稍后再试！");
+    }
   }
-  
+
   goBack() {
     this.$router.push({
       path:`pardata`
