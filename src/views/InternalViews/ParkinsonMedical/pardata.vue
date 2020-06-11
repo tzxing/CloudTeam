@@ -73,7 +73,7 @@
                   icon="el-icon-plus"
                   round
                   :disabled="IsExistInList(scope.$index, scope.row)"
-                  @click="addPatient(scope.$index, scope.row)">添加</el-button>
+                  @click="addPatientConfirm(scope.$index, scope.row)">添加</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -124,7 +124,7 @@
         width="200">
         <template slot-scope="scope">
           <el-button @click="toDetailedInfo(scope.$index, scope.row)" type="info" size="mini" icon="el-icon-search">详情</el-button>
-          <el-button @click="deletePatient(scope.$index, scope.row)" type="danger" size="mini" icon="el-icon-delete">删除</el-button>
+          <el-button @click="deletePatientConfirm(scope.$index, scope.row)" type="danger" size="mini" icon="el-icon-delete">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -280,6 +280,23 @@ export default class PardataView extends Vue {
     return flag;
   }
 
+  addPatientConfirm(index:any, row:any) {
+    //添加按钮的触发函数
+    this.$confirm('是否将该患者添加到自己的管理下？', '确认添加', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+      center: true
+    }).then(() => {
+      this.addPatient(index, row);
+    }).catch(() => {
+      this.$message({
+        type: 'info',
+        message: '操作已取消'
+      });
+    });
+  }
+
   async addPatient(index:any, row:any) {
     //成功信息前先写和后端的交互语句，用row.username来索引用户名传回后端
     try {
@@ -298,6 +315,23 @@ export default class PardataView extends Vue {
     }
   }
 
+  deletePatientConfirm(index:any, row:any) {
+    //删除按钮的触发函数
+    this.$confirm('是否将该患者从管理下移除？', '确认移除', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+      center: true
+    }).then(() => {
+      this.deletePatient(index, row);
+    }).catch(() => {
+      this.$message({
+        type: 'info',
+        message: '操作已取消'
+      });          
+    });
+  }
+
   async deletePatient(index:any, row:any) {
     //成功信息前先写和后端的交互语句，用row.username来索引用户名传回后端
      try {
@@ -308,7 +342,7 @@ export default class PardataView extends Vue {
       if (data=="success"){
       this.$message({
       message: '已将该患者从您的管理下移除',
-      type: 'info'})
+      type: 'success'})
       // this.getData();
       this.tableData = this.tableData.filter(
         item => item["username"] != row.username
