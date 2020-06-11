@@ -256,7 +256,7 @@ export default class datadetailView extends Vue {
 
   dataGraph() { //按下绘图按钮的时候触发的函数
     if(this.form.dataset != '' && this.form.duration != '' && this.form.precision != '') {
-      //写和服务器的交互语句
+      //写和服务器的交互语句，dataset、duration、precision三个变量分别储存用户在下拉菜单中的选择项
       this.drawBarChart(); //可以直接调用吗？
     }
     else
