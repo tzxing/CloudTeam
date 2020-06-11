@@ -1,6 +1,6 @@
 <template>
   <div class="data_detail">
-    {{this.$route.query.username}}
+    <!-- {{this.$route.query.username}} -->
     <el-form
       :inline="true"
       ref="form"
@@ -78,16 +78,16 @@ import { Component, Vue } from "vue-property-decorator"
 export default class datadetailView extends Vue {
   private form = {
     datasetList:[//数据集下拉菜单内容
-      { value:'1', label:'测试数据1' },
-      { value:'2', label:'测试数据2' }
+      { value:'acce_x0', label:'x轴加速度' },
+      { value:'gyro_x0', label:'x轴陀螺仪' }
     ],
     dataset: '',
     durationList:[//数据集下拉菜单内容
-      { value:'1', label:'过去一天内' },
-      { value:'2', label:'过去一周内' },
-      { value:'3', label:'过去15天内' },
-      { value:'4', label:'过去一个月内' },
-      { value:'5', label:'过去半年内' }
+      { value:'1h', label:'过去1小时' },
+      { value:'8h', label:'过去8小时' },
+      { value:'24h', label:'过去24小时' },
+      { value:'7d', label:'过去一周内' },
+      { value:'30d', label:'过去一月内' }
     ],
     duration:'',
     precisionList:[] as Array< {value: string; label: string} >,
@@ -192,16 +192,16 @@ export default class datadetailView extends Vue {
     chart.setOption(this.options);
     chart.showLoading();
     try {
-      const { data:{acceleration ,time} } = await this.$axios.post(
+      const { data:{output,time} } = await this.$axios.post(
         "medical/find_acceleration_data",
-        {username:String(this.$route.query.username),pasttime:"1h",grouptime:"5m"}
+        {username:String(this.$route.query.username),selectdataset:selectdataset,pasttime:pasttime,grouptime:grouptime,}
       );
       // this.form.date=gyro_z0;
       // this.form.data=time
       chart.hideLoading();
       chart.setOption({
       xAxis:[{data:time}],
-      series:[{data:acceleration}]
+      series:[{data:output}]
     })
     } catch (e) {
       this.$message.error("信息拉取失败，请稍后再试！");
@@ -211,44 +211,44 @@ export default class datadetailView extends Vue {
   durationChange() { //当时间区间变化的时候触发的函数
     this.form.precision = '';
     switch (this.form.duration) {
-    case '1': //过去一天
+    case '1h': //过去1小时
       this.form.precisionList = [
-        { value:'per5s', label:'每5秒' },
-        { value:'per30s', label:'每30秒' },
-        { value:'per1m', label:'每分钟' },
-        { value:'per5m', label:'每5分钟' },
+        { value:'5s', label:'每5秒' },
+        { value:'30s', label:'每30秒' },
+        { value:'1m', label:'每分钟' },
+        { value:'5m', label:'每5分钟' },
       ];
       break;
-    case '2': //过去一周
+    case '8h': //过去8小时
       this.form.precisionList = [
-        { value:'per1m', label:'每分钟' },
-        { value:'per5m', label:'每5分钟' },
-        { value:'per30m', label:'每半小时' },
-        { value:'per1h', label:'每小时' },
+        { value:'1m', label:'每分钟' },
+        { value:'5m', label:'每5分钟' },
+        { value:'30m', label:'每半小时' },
+        { value:'1h', label:'每小时' },
       ];
       break;
-    case '3': //过去15天
+    case '24h': //过去24小时
       this.form.precisionList = [
-        { value:'per30m', label:'每半小时' },
-        { value:'per1h', label:'每小时' },
-        { value:'per6h', label:'每6小时' },
-        { value:'per12h', label:'每12小时' },
+        { value:'30m', label:'每半小时' },
+        { value:'1h', label:'每小时' },
+        { value:'6h', label:'每6小时' },
+        { value:'12h', label:'每12小时' },
       ];
       break;
-    case '4': //过去一个月
+    case '7d': //过去一周内
       this.form.precisionList = [
-        { value:'per1h', label:'每小时' },
-        { value:'per6h', label:'每6小时' },
-        { value:'per12h', label:'每12小时' },
-        { value:'per1d', label:'每24小时' },
+        { value:'1h', label:'每小时' },
+        { value:'6h', label:'每6小时' },
+        { value:'12h', label:'每12小时' },
+        { value:'24h', label:'每24小时' },
       ];
       break;
-    case '5': //过去半年
+    case '30d': //过去一月内
       this.form.precisionList = [
-        { value:'per1h', label:'每小时' },
-        { value:'per6h', label:'每6小时' },
-        { value:'per12h', label:'每12小时' },
-        { value:'per1d', label:'每24小时' },
+        { value:'1h', label:'每小时' },
+        { value:'6h', label:'每6小时' },
+        { value:'12h', label:'每12小时' },
+        { value:'24h', label:'每24小时' },
       ];
       break;
     }
