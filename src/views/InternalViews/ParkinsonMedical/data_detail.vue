@@ -192,16 +192,16 @@ export default class datadetailView extends Vue {
     chart.setOption(this.options);
     chart.showLoading();
     try {
-      const { data:{gyro_z0,time} } = await this.$axios.post(
+      const { data:{acceleration ,time} } = await this.$axios.post(
         "medical/find_acceleration_data",
-        {username:"this.searchdata"}
+        {username:"lihui1",pasttime:"1h"}
       );
       // this.form.date=gyro_z0;
       // this.form.data=time
       chart.hideLoading();
       chart.setOption({
       xAxis:[{data:time}],
-      series:[{data:gyro_z0}]
+      series:[{data:acceleration}]
     })
     } catch (e) {
       this.$message.error("信息拉取失败，请稍后再试！");
