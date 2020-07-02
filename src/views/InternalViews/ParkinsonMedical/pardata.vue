@@ -1,9 +1,17 @@
 <template>
   <div class="pardata">
-    <el-button-group style="margin: 10px 0;float:right;">
+    <el-button-group style="float:right;">
       <el-button type="primary" icon="el-icon-plus" @click="dialogVisible = true">添加患者</el-button>
       <el-button type="primary" icon="el-icon-refresh-right" @click="getData">刷新列表</el-button>
     </el-button-group>
+    <el-form :inline="true" ref="form" :model="form" label-width="80px">
+      <el-form-item label="患者筛选">
+        <el-input v-model="form.screenInput" placeholder="键入姓名以筛选患者" @keyup.enter.native="screenByName" @input="screenByName"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="screenClear">重置条件</el-button>
+      </el-form-item>
+    </el-form>
     <el-dialog
       title="添加管理的患者"
       :visible.sync="dialogVisible"
@@ -86,7 +94,7 @@
     </el-dialog>
 
     <el-table
-      :data="tableData"
+      :data="screenData"
       border
       style="width: 100%">
       <el-table-column
@@ -139,6 +147,9 @@ export default class PardataView extends Vue {
   activeIndex = "";
   dialogVisible = false;
   searchInput = {UserInfo:""};
+  form = {
+    screenInput: '',
+  };
   searchData:{
     name:string;
     username:string;
@@ -150,6 +161,13 @@ export default class PardataView extends Vue {
     address:string;
     }[] = [];
   tableData:{
+    name:string;
+    age:string;
+    gender:string;
+    address:string;
+    username:string;
+    }[] = [];
+  screenData:{
     name:string;
     age:string;
     gender:string;
@@ -188,6 +206,33 @@ export default class PardataView extends Vue {
 //组件加载的同时向后端取数据
   created() {
     this.getData();
+    this.screenClear(); //将筛选框初始化
+  }
+
+  screenByName() {  //筛选框发生输入事件时的触发函数
+    if(this.form.screenInput == '') //当搜索栏清空时回到默认状态
+      this.screenData = this.tableData;
+    else
+    {
+      console.log(this.form.screenInput[0]);
+      this.screenData = [];
+      let screenlength = this.form.screenInput.length;
+      let j = 0;
+      for(let i = 0; i < this.tableData.length; i++)
+      {
+        if(this.form.screenInput == this.tableData[i].name.substring(0,screenlength))
+        {
+          //this.screenData.push(this.tableData[i]);
+          this.screenData[j] = this.tableData[i];
+          j++;
+        }
+      }
+    }
+  }
+  
+  screenClear() { //按下筛选框重置按钮时的触发函数
+    this.form.screenInput = ''; //将搜索框置为空
+    this.screenData = this.tableData; //重新将拉取到的表格信息赋给screenData变量
   }
 
   //得到用户数据
@@ -289,6 +334,7 @@ export default class PardataView extends Vue {
       center: true
     }).then(() => {
       this.addPatient(index, row);
+      this.screenByName(); //添加患者后表格内容更新，需要重新拉取筛选结果
     }).catch(() => {
       this.$message({
         type: 'info',
@@ -324,6 +370,7 @@ export default class PardataView extends Vue {
       center: true
     }).then(() => {
       this.deletePatient(index, row);
+      this.screenByName(); //移除患者后表格内容更新，需要重新拉取筛选结果
     }).catch(() => {
       this.$message({
         type: 'info',
