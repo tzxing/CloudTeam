@@ -22,18 +22,20 @@
       </el-form-item>
 
       <el-form-item label="时间区间">
-        <el-select
-          v-model="form.duration"
-          placeholder="请选择要查看的时间区间"
-          @change="durationChange"
-        >
-          <el-option
-            v-for="item in form.durationList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
+        <div class="block">
+          <span class="demonstration"></span>
+          <el-date-picker
+            v-model="form.datevalue"
+            type="datetimerange"
+            :picker-options="form.pickerOptions"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            align="right"
+            @change="durationChange"
+            style="width: 380px;">
+          </el-date-picker>
+        </div>
       </el-form-item>
 
       <el-form-item label="数据精度">
@@ -82,14 +84,68 @@ export default class datadetailView extends Vue {
       { value:'gyro_x0', label:'x轴陀螺仪' }
     ],
     dataset: '',
-    durationList:[//数据集下拉菜单内容
-      { value:'1h', label:'过去1小时' },
-      { value:'8h', label:'过去8小时' },
-      { value:'24h', label:'过去24小时' },
-      { value:'7d', label:'过去一周内' },
-      { value:'30d', label:'过去一月内' }
-    ],
-    duration:'',
+
+    pickerOptions: {
+      shortcuts: [{
+        text: '最近一天',
+        onClick(picker:any) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
+          picker.$emit('pick', [start, end]);
+        }
+      }, {
+        text: '最近一周',
+        onClick(picker:any) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+          picker.$emit('pick', [start, end]);
+        }
+      }, {
+        text: '最近半个月',
+        onClick(picker:any) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 15);
+          picker.$emit('pick', [start, end]);
+        }
+      }, {
+        text: '最近一个月',
+        onClick(picker:any) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+          picker.$emit('pick', [start, end]);
+        }
+      }, {
+        text: '最近三个月',
+        onClick(picker:any) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+          picker.$emit('pick', [start, end]);
+        }
+      }, {
+        text: '最近半年',
+        onClick(picker:any) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 180);
+          picker.$emit('pick', [start, end]);
+        }
+      }, {
+        text: '最近一年',
+        onClick(picker:any) {
+          const end = new Date();
+          const start = new Date();
+          start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+          picker.$emit('pick', [start, end]);
+        }
+      }]
+    },
+    datevalue: [] as Array<Date>, //储存选择的时间区间
+
     precisionList:[] as Array< {value: string; label: string} >,
     precision:'',
     id: '',
@@ -189,54 +245,74 @@ export default class datadetailView extends Vue {
 
   durationChange() { //当时间区间变化的时候触发的函数
     this.form.precision = '';
-    switch (this.form.duration) {
-    case '1h': //过去1小时
+    let startTime = this.form.datevalue[0].getTime(); //getTime()函数返回距1970年1月1日的毫秒数
+    let endTime = this.form.datevalue[1].getTime();
+    let duration = (endTime - startTime)/1000/3600/24; //得到按天为单位的时间间隔
+    let category : number;
+
+    if(duration < 3) category = 1; //第1类表示3天之内
+    else if(duration >= 3 && duration < 10) category = 2; //3到10天
+    else if(duration >= 10 && duration < 45) category = 3; //10到45天
+    else if(duration >= 45 && duration < 180) category = 4; //45天到半年
+    else if(duration >= 180 && duration < 540) category = 5; //半年到一年半
+    else category = 6; //一年半以上
+
+    switch (category) {
+    case 1:
       this.form.precisionList = [
-        { value:'5s', label:'每5秒' },
-        { value:'30s', label:'每30秒' },
-        { value:'1m', label:'每分钟' },
-        { value:'5m', label:'每5分钟' },
+        { value:'per5s', label:'每5秒' },
+        { value:'per30s', label:'每30秒' },
+        { value:'per1m', label:'每分钟' },
+        { value:'per5m', label:'每5分钟' },
       ];
       break;
-    case '8h': //过去8小时
+    case 2: //3到10天
       this.form.precisionList = [
-        { value:'1m', label:'每分钟' },
-        { value:'5m', label:'每5分钟' },
-        { value:'30m', label:'每半小时' },
-        { value:'1h', label:'每小时' },
+        { value:'per1m', label:'每分钟' },
+        { value:'per5m', label:'每5分钟' },
+        { value:'per30m', label:'每半小时' },
+        { value:'per1h', label:'每小时' },
       ];
       break;
-    case '24h': //过去24小时
+    case 3: //10到45天
       this.form.precisionList = [
-        { value:'30m', label:'每半小时' },
-        { value:'1h', label:'每小时' },
-        { value:'6h', label:'每6小时' },
-        { value:'12h', label:'每12小时' },
+        { value:'per1h', label:'每小时' },
+        { value:'per6h', label:'每6小时' },
+        { value:'per12h', label:'每12小时' },
+        { value:'per1d', label:'每24小时' },
       ];
       break;
-    case '7d': //过去一周内
+    case 4: //45天到半年
       this.form.precisionList = [
-        { value:'1h', label:'每小时' },
-        { value:'6h', label:'每6小时' },
-        { value:'12h', label:'每12小时' },
-        { value:'24h', label:'每24小时' },
+        { value:'per6h', label:'每6小时' },
+        { value:'per12h', label:'每12小时' },
+        { value:'per1d', label:'每24小时' },
+        { value:'per7d', label:'每周' },
       ];
       break;
-    case '30d': //过去一月内
+    case 5: //半年到一年半
       this.form.precisionList = [
-        { value:'1h', label:'每小时' },
-        { value:'6h', label:'每6小时' },
-        { value:'12h', label:'每12小时' },
-        { value:'24h', label:'每24小时' },
+        { value:'per12h', label:'每12小时' },
+        { value:'per1d', label:'每24小时' },
+        { value:'per7d', label:'每周' },
+        { value:'per14d', label:'每两周' },
+      ];
+      break;
+    case 6: //一年半以上
+      this.form.precisionList = [
+        { value:'per1d', label:'每天' },
+        { value:'per7d', label:'每周' },
+        { value:'per14d', label:'每两周' },
+        { value:'per1M', label:'每月' },
       ];
       break;
     }
   }
 
   dataGraph() { //按下绘图按钮的时候触发的函数
-    if(this.form.dataset != '' && this.form.duration != '' && this.form.precision != '') {
+    if(this.form.dataset != '' && this.form.datevalue != [] && this.form.precision != '') {
       //写和服务器的交互语句，dataset、duration、precision三个变量分别储存用户在下拉菜单中的选择项
-      this.drawBarChart(this.form.dataset,this.form.duration,this.form.precision); //可以直接调用吗？
+      this.drawBarChart(this.form.dataset,this.form.datevalue,this.form.precision); //接口要如何改动？
     }
     else
       this.$message({
