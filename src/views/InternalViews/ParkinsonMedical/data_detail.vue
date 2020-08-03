@@ -227,9 +227,10 @@ export default class datadetailView extends Vue {
     chart.setOption(this.options);
     chart.showLoading();
     try {
-      const { data:{output,time} } = await this.$axios.post(
+      const { data:{output,time} } = 
+      await this.$axios.post(
         "medical/find_acceleration_data",
-        {username:String(this.$route.query.username),selectdataset:selectdataset,pasttime:pasttime,grouptime:grouptime,}
+        {username:String(this.$route.query.username),selectdataset:selectdataset,pasttime:pasttime,grouptime:grouptime}
       );
       // this.form.date=gyro_z0;
       // this.form.data=time
@@ -260,50 +261,50 @@ export default class datadetailView extends Vue {
     switch (category) {
     case 1:
       this.form.precisionList = [
-        { value:'per5s', label:'每5秒' },
-        { value:'per30s', label:'每30秒' },
-        { value:'per1m', label:'每分钟' },
-        { value:'per5m', label:'每5分钟' },
+        { value:'5s', label:'每5秒' },
+        { value:'30s', label:'每30秒' },
+        { value:'1m', label:'每分钟' },
+        { value:'5m', label:'每5分钟' },
       ];
       break;
     case 2: //3到10天
       this.form.precisionList = [
-        { value:'per1m', label:'每分钟' },
-        { value:'per5m', label:'每5分钟' },
-        { value:'per30m', label:'每半小时' },
-        { value:'per1h', label:'每小时' },
+        { value:'1m', label:'每分钟' },
+        { value:'5m', label:'每5分钟' },
+        { value:'30m', label:'每半小时' },
+        { value:'1h', label:'每小时' },
       ];
       break;
     case 3: //10到45天
       this.form.precisionList = [
-        { value:'per1h', label:'每小时' },
-        { value:'per6h', label:'每6小时' },
-        { value:'per12h', label:'每12小时' },
-        { value:'per1d', label:'每24小时' },
+        { value:'1h', label:'每小时' },
+        { value:'6h', label:'每6小时' },
+        { value:'12h', label:'每12小时' },
+        { value:'1d', label:'每24小时' },
       ];
       break;
     case 4: //45天到半年
       this.form.precisionList = [
-        { value:'per6h', label:'每6小时' },
-        { value:'per12h', label:'每12小时' },
-        { value:'per1d', label:'每24小时' },
-        { value:'per7d', label:'每周' },
+        { value:'6h', label:'每6小时' },
+        { value:'12h', label:'每12小时' },
+        { value:'1d', label:'每24小时' },
+        { value:'7d', label:'每周' },
       ];
       break;
     case 5: //半年到一年半
       this.form.precisionList = [
-        { value:'per12h', label:'每12小时' },
-        { value:'per1d', label:'每24小时' },
-        { value:'per7d', label:'每周' },
-        { value:'per14d', label:'每两周' },
+        { value:'12h', label:'每12小时' },
+        { value:'1d', label:'每24小时' },
+        { value:'7d', label:'每周' },
+        { value:'14d', label:'每两周' },
       ];
       break;
     case 6: //一年半以上
       this.form.precisionList = [
-        { value:'per1d', label:'每天' },
-        { value:'per7d', label:'每周' },
-        { value:'per14d', label:'每两周' },
-        { value:'per1M', label:'每月' },
+        { value:'1d', label:'每天' },
+        { value:'7d', label:'每周' },
+        { value:'14d', label:'每两周' },
+        { value:'30d', label:'每月' },
       ];
       break;
     }
