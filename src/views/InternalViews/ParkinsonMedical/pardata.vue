@@ -205,8 +205,9 @@ export default class PardataView extends Vue {
   // }];
 //组件加载的同时向后端取数据
   created() {
+    this.form.screenInput = ''; //将搜索框置为空，初始化
     this.getData();
-    this.screenClear(); //将筛选框初始化
+    //this.screenClear(); //将筛选框初始化
   }
 
   screenByName() {  //筛选框发生输入事件时的触发函数
@@ -244,6 +245,7 @@ export default class PardataView extends Vue {
       }else{
       this.tableData = data;
       }
+      this.screenByName();
     } catch (e) {
       this.$message.error("请求患者数据失败，请稍后再试！");
     }
@@ -392,6 +394,9 @@ export default class PardataView extends Vue {
       type: 'success'})
       // this.getData();
       this.tableData = this.tableData.filter(
+        item => item["username"] != row.username
+      );
+      this.screenData = this.screenData.filter(
         item => item["username"] != row.username
       );
 
