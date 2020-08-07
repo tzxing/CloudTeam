@@ -81,7 +81,8 @@ export default class datadetailView extends Vue {
   private form = {
     datasetList:[//数据集下拉菜单内容
       { value:'acce_x0', label:'x轴加速度' },
-      { value:'gyro_x0', label:'x轴陀螺仪' }
+      { value:'gyro_x0', label:'x轴陀螺仪' },
+      { value:'divided', label:'分类器结果' }
     ],
     dataset: '',
 
@@ -211,6 +212,64 @@ export default class datadetailView extends Vue {
         type: 'line'
     }]
   };
+  private optionbar: object={
+     title: {
+         text: '危险度评分',
+        //  subtext: '纯属虚构'
+     },
+     color:'#3bcec6',
+     tooltip: {
+         trigger: 'axis'
+     },
+    //  legend: {
+    //      data: ['蒸发量', '降水量']
+    //  },
+    toolbox: {
+        show: true,
+        feature: {
+            // dataView: {show: true, readOnly: false},
+            magicType: {show: true, type: ['line', 'bar']},
+            restore: {show: true},
+
+        }
+    },
+    // calculable: true,
+    xAxis: [
+        {
+            data : [] as Array<string>
+        }
+    ],
+    yAxis: [
+        {
+            type: 'value',
+            min: 0,
+            max: 125,
+            interval: 25,
+            splitLine:{show:false}
+        }
+    ],
+    
+    series: [
+        {   name: '风险评分',
+            type: 'bar',
+            data: [] as Array<number>,
+            // barMaxWidth:"30",
+            barWidth: '50%',
+            markPoint: {
+                data: [
+                    {type: 'max', name: '最大值', itemStyle: {color:'#c23531'}},
+                    {type: 'min', name: '最小值'}
+                ]
+            },
+        markLine : {
+              itemStyle: {color:'#c23531'},
+							label:{
+                position:"end",
+                formatter:"风险值"},
+                data : [{yAxis: 50}]}
+        },
+    ]
+ };
   // private mounted() {
   //   this.form.id = String(this.$route.query.id);
   //   // for(var i:number = 1; i < 20000; i++){
@@ -224,24 +283,43 @@ export default class datadetailView extends Vue {
  async drawBarChart(selectdataset:any,pasttime:any,grouptime:any){
     const ele = document.getElementById('myEcharts');
     const chart: any = this.$echarts.init(ele);
-    chart.setOption(this.options);
     chart.showLoading();
-    try {
-      const { data:{output,time} } = 
-      await this.$axios.post(
-        "medical/find_acceleration_data",
-        {username:String(this.$route.query.username),selectdataset:selectdataset,pasttime:pasttime,grouptime:grouptime}
-      );
-      // this.form.date=gyro_z0;
-      // this.form.data=time
-      chart.hideLoading();
-      chart.setOption({
-      xAxis:[{data:time}],
-      series:[{data:output}]
-    })
-    } catch (e) {
-      this.$message.error("信息拉取失败，请稍后再试！");
+    if (selectdataset=="divided"){
+        chart.clear();
+        try {const { data:{output,time} } = 
+            await this.$axios.post(
+            "medical/find_acceleration_data",
+            {username:String(this.$route.query.username),selectdataset:selectdataset,pasttime:pasttime,grouptime:grouptime});
+            chart.hideLoading();
+            chart.setOption(this.optionbar);
+            chart.setOption({xAxis:[{data:time}],series:[{data:output}]})
+            } catch (e) {this.$message.error("信息拉取失败，请稍后再试！");}
+    }else{
+        chart.clear();
+        try {const { data:{output,time} } = 
+            await this.$axios.post("medical/find_acceleration_data",{username:String(this.$route.query.username),selectdataset:selectdataset,pasttime:pasttime,grouptime:grouptime});
+            chart.hideLoading();
+            chart.setOption(this.options)
+            chart.setOption({xAxis:[{data:time}],series:[{data:output}]})
+            }
+        catch (e) {this.$message.error("信息拉取失败，请稍后再试！");}
+        
     }
+    // chart.showLoading();
+    // try {
+    //   const { data:{output,time} } = 
+    //   await this.$axios.post(
+    //     "medical/find_acceleration_data",
+    //     {username:String(this.$route.query.username),selectdataset:selectdataset,pasttime:pasttime,grouptime:grouptime}
+    //   );
+    //   // this.form.date=gyro_z0;
+    //   // this.form.data=time
+      // chart.hideLoading();
+      
+      // chart.setOption({xAxis:[{data:time}],series:[{data:output}]})
+    // } catch (e) {
+    //   this.$message.error("信息拉取失败，请稍后再试！");
+    // }
   }
 
   durationChange() { //当时间区间变化的时候触发的函数
