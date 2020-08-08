@@ -70,6 +70,18 @@
       </el-form-item>
     </el-form><!-- 头部 -->
     <div id="myEcharts" style="height: 400px;"></div>
+
+    <el-popover
+      placement="top-start"
+      width="300"
+      trigger="click"
+      :hidden="form.dataset=='divided'?false:true">
+      <el-table :data="form.resultList" :show-header="true">
+        <el-table-column width="200" property="property" label="属性"></el-table-column>
+        <el-table-column width="100" property="value" label="值"></el-table-column>
+      </el-table>
+      <el-button slot="reference">数据概况</el-button>
+    </el-popover>
   </div>
 </template>
 
@@ -155,6 +167,22 @@ export default class datadetailView extends Vue {
     oneDay : 24 * 3600 * 1000,
     date: [] as Array<string>, //强制令date为string类型
     data: [Math.random() * 300] as Array<number>,
+
+    resultList: [ //详情结果储存表单，需要根据要求留出接口
+      {
+        property: '区间长度/小时',
+        value: '25'
+      }, {
+        property: '区间采样数据点数',
+        value: '3450'
+      }, {
+        property: '疑似异常数据点数',
+        value: '1239'
+      }, {
+        property: '异常比例',
+        value: '35.91%'
+      }
+    ],
 
   };
   collapse = false;
