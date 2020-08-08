@@ -72,10 +72,10 @@
     <div id="myEcharts" style="height: 400px;"></div>
 
     <el-popover
-      placement="top-start"
+      placement="bottom"
       width="300"
       trigger="click"
-      :hidden="form.dataset=='divided'?false:true">
+      :hidden="(form.dataset=='divided'?false:true)&&(!form.chartStatus)">
       <el-table :data="form.resultList" :show-header="true">
         <el-table-column width="200" property="property" label="属性"></el-table-column>
         <el-table-column width="100" property="value" label="值"></el-table-column>
@@ -183,6 +183,7 @@ export default class datadetailView extends Vue {
         value: '35.91%'
       }
     ],
+    chartStatus: false,
 
   };
   collapse = false;
@@ -420,6 +421,7 @@ export default class datadetailView extends Vue {
     if(this.form.dataset != '' && this.form.datevalue != [] && this.form.precision != '') {
       //写和服务器的交互语句，dataset、duration、precision三个变量分别储存用户在下拉菜单中的选择项
       this.drawBarChart(this.form.dataset,this.form.datevalue,this.form.precision); //接口要如何改动？
+      this.form.chartStatus = true;
     }
     else
       this.$message({
