@@ -75,7 +75,7 @@
       placement="bottom"
       width="300"
       trigger="click"
-      :hidden="(form.dataset=='divided'?false:true)&&(!form.chartStatus)">
+      :hidden="(form.dataset=='divided'?false:true)||(!form.chartStatus)">
       <el-table :data="form.resultList" :show-header="true">
         <el-table-column width="200" property="property" label="属性"></el-table-column>
         <el-table-column width="100" property="value" label="值"></el-table-column>
