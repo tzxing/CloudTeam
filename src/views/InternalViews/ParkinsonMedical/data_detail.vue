@@ -244,7 +244,7 @@ export default class datadetailView extends Vue {
   private optionbar: object={
      title: {
          text: '危险度评分',
-        //  subtext: '纯属虚构'
+         left: '9%'
      },
      color:['#3bcec6'],
      tooltip: {
@@ -306,6 +306,7 @@ export default class datadetailView extends Vue {
 private optionss: object={//简单的 折线图+饼图 展示
     title: [{
          text: '分类结果统计',
+         left: '9%'
      },
      {text:"异常时间占比",
      left: '70%',
