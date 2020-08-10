@@ -70,8 +70,8 @@
       </el-form-item>
     </el-form><!-- 头部 -->
     <div id="myEcharts" style="height: 400px;"></div>
-
-    <el-popover
+     <div id="charts1" style="height: 400px;"></div>
+     <el-popover
       placement="bottom"
       width="300"
       trigger="click"
@@ -246,13 +246,13 @@ export default class datadetailView extends Vue {
          text: '危险度评分',
         //  subtext: '纯属虚构'
      },
-     color:'#3bcec6',
+     color:['#3bcec6'],
      tooltip: {
-         trigger: 'axis'
-     },
-    //  legend: {
-    //      data: ['蒸发量', '降水量']
-    //  },
+        trigger: 'axis',
+        axisPointer: {           
+            type: 'shadow'        
+        }
+    },
     toolbox: {
         show: true,
         feature: {
@@ -265,7 +265,11 @@ export default class datadetailView extends Vue {
     // calculable: true,
     xAxis: [
         {
-            data : [] as Array<string>
+            type: 'category',
+            data : [] as Array<string>,
+            axisTick: {
+                alignWithLabel: true
+            }
         }
     ],
     yAxis: [
@@ -274,7 +278,7 @@ export default class datadetailView extends Vue {
             min: 0,
             max: 125,
             interval: 25,
-            splitLine:{show:false}
+            splitLine:{show:true}
         }
     ],
     
@@ -299,6 +303,42 @@ export default class datadetailView extends Vue {
         },
     ]
  };
+private optionss: object={//简单的 折线图+饼图 展示
+    title: [{
+         text: '分类结果统计',
+     },
+     {text:"异常时间占比",
+     left: '70%',
+     }
+     ],
+    grid: [
+        {x: '10%', y: '10%', width: '60%', height: '50%'},//折线图位置控制
+    ],
+    xAxis: [
+        {gridIndex: 0,type: 'category',
+        data: ['0-25（正常）', '25-50（正常）', '50-75（异常）', '75-100（严重）']},
+    ],
+    tooltip:{trigger: 'item'},
+    yAxis: [
+        {gridIndex: 0 },
+    ],
+    series: [
+        {   name:"危险值分类结果",
+            type: 'bar',
+            barWidth: '50%',
+            data: [{name:"数据1",value:1},{name:"数据2",value:2},{name:"数据3",value:3},{name:"数据4",value:4}],
+        },
+        {
+            name: '危险值分类结果',
+            type: 'pie',
+            radius : '55%',
+            center: ['83%', '40%'],//饼图位置控制
+            data: [{name:"正常值",value:80},{name:"异常值",value:20}],
+        },
+    ]
+};
+
+
   // private mounted() {
   //   this.form.id = String(this.$route.query.id);
   //   // for(var i:number = 1; i < 20000; i++){
@@ -322,6 +362,10 @@ export default class datadetailView extends Vue {
             chart.hideLoading();
             chart.setOption(this.optionbar);
             chart.setOption({xAxis:[{data:time}],series:[{data:output}]})
+            const ele = document.getElementById('charts1');
+            const chart1: any = this.$echarts.init(ele);
+            chart1.setOption(this.optionss);
+            // chart1.setOption({xAxis:[{data:time}],series:[{data:output}]})
             } catch (e) {this.$message.error("信息拉取失败，请稍后再试！");}
     }else{
         chart.clear();
