@@ -327,14 +327,14 @@ private optionss: object={//简单的 折线图+饼图 展示
         {   name:"危险值分类结果",
             type: 'bar',
             barWidth: '50%',
-            data: [{name:"数据1",value:1},{name:"数据2",value:2},{name:"数据3",value:3},{name:"数据4",value:4}],
+            data: [] as Array<number>,
         },
         {
             name: '危险值分类结果',
             type: 'pie',
             radius : '55%',
             center: ['83%', '40%'],//饼图位置控制
-            data: [{name:"正常值",value:80},{name:"异常值",value:20}],
+            data: [],
         },
     ]
 };
@@ -356,7 +356,7 @@ private optionss: object={//简单的 折线图+饼图 展示
     chart.showLoading();
     if (selectdataset=="divided"){
         chart.clear();
-        try {const { data:{output,time} } = 
+        try {const { data:{output,time,stastic} } = 
             await this.$axios.post(
             "medical/find_acceleration_data",
             {username:String(this.$route.query.username),selectdataset:selectdataset,pasttime:pasttime,grouptime:grouptime});
@@ -366,7 +366,7 @@ private optionss: object={//简单的 折线图+饼图 展示
             const ele = document.getElementById('charts1');
             const chart1: any = this.$echarts.init(ele);
             chart1.setOption(this.optionss);
-            // chart1.setOption({xAxis:[{data:time}],series:[{data:output}]})
+            chart1.setOption({series:[{data:stastic},{data:[{name:"正常值",value:stastic[0]+stastic[1]},{name:"异常值",value:stastic[2]+stastic[3]}]}]})
             } catch (e) {this.$message.error("信息拉取失败，请稍后再试！");}
     }else{
         chart.clear();
