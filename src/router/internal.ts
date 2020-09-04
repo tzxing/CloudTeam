@@ -35,7 +35,8 @@ export default [
             { path: 'data', name: 'data', component: () => import("@/views/InternalViews/ParkinsonMedical/data.vue"), meta:{title:"个人资料管理"}},
             { path: 'password', name: 'password', component: () => import("@/views/InternalViews/ParkinsonMedical/password.vue"), meta:{title:"密码管理"} },
             { path: 'pardata', name: 'pardata', component: () => import("@/views/InternalViews/ParkinsonMedical/pardata.vue"), meta:{title:"数据查看"} },
-            { path: 'data_detail', name: 'data_detail', component: () => import("@/views/InternalViews/ParkinsonMedical/data_detail.vue") }
+            { path: 'data_detail', name: 'data_detail', component: () => import("@/views/InternalViews/ParkinsonMedical/data_detail.vue") },
+            { path: 'prescription', name: 'prescription', component: () => import("@/views/InternalViews/ParkinsonMedical/prescription.vue"), meta:{title:"处方"} }
         ]
     },
     {
