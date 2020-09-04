@@ -268,7 +268,7 @@ export default class extends Vue {
 
     }
 
-  async onFinish() {
+  async onFinish() { //测试推送
     if (await (this.$refs["form"] as Form).validate()) {
     try {
       if (this.$store.state.user.role=="user"){
