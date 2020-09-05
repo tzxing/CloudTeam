@@ -7,6 +7,7 @@
     <el-form :inline="true" ref="form" :model="form" label-width="80px">
       <el-form-item label="患者筛选">
         <el-input v-model="form.screenInput" placeholder="键入姓名以筛选患者" @keyup.enter.native="screenByName" @input="screenByName"></el-input>
+        <input type="text" style="display:none"/>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="screenClear">重置条件</el-button>
