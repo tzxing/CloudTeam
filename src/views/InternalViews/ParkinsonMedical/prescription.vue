@@ -18,23 +18,21 @@
       <el-table-column
         prop="date"
         label="日期"
-        sortable
         width="150">
       </el-table-column>
       <el-table-column
         prop="name"
         label="姓名"
-        sortable
         width="120">
       </el-table-column>
       <el-table-column
-        prop="province"
-        label="省份"
+        prop="age"
+        label="年龄"
         width="120">
       </el-table-column>
       <el-table-column
-        prop="city"
-        label="市区"
+        prop="gender"
+        label="性别"
         width="120">
       </el-table-column>
       <el-table-column
@@ -168,8 +166,10 @@ export default class PrescriptionView extends Vue {
 
   
   
-  private mounted() {
-    this.screenData = this.tableData;
+  created() {
+    this.form.screenInput = ''; //将搜索框置为空，初始化
+    this.getData();
+    //this.screenClear(); //将筛选框初始化
   }
 
   screenByName() {
@@ -199,8 +199,19 @@ export default class PrescriptionView extends Vue {
     this.screenData = this.tableData;
   }
 
-  getData() {
-    //刷新表单的函数
+  //得到用户数据
+  async getData() {
+    try {
+      const { data } = await this.$axios.get("medical/find_all_patients/");
+      if (data=="nopatients"){
+         this.$message.warning("您当前没有监管病人，请添加");
+      }else{
+      this.tableData = data;
+      }
+      this.screenByName();
+    } catch (e) {
+      this.$message.error("请求患者数据失败，请稍后再试！");
+    }
   }
 
   expendPrescription(index:any, row:any) {

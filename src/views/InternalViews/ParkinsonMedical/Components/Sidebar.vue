@@ -37,7 +37,7 @@
         <i class="el-icon-s-check"></i>
         <span slot="title">数据查看</span>
       </el-menu-item>
-      <el-menu-item index="/internal/parkinson/prescription">
+      <el-menu-item v-show=c2 index="/internal/parkinson/prescription">
         <i class="el-icon-s-check"></i>
         <span slot="title">处方</span>
       </el-menu-item>
