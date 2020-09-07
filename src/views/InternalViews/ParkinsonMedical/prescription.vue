@@ -55,9 +55,9 @@
             width="636"
             trigger="click">
             <el-table :data="prescriptionData">
-              <el-table-column width="150" property="name" label="药品名" align="center"></el-table-column>
-              <el-table-column width="100" property="date" label="日期" align="center"></el-table-column>
-              <el-table-column width="300" property="text" label="备注" align="center"></el-table-column>
+              <el-table-column width="150" prop="name" label="药品名" align="center"></el-table-column>
+              <el-table-column width="100" prop="date" label="日期" align="center"></el-table-column>
+              <el-table-column width="300" prop="text" label="备注" align="center"></el-table-column>
               <el-table-column label="操作" width="85" align="center">
                 <template slot-scope="scope">
                   <el-button
@@ -70,7 +70,6 @@
               </el-table-column>
             </el-table>
             <div style="text-align: right; margin: 0">
-              <el-button size="mini" type="text">取消</el-button>
               <el-button type="primary" size="mini" @click="dialogVisible = true">增加处方</el-button>
             </div>
             <el-button slot="reference" @click="expendPrescription(scope.$index, scope.row)" type="info" size="mini" icon="el-icon-document">查看处方</el-button>
@@ -89,7 +88,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button @click="dialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+              <el-button type="primary" @click="addPrescription()">确 定</el-button>
             </div>
           </el-dialog>
           
@@ -111,59 +110,32 @@ export default class PrescriptionView extends Vue {
   form = {
     screenInput: '',
   };
+  focusUsername = '';
   popoverVisible = false;
-  prescriptionData = [] as Array<{
+  prescriptionData:{
     name: string,
     date: string,
     text: string
-  }>;
+  }[]=[];
   prescriptionFrom = {
     name: '',
     time: '',
     text: ''
   };
-  tableData = [{
-      date: '2016-05-02',
-      name: '王小虎',
-      province: '上海',
-      city: '普陀区',
-      address: '上海市普陀区金沙江路 1518 弄',
-      id: '000001',
-      username: 'WXH'
-  }, {
-      date: '2016-05-04',
-      name: '李晓霞',
-      province: '上海',
-      city: '普陀区',
-      address: '上海市普陀区金沙江路 1517 弄',
-      id: '000002',
-      username: 'xiaoxia_li'
-  }, {
-      date: '2016-05-01',
-      name: '王小明',
-      province: '上海',
-      city: '普陀区',
-      address: '上海市普陀区金沙江路 1519 弄',
-      id: '000003',
-      username: 'WXM'
-  }, {
-      date: '2016-05-03',
-      name: '陆桥山',
-      province: '上海',
-      city: '普陀区',
-      address: '上海市普陀区金沙江路 1516 弄',
-      id: '000004',
-      username: 'qiaoshan_LU'
-  }];
-  screenData = [] as Array<{
-    date: string;
-    name: string;
-    province: string;
-    city: string;
-    address: string;
-    id: string;
-    username: string;
-  }>
+  tableData:{
+    name:string;
+    age:string;
+    gender:string;
+    address:string;
+    username:string;
+    }[] = [];
+  screenData:{
+    name:string;
+    age:string;
+    gender:string;
+    address:string;
+    username:string;
+    }[] = [];
 
   
   
@@ -216,34 +188,16 @@ export default class PrescriptionView extends Vue {
   }
 
   expendPrescription(index:any, row:any) {
-    console.log('1');
-    this.prescriptionData = [];
-    if(row.username == 'WXM') {
-      this.prescriptionData = [{
-        name: '药品A',
-        date: '一日三次',
-        text: '无'
-      },{
-        name: '药品B',
-        date: '一日两次',
-        text: '饭后服用'
-      }]
-    }
-    if(row.username == 'WXH') {
-      this.prescriptionData = [{
-        name: '药品C',
-        date: '一日三次',
-        text: '无'
-      },{
-        name: '药品D',
-        date: '一日四次',
-        text: '饭前服用'
-      }]
-    }
+    this.focusUsername = row.username;
+    //向后端拉取数据
+    this.requestprescription()
+    //向后端拉取数据
   }
 
   addPrescription(index:any, row:any) {
-    console.log(row.username);
+    //写增加语句，与后端通信
+    this.sendprescription()
+    //与后端通信
   }
 
   deletePrescription(index:any, row:any) {
@@ -252,16 +206,55 @@ export default class PrescriptionView extends Vue {
       cancelButtonText: '取消',
       type: 'warning'
     }).then(() => {
-      this.$message({
-        type: 'success',
-        message: '删除成功!'
-      });
+      //写删除语句
+      this.deletePre(index, row);
     }).catch(() => {
       this.$message({
         type: 'info',
         message: '已取消删除'
       });          
     });
+  }
+  
+  async deletePre(index:any, row:any) {
+    //成功信息前先写和后端的交互语句，用row.username来索引用户名传回后端
+     try {
+      const { data } = await this.$axios.post(
+        "medical/deletePrescription",
+         {username:this.focusUsername,prescription:[row.name,row.date,row.text]}
+      );
+      if (data=="success"){
+      this.$message({
+      message: '已将该处方移除',
+      type: 'success'})
+      // this.getData();
+      this.tableData = this.tableData.filter(
+        item => item["name"] != row.name
+      );
+      // this.screenData = this.screenData.filter(
+      //   item => item["username"] != row.username
+      // );
+    }
+    } catch (e) {
+      this.$message.error("网络出现问题，请稍后再试！");
+    }
+  }
+
+
+  async sendprescription() {
+      try {
+        const { data } = await this.$axios.post("medical/addprescription", 
+        {username:this.focusUsername, prescriptionFrom:[this.prescriptionFrom.name,this.prescriptionFrom.time,this.prescriptionFrom.text]});
+        if (data == "success") 
+        {this.dialogVisible = false;}
+      } catch (e){this.$message.error("请求失败，请稍后再试！");}
+  }
+  async requestprescription() {
+      try {
+        const { data } = await this.$axios.post("medical/requestprescription", 
+        {username:this.focusUsername});
+        this.prescriptionData=data
+      } catch (e){this.$message.error("请求失败，请稍后再试！");}
   }
 
 }
