@@ -216,7 +216,6 @@ export default class PardataView extends Vue {
       this.screenData = this.tableData;
     else
     {
-      console.log(this.form.screenInput[0]);
       this.screenData = [];
       let screenlength = this.form.screenInput.length;
       let j = 0;
@@ -418,7 +417,6 @@ export default class PardataView extends Vue {
  
 
   toDetailedInfo(index:any, row:any) { //转跳详情页面
-    //console.log(index, row.id);
     this.$router.push({
       path:'data_detail',
       query:{ username:row.username }
