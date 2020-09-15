@@ -29,7 +29,8 @@ import store from '@/store'
   },
   beforeRouteEnter(to,from,next){
   if (store.state.user.medicalsignup === "N"){
-    next(vm=>{vm.$router.push("/internal/parkinsonsignup")});
+    ///next(vm=>{vm.$router.replace("/internal/parkinsonsignup")});
+    next("/internal/parkinsonsignup")
   } else
   {
     next()
