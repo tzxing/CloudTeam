@@ -12,6 +12,7 @@
     </el-form>
 
     <el-table
+      ref="table"
       :data="screenData"
       style="width: 100%;">
       <el-table-column
@@ -48,11 +49,11 @@
         label="操作"
         align="center"
         min-width="5%">
-        <template>
-          <el-button  type="info" size="mini" icon="el-icon-search">问卷结果</el-button>
+        <template slot-scope="scope">
+          <el-button @click="toogleExpand(scope.$index, scope.row)" type="info" size="mini" icon="el-icon-search">问卷结果</el-button>
         </template>
       </el-table-column>
-      <el-table-column type="expand">
+      <el-table-column type="expand" width="1">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="地址">
@@ -165,6 +166,16 @@ export default class QuestionnaireView extends Vue {
     } catch (e) {
       this.$message.error("请求患者数据失败，请稍后再试！");
     }
+  }
+
+ 
+
+  toogleExpand(index:any, row:any) { //转跳详情页面
+  let $table:any = this.$refs.table;
+  $table.toggleRowExpansion(row);
+  for(let key in this.screenData[0]) {
+    console.log(key + ":" + (this.screenData[0]))
+  }
   }
 
 }
