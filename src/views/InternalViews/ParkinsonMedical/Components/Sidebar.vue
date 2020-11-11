@@ -45,6 +45,10 @@
         <i class="el-icon-s-check"></i>
         <span slot="title">处方</span>
       </el-menu-item>
+      <el-menu-item v-show=c2 index="/internal/parkinson/questionnaire">
+        <i class="el-icon-s-check"></i>
+        <span slot="title">问卷调查</span>
+      </el-menu-item>
 <!-- 
       <el-submenu index="2">
         <template slot="title">
