@@ -13,6 +13,7 @@
 
     <el-table
       ref="table"
+      border
       :data="screenData"
       style="width: 100%;">
       <el-table-column
@@ -56,8 +57,29 @@
       <el-table-column type="expand" width="1">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="地址">
-              <span>{{ props.row.address }}</span>
+            <el-form-item label="     首发症状时间">
+              <span>{{ props.row.questionnaire.first_symptom_time }}</span>
+            </el-form-item>
+            <el-form-item label="     目前主要症状（运动症状）">
+              <span>{{ props.row.questionnaire.motor_symptoms }}</span>
+            </el-form-item>
+            <el-form-item label="     目前主要症状（非运动症状）">
+              <span>{{ props.row.questionnaire.nonmotor_symptoms }}</span>
+            </el-form-item>
+            <el-form-item label="     确诊医院">
+              <span>{{ props.row.questionnaire.hosptial }}</span>
+            </el-form-item>
+            <el-form-item label="     目前负责医生">
+              <span>{{ props.row.questionnaire.responsibility_doctor }}</span>
+            </el-form-item>
+            <el-form-item label="     是否存在开关现象">
+              <span>{{ props.row.questionnaire.onoff_phenomenon }}</span>
+            </el-form-item>
+            <el-form-item label="     有无DBS手术治疗">
+              <span>{{ props.row.questionnaire.DBS }}</span>
+            </el-form-item>
+            <el-form-item label="     目前服药情况">
+              <span>{{ props.row.questionnaire.medication }}</span>
             </el-form-item>
           </el-form>
         </template>
@@ -84,14 +106,32 @@ export default class QuestionnaireView extends Vue {
     gender:string;
     address:string;
     username:string;
-    }[] = [];
+    questionnaire: {
+      first_symptom_time:string;
+      motor_symptoms:string;
+      nonmotor_symptoms:string;
+      hosptial:string;
+      onoff_phenomenon:string;
+      DBS:string;
+      medication:string;
+    }
+  }[] = [];
   screenData:{
     name:string;
     age:string;
     gender:string;
     address:string;
     username:string;
-    }[] = [];
+    questionnaire: {
+      first_symptom_time:string;
+      motor_symptoms:string;
+      nonmotor_symptoms:string;
+      hosptial:string;
+      onoff_phenomenon:string;
+      DBS:string;
+      medication:string;
+    }
+  }[] = [];
   // tableData = [{
   //     date: '2016-05-02',
   //     name: '王小虎',
@@ -156,7 +196,7 @@ export default class QuestionnaireView extends Vue {
   //得到用户数据
   async getData() {
     try {
-      const { data } = await this.$axios.get("medical/find_all_patients/");
+      const { data } = await this.$axios.get("medical/subjective_questionnaire");
       if (data=="nopatients"){
          this.$message.warning("您当前没有监管病人，请添加");
       }else{
@@ -170,12 +210,12 @@ export default class QuestionnaireView extends Vue {
 
  
 
-  toogleExpand(index:any, row:any) { //转跳详情页面
+  toogleExpand(index:any, row:any) { //展开行
   let $table:any = this.$refs.table;
   $table.toggleRowExpansion(row);
-  for(let key in this.screenData[0]) {
-    console.log(key + ":" + (this.screenData[0]))
-  }
+  // for(let key in this.screenData[0]) {
+  //   console.log(key + ":" + typeof this.screenData)
+  // }
   }
 
 }
@@ -186,12 +226,13 @@ export default class QuestionnaireView extends Vue {
     font-size: 0;
   }
   .demo-table-expand label {
-    width: 90px;
+    width: 250px;
     color: #99a9bf;
   }
   .demo-table-expand .el-form-item {
+    margin-left: 0;
     margin-right: 0;
     margin-bottom: 0;
-    width: 50%;
+    width: 100%;
   }
 </style>
