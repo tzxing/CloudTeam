@@ -227,7 +227,6 @@ export default class PardataView extends Vue {
  
 
   toDetailedInfo(index:any, row:any) { //转跳详情页面
-    //console.log(index, row.id);
     this.$router.push({
       path:'data_detail',
       query:{ username:row.username }
