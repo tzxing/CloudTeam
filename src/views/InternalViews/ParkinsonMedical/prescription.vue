@@ -150,7 +150,6 @@ export default class PrescriptionView extends Vue {
       this.screenData = this.tableData;
     else
     {
-      console.log(this.form.screenInput[0]);
       this.screenData = [];
       let screenlength = this.form.screenInput.length;
       let j = 0;
@@ -167,7 +166,6 @@ export default class PrescriptionView extends Vue {
   }
 
   screenClear() {
-    console.log(this.tableData.length);
     this.form.screenInput = '';
     this.screenData = this.tableData;
   }

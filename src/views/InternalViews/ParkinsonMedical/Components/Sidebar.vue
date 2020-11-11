@@ -33,9 +33,13 @@
           <span slot="title">密码管理</span>
         </el-menu-item>
       </el-submenu>
+      <el-menu-item  v-show=c2 index="/internal/parkinson/patientlist">
+        <i class="el-icon-s-check"></i>
+        <span slot="title">患者列表管理</span>
+      </el-menu-item>
       <el-menu-item  v-show=c2 index="/internal/parkinson/pardata">
         <i class="el-icon-s-check"></i>
-        <span slot="title">数据查看</span>
+        <span slot="title">数据详情</span>
       </el-menu-item>
       <el-menu-item v-show=c2 index="/internal/parkinson/prescription">
         <i class="el-icon-s-check"></i>
