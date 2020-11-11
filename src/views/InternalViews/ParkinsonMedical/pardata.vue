@@ -14,40 +14,47 @@
     <el-table
       :data="screenData"
       border
-      style="width: 100%">
+      style="width: 100%;">
       <el-table-column
         prop="date"
         label="日期"
-        width="150">
+        align="center"
+        min-width="10%">
       </el-table-column>
       <el-table-column
         prop="name"
         label="姓名"
-        width="120">
+        align="center"
+        min-width="10%">
       </el-table-column>
       <el-table-column
         prop="age"
         label="年龄"
-        width="120">
+        align="center"
+        min-width="10%">
       </el-table-column>
       <el-table-column
         prop="gender"
         label="性别"
-        width="120">
+        align="center"
+        min-width="10%">
       </el-table-column>
       <el-table-column
         prop="address"
         label="地址"
-        width="300">
+        align="center"
+        min-width="20%">
       </el-table-column>
       <el-table-column
         prop="username"
         label="患者用户名"
-        width="120">
+        align="center"
+        min-width="10%">
       </el-table-column>
       <el-table-column
         label="操作"
-        width="200">
+        align="center"
+        min-width="5%">
         <template slot-scope="scope">
           <el-button @click="toDetailedInfo(scope.$index, scope.row)" type="info" size="mini" icon="el-icon-search">详情</el-button>
         </template>
