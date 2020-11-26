@@ -56,30 +56,48 @@
       </el-table-column>
       <el-table-column type="expand" width="1">
         <template slot-scope="props">
-          <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="     首发症状时间">
+          <el-form label-position="left" inline class="questionnaire-table-expand">
+            <el-form-item label="———— 基本诊疗信息 ————" class="questionnaire-table-highlight">
+              <span>{{ "" }}</span>
+            </el-form-item>
+            <el-form-item label="首发症状时间">
               <span>{{ props.row.questionnaire.first_symptom_time }}</span>
             </el-form-item>
-            <el-form-item label="     目前主要症状（运动症状）">
+            <el-form-item label="目前主要症状（运动症状）">
               <span>{{ props.row.questionnaire.motor_symptoms }}</span>
             </el-form-item>
-            <el-form-item label="     目前主要症状（非运动症状）">
+            <el-form-item label="目前主要症状（非运动症状）">
               <span>{{ props.row.questionnaire.nonmotor_symptoms }}</span>
             </el-form-item>
-            <el-form-item label="     确诊医院">
+            <el-form-item label="确诊医院">
               <span>{{ props.row.questionnaire.hosptial }}</span>
             </el-form-item>
-            <el-form-item label="     目前负责医生">
+            <el-form-item label="目前负责医生">
               <span>{{ props.row.questionnaire.responsibility_doctor }}</span>
             </el-form-item>
-            <el-form-item label="     是否存在开关现象">
+            <el-form-item label="是否存在开关现象">
               <span>{{ props.row.questionnaire.onoff_phenomenon }}</span>
             </el-form-item>
-            <el-form-item label="     有无DBS手术治疗">
+            <el-form-item label="有无DBS手术治疗">
               <span>{{ props.row.questionnaire.DBS }}</span>
             </el-form-item>
-            <el-form-item label="     目前服药情况">
-              <span>{{ props.row.questionnaire.medication }}</span>
+            <el-form-item label="———— 目前服药情况 ————" class="questionnaire-table-highlight">
+              <span>{{ "" }}</span>
+            </el-form-item>
+            <el-form-item label="美多芭">
+              <span>{{ props.row.questionnaire.medication.Medopar }}</span>
+            </el-form-item>
+            <el-form-item label="柯丹">
+              <span>{{ props.row.questionnaire.medication.Comtan }}</span>
+            </el-form-item>
+            <el-form-item label="森福罗">
+              <span>{{ props.row.questionnaire.medication.Sifrol }}</span>
+            </el-form-item>
+            <el-form-item label="罗替高汀贴剂">
+              <span>{{ props.row.questionnaire.medication.Rotigotine }}</span>
+            </el-form-item>
+            <el-form-item label="金刚烷胺">
+              <span>{{ props.row.questionnaire.medication.Amantadine }}</span>
             </el-form-item>
           </el-form>
         </template>
@@ -113,7 +131,13 @@ export default class QuestionnaireView extends Vue {
       hosptial:string;
       onoff_phenomenon:string;
       DBS:string;
-      medication:string;
+      medication: {
+        Medopar:string;     //美多巴
+        Comtan:string;      //柯丹
+        Sifrol:string;      //森福罗
+        Rotigotine:string;  //罗替高汀贴剂
+        Amantadine:string;  //金刚烷胺
+      }
     }
   }[] = [];
   screenData:{
@@ -129,7 +153,13 @@ export default class QuestionnaireView extends Vue {
       hosptial:string;
       onoff_phenomenon:string;
       DBS:string;
-      medication:string;
+      medication: {
+        Medopar:string;     //美多巴
+        Comtan:string;      //柯丹
+        Sifrol:string;      //森福罗
+        Rotigotine:string;  //罗替高汀贴剂
+        Amantadine:string;  //金刚烷胺
+      }
     }
   }[] = [];
   // tableData = [{
@@ -222,17 +252,22 @@ export default class QuestionnaireView extends Vue {
 </script>
 
 <style>
-  .demo-table-expand {
+  .questionnaire-table-expand {
     font-size: 0;
   }
-  .demo-table-expand label {
+  .questionnaire-table-expand label {
     width: 250px;
     color: #99a9bf;
   }
-  .demo-table-expand .el-form-item {
+  .questionnaire-table-expand .el-form-item {
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 0;
     width: 100%;
   }
+  .questionnaire-table-highlight label {
+    width: 250px;
+    color: #454d57;
+  }
+
 </style>
