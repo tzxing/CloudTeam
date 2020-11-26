@@ -57,7 +57,10 @@
       <el-table-column type="expand" width="1">
         <template slot-scope="props">
           <el-form label-position="left" inline class="questionnaire-table-expand">
-            <el-form-item label="———— 基本诊疗信息 ————" class="questionnaire-table-highlight">
+            <el-form-item label="基本诊疗信息：" class="questionnaire-table-highlight">
+              <span>{{ "" }}</span>
+            </el-form-item>
+            <el-form-item label="" class="questionnaire-table-highlight">
               <span>{{ "" }}</span>
             </el-form-item>
             <el-form-item label="首发症状时间">
@@ -81,7 +84,13 @@
             <el-form-item label="有无DBS手术治疗">
               <span>{{ props.row.questionnaire.DBS }}</span>
             </el-form-item>
-            <el-form-item label="———— 目前服药情况 ————" class="questionnaire-table-highlight">
+            <el-form-item label="" class="questionnaire-table-highlight">
+              <span>{{ "" }}</span>
+            </el-form-item>
+            <el-form-item label="目前服药情况：" class="questionnaire-table-highlight">
+              <span>{{ "" }}</span>
+            </el-form-item>
+            <el-form-item label="" class="questionnaire-table-highlight">
               <span>{{ "" }}</span>
             </el-form-item>
             <el-form-item label="美多芭">
@@ -162,36 +171,7 @@ export default class QuestionnaireView extends Vue {
       }
     }
   }[] = [];
-  // tableData = [{
-  //     date: '2016-05-02',
-  //     name: '王小虎',
-  //     province: '上海',
-  //     city: '普陀区',
-  //     address: '上海市普陀区金沙江路 1518 弄',
-  //     id: '000001'
-  // }, {
-  //     date: '2016-05-04',
-  //     name: '李晓丽',
-  //     province: '上海',
-  //     city: '普陀区',
-  //     address: '上海市普陀区金沙江路 1517 弄',
-  //     id: '000002'
-  // }, {
-  //     date: '2016-05-01',
-  //     name: '王小明',
-  //     province: '上海',
-  //     city: '普陀区',
-  //     address: '上海市普陀区金沙江路 1519 弄',
-  //     id: '000003'
-  // }, {
-  //     date: '2016-05-03',
-  //     name: '孙晓达',
-  //     province: '上海',
-  //     city: '普陀区',
-  //     address: '上海市普陀区金沙江路 1516 弄',
-  //     id: '000004'
-  // }];
-//组件加载的同时向后端取数据
+  
   created() {
     this.form.screenInput = ''; //将搜索框置为空，初始化
     this.getData();
@@ -263,10 +243,10 @@ export default class QuestionnaireView extends Vue {
     margin-left: 0;
     margin-right: 0;
     margin-bottom: 0;
-    width: 100%;
+    width: 50%;
   }
   .questionnaire-table-highlight label {
-    width: 250px;
+    width: 850px;
     color: #454d57;
   }
 
