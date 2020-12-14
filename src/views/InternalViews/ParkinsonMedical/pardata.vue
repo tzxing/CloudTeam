@@ -234,9 +234,12 @@ export default class PardataView extends Vue {
  
 
   toDetailedInfo(index:any, row:any) { //转跳详情页面
+    this.$store.state.patient_name = row.name; //跳转页面前将对应患者的姓名存入vuex，以便在下个页面的顶栏显示相关信息
     this.$router.push({
       path:'data_detail',
-      query:{ username:row.username }
+      query:{
+        username:row.username
+      }
     })
   }
 

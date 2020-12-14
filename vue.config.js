@@ -65,7 +65,7 @@ module.exports = {
             },
             proxy: {
                 "/api": {
-                    target: "https://www.cloudcontrolsystems.cn",
+                    target: "http://10.1.80.72:8000",
                     ws: true,
                     changeOrigin: true,
                 }
