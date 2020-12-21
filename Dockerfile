@@ -2,7 +2,7 @@ FROM node:current-alpine AS builder
 
 COPY package.json package-lock.json tsconfig.json postcss.config.js .eslintrc.js vue.config.js /frontend/
 WORKDIR /frontend/
-RUN npm --registry=https://registry.npm.taobao.org install
+# RUN npm --registry=https://registry.npm.taobao.org install
 COPY public /frontend/public
 COPY src /frontend/src
 RUN npm run build
