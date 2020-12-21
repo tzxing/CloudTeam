@@ -1,6 +1,6 @@
 pipeline {
   environment {
-        registry = "https://harbor.cloudcontrolsystems.cn/ccs/"
+        registry = "https://harbor.cloudcontrolsystems.cn/workflow/"
   }
   agent any
   stages {
