@@ -6,7 +6,7 @@ pipeline {
   stages {
         stage('Cloning Git') {
             steps {
-                git branch: 'release', url: 'gitea@git.cloudcontrolsystems.cn:CloudTeam/Frontend.git'
+                git branch: 'master', url: 'gitea@git.cloudcontrolsystems.cn:CloudTeam/Frontend.git'
             }
         }
         stage('Building image') {
