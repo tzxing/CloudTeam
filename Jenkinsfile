@@ -19,7 +19,7 @@ pipeline {
         stage('Deploy') {
             steps{
                     script {
-                        docker.withRegistry(registry, '64df7683-d0de-4cb1-b121-da9dd8b2198e') {
+                        docker.withRegistry(registry, '516bc90a-d2eb-4464-b90f-60121f7df34c') {
                             customImage.push()
                         }
                     }
