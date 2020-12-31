@@ -12,7 +12,7 @@ pipeline {
         stage('Building image') {
             steps{
                     script {
-                        customImage = docker.build("harbor.cloudcontrolsystems.cn/workflow/ccs-frontend:latest")
+                        customImage = docker.build("harbor.cloudcontrolsystems.cn/workflow/frontend:latest")
                     }
             }
         }
