@@ -13,6 +13,12 @@
         >工作流调度</FunctionBlock>
 
         <FunctionBlock
+            style="grid-area: j;"
+            background_color="rgb(135 206 250)"
+            url="/internal/prediction"
+        >能耗预测</FunctionBlock>
+
+        <FunctionBlock
           style="grid-area: b;"
           background_color="#e5ca8f"
           url="/internal/smartcar"

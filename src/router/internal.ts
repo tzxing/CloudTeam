@@ -56,5 +56,15 @@ export default [
             { path: 'addtask', name: 'addtask', component: () => import("@/views/InternalViews/GeneralComputing/AddTaskView.vue") },
             { path: 'tasklist', name: 'tasklist', component: () => import("@/views/InternalViews/GeneralComputing/TaskListView.vue") }
         ]
+    },
+    {
+        path: '/internal/prediction', name: 'prediction',
+        component: () => import("@/views/InternalViews/Prediction/Index.vue"),
+        children: [
+            { path: 'dashboard', name: 'dashboard', component: () => import("@/views/InternalViews/Prediction/Dashboard.vue") },
+            { path: 'forecast', name: 'forecast', component: () => import("@/views/InternalViews/Prediction/Forecast.vue") },
+            { path: 'decompose', name: 'decompose', component: () => import("@/views/InternalViews/Prediction/Decompose.vue") },
+            { path: 'userinfo', name: 'userinfo', component: () => import("@/views/InternalViews/Prediction/UserInfo.vue") },
+        ]
     }
 ]
