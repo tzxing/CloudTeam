@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels: 
+    keel.sh/policy: force
+    keel.sh/trigger: webhooks
+    keel.sh/approvals: "0"
+    keel.sh/match-tag: "true"
+spec:
+  selector:
+    matchLabels:
+      app: frontend-ins
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: frontend-ins
+    spec:
+      containers:
+        - name: frontend-ins
+          imagePullPolicy: Always 
+          image: harbor.cloudcontrolsystems.cn/workflow/frontend:latest # TODO: change to the real repo address
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  labels:
+    app: frontend-service
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30080
+      name: frontend-port
+  selector:
+    app: frontend-ins
