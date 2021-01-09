@@ -10,26 +10,26 @@
       text-color="#B0B3C0"
       active-text-color="#409EFF"
     >
-      <el-menu-item index="/internal/workflow/dashboard">
+      <el-menu-item index="/workflow/dashboard">
         <span slot="title">首页</span>
       </el-menu-item>
 
 
-        <el-menu-item index="/internal/workflow/wflistable">
+        <el-menu-item index="/workflow/wflistable">
           <i class="el-icon-s-order"></i>
           <span slot="title">工作流列表</span>
         </el-menu-item>
 
 
 
-        <el-menu-item v-show=showuserinfo index="/internal/workflow/userinfo">
+        <el-menu-item v-show=showuserinfo index="/workflow/userinfo">
           <i class="el-icon-s-check"></i>
           <span slot="title">用户列表</span>
         </el-menu-item>
 
 
 
-        <el-menu-item index="/internal/workflow/workflowjoblist">
+        <el-menu-item index="/workflow/workflowjoblist">
           <i class="el-icon-discover"></i>
           工作流实例列表
         </el-menu-item>

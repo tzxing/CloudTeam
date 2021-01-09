@@ -4,7 +4,7 @@
     <div class="collapse-btn">
       <i class="el-icon-menu"></i>
     </div>
-    <div class="logo">云数据中心能耗预测子系统</div>
+    <div class="logo">云工作流服务子系统</div>
     <div class="header-right">
       <div class="header-user-con">
         <!-- 用户头像 -->
@@ -24,7 +24,7 @@ export default class TheHeadView extends Vue {
 
   logout() {
     this.$store.state.user.access_token = "";
-    this.$router.replace("/internal");
+    this.$router.replace("/");
   }
 }
 </script>

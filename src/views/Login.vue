@@ -40,7 +40,7 @@ export default class LoginView extends Vue {
       this.$store.state.user.stuid = stuid;
       this.$store.state.user.role = role;
       this.$store.state.user.medicalsignup=medicalsignup;
-      this.$router.replace("/internal");
+      this.$router.replace("/");
     } catch (e) {
       this.$message.error("登录失败，请检查用户名和密码后再试！");
     }
@@ -48,7 +48,7 @@ export default class LoginView extends Vue {
     // this.$store.state.user.role="admin"
     // this.$store.state.user.access_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsInVzZXJuYW1lIjoiaGFoYSIsImVtYWlsIjoiMTIzIiwicm9sZSI6MX0.SPjFd-QZ9TG9QHdA0_3Dz4hclw0PRUOBOqP401IlXQI"
     // this.$store.state.user.username = "管理员"
-    // this.$router.replace("/internal")
+    // this.$router.replace("/")
     
   }
 

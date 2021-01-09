@@ -6,13 +6,13 @@ pipeline {
   stages {
         stage('Cloning Git') {
             steps {
-                git branch: 'master', url: 'gitea@git.cloudcontrolsystems.cn:CloudTeam/Frontend.git'
+                git branch: 'master', url: 'gitea@git.cloudcontrolsystems.cn:wg/FrontendCore.git'
             }
         }
         stage('Building image') {
             steps{
                     script {
-                        customImage = docker.build("harbor.cloudcontrolsystems.cn/workflow/frontend:latest")
+                        customImage = docker.build("harbor.cloudcontrolsystems.cn/workflow/frontend-core:latest")
                     }
             }
         }

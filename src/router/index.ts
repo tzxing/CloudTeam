@@ -1,69 +1,95 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import store from '../store';
+import Vue from "vue";
+import VueRouter from "vue-router";
+import store from "../store";
 
-import ExternalIndex from '../views/ExternalViews/Index.vue'
-import ExternalHome from '../views/ExternalViews/Home.vue'
-import ExternalOurGroup from '../views/ExternalViews/OurGroup.vue'
-import ExternalAcademic from '../views/ExternalViews/Academic.vue'
-import ExternalInternational from '../views/ExternalViews/International.vue'
-import ExternalCloudplantform from '../views/ExternalViews/Cloudplantform.vue'
-import ExternalConnect from '../views/ExternalViews/Connect.vue'
+import LoginPage from "@/views/Login.vue";
 
-import Internel from './internal';
-
-if (!(window as any).VueRouter) Vue.use(VueRouter)
+if (!(window as any).VueRouter) Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'index',
-    component: ExternalIndex,
+    path: "/",
+    name: "index",
+    component: () => import("@/views/Workflow/Index.vue"),
     children: [
-      { path: 'home', name: 'home', component: ExternalHome },
-      { path: 'ourgroup', name: 'ourgroup', component: ExternalOurGroup },
-      { path: 'academic', name: 'academic', component: ExternalAcademic },
-      { path: 'international', name: 'international', component: ExternalInternational },
-      { path: 'cloudplantform', name: 'cloudplantform', component: ExternalCloudplantform },
-      { path: 'connect', name: 'connect', component: ExternalConnect },
-    ]
+      {
+        path: "dashboard",
+        name: "dashboard",
+        component: () => import("@/views/Workflow/Dashboard.vue"),
+      },
+      {
+        path: "basetable",
+        name: "basetable",
+        component: () => import("@/views/Workflow/BaseTable.vue"),
+      },
+      // { path: 'baseform', name: 'baseform', component: () => import("@/views/InternalViews/Workflow/BaseForm.vue") },
+      {
+        path: "wflistable",
+        name: "wflistable",
+        component: () => import("@/views/Workflow/WflistTable.vue"),
+      },
+      {
+        path: "wflistable/wfsdetails",
+        name: "wflistable/wfsdetails",
+        component: () => import("@/views/Workflow/WFSDetails.vue"),
+      },
+      {
+        path: "wflistable/wfsedit",
+        name: "wflistable/wfsedit",
+        component: () => import("@/views/Workflow/WFSEdit.vue"),
+      },
+
+      {
+        path: "userinfo",
+        name: "userinfo",
+        component: () => import("@/views/Workflow/UserInfo.vue"),
+      },
+      {
+        path: "baseform",
+        name: "baseform",
+        component: () => import("@/views/Workflow/BaseForm.vue"),
+      },
+      {
+        path: "workflowjoblist",
+        name: "workflowjoblist",
+        component: () => import("@/views/Workflow/WorkflowJobList.vue"),
+      },
+      //{ path: 'workflowjoblist', name: 'workflowjoblist', component: () => import("@/views/InternalViews/Workflow/WorkflowJob.vue") },
+
+      {
+        path: "workflowjob",
+        name: "workflowjob",
+        component: () => import("@/views/Workflow/WorkflowJob.vue"),
+      },
+    ],
   },
   {
-    path: '/login',
-    name: 'login',
-    component: () => import('../views/Login.vue')
+    path: "/login",
+    name: "login",
+    component: LoginPage,
   },
   {
-    path: '/signup',
-    name: 'signup',
-    component: () => import('../views/Signup.vue')
+    path: "/signup",
+    name: "signup",
+    component: () => import("@/views/Signup.vue"),
   },
-  ...Internel
-]
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.path === "/logout")
-    (store.state as any).user.access_token = "";
+  if (to.path === "/logout") (store.state as any).user.access_token = "";
 
-  if ((to.path.startsWith('/internal'))
-    && (store.state as any).user.access_token === "") {
-    // console.warn("强制转跳到登陆页");
+  if (to.path !== "/login" && (store.state as any).user.access_token === "") {
+    console.warn("强制转跳到登陆页");
     next("/login");
   } else {
     next();
   }
-//   if ((to.path.startsWith('/internal/parkinson'))李晖：现将这个钩子注释掉，这个钩子是用来根据用户的role判断是否进行跳转的功能的
-//   && store.state.user.role === "user") {
-//   next("/login");
-// } else {
-//   next();
-// }
 });
 
 //增加一个后置的钩子，用于改变页面的标题
@@ -71,5 +97,4 @@ router.beforeEach((to, from, next) => {
 //   store.commit('committitle',to.meta.title) ;
 // })
 
-
-export default router
+export default router;

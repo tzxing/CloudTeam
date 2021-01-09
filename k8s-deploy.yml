@@ -20,7 +20,7 @@ spec:
       containers:
         - name: frontend-ins
           imagePullPolicy: Always 
-          image: harbor.cloudcontrolsystems.cn/workflow/frontend:latest # TODO: change to the real repo address
+          image: harbor.cloudcontrolsystems.cn/workflow/frontend-core:latest # TODO: change to the real repo address
           ports:
             - containerPort: 80
 ---

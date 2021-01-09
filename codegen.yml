@@ -1,6 +1,0 @@
-overwrite: true
-schema: "../ccs-backend/graphql/schema/protected.gql"
-generates:
-  ./src/graphql_types.ts:
-    plugins:
-      - "typescript"
