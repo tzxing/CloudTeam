@@ -85,7 +85,7 @@ router.beforeEach((to, from, next) => {
   if (to.path === "/logout") (store.state as any).user.access_token = "";
 
   if (to.path !== "/login" && (store.state as any).user.access_token === "") {
-    console.warn("强制转跳到登陆页");
+    // console.warn("强制转跳到登陆页");
     next("/login");
   } else {
     next();
