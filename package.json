@@ -29,6 +29,7 @@
     "@vue/cli-plugin-vuex": "^4.0.0",
     "@vue/cli-service": "^4.0.0",
     "@vue/eslint-config-typescript": "^4.0.0",
+    "axios-mock-adapter": "^1.19.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "express": "^4.17.1",
