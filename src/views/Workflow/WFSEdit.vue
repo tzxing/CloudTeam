@@ -18,6 +18,10 @@
             placeholder="名称由字母，数字和横线构成，不允许包含下划线或特殊字符等"
             maxlength="100"
           ></el-input>
+         <el-select v-model="wf_template_style" placeholder="请选择">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="add_node">新增节点</el-button>
@@ -56,8 +60,20 @@ export default class WFSEdit extends Vue {
   private wf_id: any;
   private flag: any = "0";
   private wf_template_name: any = "";
+  private wf_template_style: any = "";
   wfs_data: any;
   a: [] = [];
+
+  options = [
+    {
+      value: "普通工作流",
+      label: "普通工作流"
+    },
+    {
+      value: "控制任务",
+      label: "控制任务"
+    }
+  ];
 
   mounted() {
     // alert(this.$route.query.name)
@@ -77,19 +93,24 @@ export default class WFSEdit extends Vue {
   public auto_layout() {
     this.chart.auto_layout();
   }
-
+  
+  
   async saveWfsInfo() {
     if (this.flag == "1") {
       try {
         if (this.wf_template_name == null || this.wf_template_name == "") {
           alert("请输入工作流名称");
-        } else {
+        } else if(this.wf_template_style==null || this.wf_template_style == ""){
+          alert("请选择类型");
+        }
+        else {
           this.wfs_data = JSON.parse(this.chart.get_chartjson());
 
           const { data } = await this.$axios.patch(
             "wfs/workflows/" + this.wf_id,
             {
               workflow_name: this.wf_template_name,
+              style :this.wf_template_style,
               topology: this.wfs_data,
             }
           );
@@ -111,11 +132,15 @@ export default class WFSEdit extends Vue {
       try {
         if (this.wf_template_name == null || this.wf_template_name == "") {
           alert("请输入工作流名称");
-        } else {
+        } else if(this.wf_template_style==null || this.wf_template_style == ""){
+          alert("请选择类型");
+        }
+        else {
           this.wfs_data = JSON.parse(this.chart.get_chartjson());
 
           const { data } = await this.$axios.post("wfs/workflows", {
             workflow_name: this.wf_template_name,
+            style:this.wf_template_style,
             topology: this.wfs_data,
           });
           if (data) {
