@@ -164,6 +164,7 @@ export default class SignupView extends Vue {
   public async do_signup() {
     if (await (this.$refs["form"] as Form).validate()) {
       try {
+        console.log("123")
         const { data } = await this.$axios.post("users/signup", this.form);
         if (data == "success") {
           this.$message.success("注册成功，请登录！");

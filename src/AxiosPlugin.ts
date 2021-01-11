@@ -12,8 +12,8 @@ export const Axios = axios.create({ baseURL: "/api", timeout: 10000 });
 
 
 //mock 模拟数据
- const MockAdapter = require("axios-mock-adapter");
- const mock = new MockAdapter(Axios);
+//  cconst MockAdapter = require("axios-mock-adapter");
+//  const mock = new MockAdapter(Axios);
  //模拟工作流列表
  /*mock.onGet("/api/wfs/workflow_list/WFFInfo").reply(200,[{'wf_id':"a", 'date':"2020-9-1",'name':"zc"}]);
  mock.onGet("/api/wfs/workflow_list/WFTInfo").reply(200,[{'wf_id':"b", 'date':"2020-9-1",'name':"zc1"}]);
