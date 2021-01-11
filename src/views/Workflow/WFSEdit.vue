@@ -3,15 +3,21 @@
     <div v-if="flag === '1'">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/workflow' }">工作流管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: '/workflow/wflistable' }">工作流列表</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/wflistable' }"
+          >工作流列表</el-breadcrumb-item
+        >
         <el-breadcrumb-item>修改</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div style="height: 100%">
       <el-form :inline="true" class="demo-form-inline">
-        <el-form-item label="工作流(模版)名称">
-          <el-input style="width: 31em;" v-model="input" placeholder="名称由字母，数字和横线构成，不允许包含下划线或特殊字符等" maxlength="100"></el-input>
+        <el-form-item label="工作流模版名称">
+          <el-input
+            style="width: 31em;"
+            v-model="wf_template_name"
+            placeholder="名称由字母，数字和横线构成，不允许包含下划线或特殊字符等"
+            maxlength="100"
+          ></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="add_node">新增节点</el-button>
@@ -25,7 +31,10 @@
       </el-form>
       <el-main style="height: 100%">
         <div style="height: 90%">
-          <WorkflowChartAlter :chart_data="chart_data" ref="workflow_chart"></WorkflowChartAlter>
+          <WorkflowChartAlter
+            :chart_data="chart_data"
+            ref="workflow_chart"
+          ></WorkflowChartAlter>
         </div>
       </el-main>
     </div>
@@ -38,22 +47,24 @@ import FunctionBlock from "./components/FunctionBlock.vue";
 import WorkflowChartAlter from "./Components/WorkflowChartAlter.vue";
 
 @Component({
-  components: { WorkflowChartAlter }
+  components: { WorkflowChartAlter },
 })
 export default class WFSEdit extends Vue {
-  private wfsname: any = "";
+  private wfsname: string = "";
   private chart_data = "[]";
   private chart: any = null;
   private wf_id: any;
   private flag: any = "0";
-  private input: any = "";
+  private wf_template_name: any = "";
+  wfs_data: any;
+  a: [] = [];
 
   mounted() {
     // alert(this.$route.query.name)
-    this.wfsname = this.$route.query.name;
+    this.wfsname = this.$route.query.name as string;
     this.wf_id = this.$route.query.wf_id;
     this.flag = this.$route.query.flag;
-    this.input = this.$route.query.name;
+    this.wf_template_name = this.$route.query.name;
     if (this.flag == "1") {
       this.getDetailsInfo();
     }
@@ -66,12 +77,11 @@ export default class WFSEdit extends Vue {
   public auto_layout() {
     this.chart.auto_layout();
   }
-  wfs_data: any;
-  a: [] = [];
+
   async saveWfsInfo() {
     if (this.flag == "1") {
       try {
-        if (this.input == null || this.input == "") {
+        if (this.wf_template_name == null || this.wf_template_name == "") {
           alert("请输入工作流名称");
         } else {
           this.wfs_data = JSON.parse(this.chart.get_chartjson());
@@ -79,15 +89,15 @@ export default class WFSEdit extends Vue {
           const { data } = await this.$axios.patch(
             "wfs/workflows/" + this.wf_id,
             {
-              workflow_name: this.input,
-              topology: this.wfs_data
+              workflow_name: this.wf_template_name,
+              topology: this.wfs_data,
             }
           );
           if (data) {
             this.$message.info("保存成功");
             this.$router.push({
               //跳转到工作流列表界面
-              name: "wflistable"
+              name: "wflistable",
             });
           }
         }
@@ -99,20 +109,20 @@ export default class WFSEdit extends Vue {
     } else {
       //新增
       try {
-        if (this.input == null || this.input == "") {
+        if (this.wf_template_name == null || this.wf_template_name == "") {
           alert("请输入工作流名称");
         } else {
           this.wfs_data = JSON.parse(this.chart.get_chartjson());
 
           const { data } = await this.$axios.post("wfs/workflows", {
-            workflow_name: this.input,
-            topology: this.wfs_data
+            workflow_name: this.wf_template_name,
+            topology: this.wfs_data,
           });
           if (data) {
             this.$message.info("保存成功");
             this.$router.push({
               //跳转到工作流列表界面
-              name: "wflistable"
+              name: "wflistable",
             });
           }
         }
