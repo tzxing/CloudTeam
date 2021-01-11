@@ -28,7 +28,6 @@ interface WorkflowChartnodeDetail {
   image: string;
   style_type: string;
   node_info: string;
-
 }
 
 @Component({
