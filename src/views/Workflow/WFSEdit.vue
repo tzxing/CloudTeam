@@ -63,6 +63,7 @@ export default class WFSEdit extends Vue {
   private wf_template_style: any = "";
   wfs_data: any;
   a: [] = [];
+  private wf_style: any = ""
 
   options = [
     {
@@ -142,6 +143,7 @@ export default class WFSEdit extends Vue {
             workflow_name: this.wf_template_name,
             style:this.wf_template_style,
             topology: this.wfs_data,
+            style: this.wf_style
           });
           if (data) {
             this.$message.info("保存成功");
