@@ -23,6 +23,24 @@
         <el-form-item prop="image" label="镜像" required>
           <el-input v-model="form.image"></el-input>
         </el-form-item>
+         <el-form-item prop="node_info" label="节点描述" required>
+          <el-input v-model="form.node_info" ></el-input>
+        </el-form-item>
+        <el-form-item prop="cpu" label="cpu个数" required>
+          <el-input v-model="form.cpu"></el-input>
+        </el-form-item>
+        <el-form-item prop="mem" label="内存" required>
+          <el-input v-model="form.mem"></el-input>
+        </el-form-item>
+        <el-form-item prop="env" label="环境" required>
+          <el-input v-model="form.env"></el-input>
+        </el-form-item>
+        <el-form-item prop="input_vector" label="输入向量" required>
+          <el-input v-model="form.input_vector"></el-input>
+        </el-form-item>
+         <el-form-item prop="output_vector" label="输出向量" required>
+          <el-input v-model="form.output_vector"></el-input>
+        </el-form-item>
       </el-form>
 
       <div slot="footer">
@@ -46,6 +64,12 @@ interface Workflownode {
   dependencies: string[];
   image: string;
   phase: string;
+  node_info: string;
+  cpu: number ;
+  mem: number ;
+  env: {[key:string]:string} ;
+  input_vector: Array<string> ;
+  output_vector: Array<string> ;
 }
 
 @Component({
@@ -59,7 +83,14 @@ export default class WorkflowChartAlter extends Vue {
     node_name: "",
     image: "",
     parallel: "",
-    range_end: 0
+    range_end: 0,
+    node_info:"",
+    cpu: 0,
+    mem: 0,
+    env: {},
+    input_vector: [],
+    output_vector: [],
+
   };
   public formRule = {
     node_name: [
@@ -232,6 +263,12 @@ export default class WorkflowChartAlter extends Vue {
           add_info["dependencies"] = [];
           add_info["phase"] = "normal";
           add_info["id"] = this.guid();
+          add_info["node_info"] = this.form.node_info;
+          add_info["cpu"] = this.form.cpu;
+          add_info["mem"] = this.form.mem;
+          add_info["env"] = this.form.env;
+          add_info["input_vector"] = this.form.input_vector
+          add_info["output_vector"] = this.form.output_vector
           this.workflow_nodes.push(add_info);
         }
       } else {
@@ -241,6 +278,12 @@ export default class WorkflowChartAlter extends Vue {
         add_info["dependencies"] = [];
         add_info["phase"] = "normal";
         add_info["id"] = this.guid();
+        add_info["node_info"] = this.form.node_info;
+        add_info["cpu"] = this.form.cpu;
+        add_info["mem"] = this.form.mem;
+        add_info["env"] = this.form.env;
+        add_info["input_vector"] = this.form.input_vector
+        add_info["output_vector"] = this.form.output_vector
         this.workflow_nodes.push(add_info);
       }
 

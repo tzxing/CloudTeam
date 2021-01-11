@@ -58,6 +58,7 @@ export default class WFSEdit extends Vue {
   private wf_template_name: any = "";
   wfs_data: any;
   a: [] = [];
+  private wf_style: any = ""
 
   mounted() {
     // alert(this.$route.query.name)
@@ -117,6 +118,7 @@ export default class WFSEdit extends Vue {
           const { data } = await this.$axios.post("wfs/workflows", {
             workflow_name: this.wf_template_name,
             topology: this.wfs_data,
+            style: this.wf_style
           });
           if (data) {
             this.$message.info("保存成功");
