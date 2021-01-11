@@ -63,9 +63,13 @@ export default class WorkflowJobView extends Vue {
   }
 
   async getData() {
+    console.log("12233"+this.workflow_name);
     const { data } = await this.$axios.get(
       "wfs/workflowJobs/" + this.workflow_name
     );
+    console.log(typeof '{"result":true, "count":42}');
+    console.log(typeof data);
+    console.log(data);
     const result = JSON.parse(data);
     this.chart_data = JSON.stringify(result.topology);
     if (result.phase == "Succeeded") {
