@@ -143,7 +143,7 @@ export default class WFSEdit extends Vue {
             workflow_name: this.wf_template_name,
             style:this.wf_template_style,
             topology: this.wfs_data,
-            style: this.wf_style
+            
           });
           if (data) {
             this.$message.info("保存成功");
