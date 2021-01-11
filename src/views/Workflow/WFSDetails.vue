@@ -3,8 +3,7 @@
     <el-header>
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{path:'/workflow'}">工作流管理</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{path:'/workflow/wflistable'}">工作流列表</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{path:'/wflistable'}">工作流列表</el-breadcrumb-item>
         <el-breadcrumb-item>工作流详情</el-breadcrumb-item>
       </el-breadcrumb>
       <div>
