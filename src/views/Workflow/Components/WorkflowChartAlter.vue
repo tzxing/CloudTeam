@@ -56,6 +56,7 @@ import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import WorkflowChartNode from "./WorkflowChartNode.vue";
 import { jsPlumb, jsPlumbInstance } from "jsplumb";
 import { Form } from "element-ui";
+
 const dagre = require("dagre");
 
 interface Workflownode {
@@ -87,9 +88,9 @@ export default class WorkflowChartAlter extends Vue {
     node_info:"",
     cpu: 0,
     mem: 0,
-    env: {},
-    input_vector: [],
-    output_vector: [],
+    env: "",
+    input_vector: "",
+    output_vector: "",
 
   };
   public formRule = {
@@ -266,9 +267,9 @@ export default class WorkflowChartAlter extends Vue {
           add_info["node_info"] = this.form.node_info;
           add_info["cpu"] = this.form.cpu;
           add_info["mem"] = this.form.mem;
-          add_info["env"] = this.form.env;
-          add_info["input_vector"] = this.form.input_vector
-          add_info["output_vector"] = this.form.output_vector
+          add_info["env"] = JSON.parse(this.form.env);
+          add_info["input_vector"] =  JSON.parse(this.form.input_vector)
+          add_info["output_vector"] = JSON.parse(this.form.output_vector)
           this.workflow_nodes.push(add_info);
         }
       } else {
@@ -281,9 +282,9 @@ export default class WorkflowChartAlter extends Vue {
         add_info["node_info"] = this.form.node_info;
         add_info["cpu"] = this.form.cpu;
         add_info["mem"] = this.form.mem;
-        add_info["env"] = this.form.env;
-        add_info["input_vector"] = this.form.input_vector
-        add_info["output_vector"] = this.form.output_vector
+        add_info["env"] = JSON.parse(this.form.env);
+        add_info["input_vector"] = JSON.parse(this.form.input_vector)
+        add_info["output_vector"] = JSON.parse(this.form.output_vector)
         this.workflow_nodes.push(add_info);
       }
 
