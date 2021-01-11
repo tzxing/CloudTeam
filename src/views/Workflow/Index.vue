@@ -33,7 +33,7 @@ export default class WorkflowIndexView extends Vue {
   keepAlive = [];
 
   public mounted() {
-    this.$router.replace("/workflow/dashboard");
+    this.$router.replace("/dashboard");
   }
 }
 </script>

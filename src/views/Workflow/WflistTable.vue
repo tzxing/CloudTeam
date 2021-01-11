@@ -238,6 +238,7 @@ export default class WflistTableView extends Vue {
     }
   }
   to_wfexec(wf_name: any) {
+    console.log(wf_name);
     this.$router.push({
       //跳转到实例页面
       name: "workflowjob",

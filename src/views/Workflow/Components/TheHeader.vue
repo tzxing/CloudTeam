@@ -8,7 +8,7 @@
     <div class="header-right">
       <div class="header-user-con">
         <!-- 用户头像 -->
-        <div class="user-name">{{name}}</div>
+        <!-- <div class="user-name">{{name}}</div> -->
         <div class="user-logout curp" @click="logout">退出</div>
       </div>
     </div>
@@ -20,7 +20,7 @@ import { Component, Vue } from "vue-property-decorator";
 @Component({})
 export default class TheHeadView extends Vue {
   collapse = false;
-  name = this.$store.state.user.username;
+  //name = this.$store.state.user.username;
 
   logout() {
     this.$store.state.user.access_token = "";
