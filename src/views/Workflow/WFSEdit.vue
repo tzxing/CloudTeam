@@ -60,7 +60,7 @@ export default class WFSEdit extends Vue {
   private wf_id: any;
   private flag: any = "0";
   private wf_template_name: any = "";
-  private wf_template_style: any = "";
+  private wf_template_style: string = this.$route.query.style as string;
   wfs_data: any;
   a: [] = [];
   private wf_style: any = ""

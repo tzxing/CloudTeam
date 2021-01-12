@@ -279,7 +279,7 @@ export default class WflistTableView extends Vue {
   to_wfsedit(row: any) {
     this.$router.push({
       name: "wflistable/wfsedit",
-      query: { name: row.name, wf_id: row.wf_id, flag: "1" }
+      query: { name: row.name, wf_id: row.wf_id, flag: "1" ,style:row.style}
     });
   }
 
