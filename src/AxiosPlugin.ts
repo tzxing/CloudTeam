@@ -50,7 +50,7 @@ Axios.interceptors.request.use(
 export default {
   install(vue: any) {
     if (process.env.NODE_ENV == "development" && process.env.VUE_APP_MOCK) {
-      make_mock(Axios);
+      //make_mock(Axios);
     }
     Object.defineProperty(vue.prototype, "$axios", { value: Axios });
   },
