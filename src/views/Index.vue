@@ -24,8 +24,8 @@ import TheSidebar from "./Components/TheSidebar.vue";
 @Component({
   components: {
     TheHeader,
-    TheSidebar
-  }
+    TheSidebar,
+  },
 })
 export default class WorkflowIndexView extends Vue {
   collapse = false;
@@ -41,8 +41,6 @@ export default class WorkflowIndexView extends Vue {
 <style lang="scss" scoped>
 .el-header {
   background: #41485b;
-  // background: #148431;
-  //background: #00662c;
 }
 
 .el-aside {
