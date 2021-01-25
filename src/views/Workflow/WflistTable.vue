@@ -55,12 +55,13 @@
                 <div class="filter-box">
                   <el-input
                     v-model="shareadd.name"
-                    placeholder="查找用户"
+                    placeholder="输入用户的邮箱地址"
                     autocomplete="off"
                     class="mr10"
                   ></el-input>
                   <el-button size="small" type="primary" @click="add">添加分享</el-button>
                 </div>
+                <!-- <span>注意:输入用户邮箱</span> -->
               </el-form>
               <!-- <span>已分享过的用户:{{wf_id}}</span> -->
               <el-table :data="share" height="250">

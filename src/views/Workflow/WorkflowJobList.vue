@@ -21,8 +21,8 @@
     </el-table-column>
     <el-table-column label="操作">
       <template slot-scope="scope">
-        <el-button size="mini" @click="handleEdit(scope.row.workflow_name)">详情</el-button>
-        <el-button size="mini" type="danger" @click="selectWorkflow(scope.row.workflow_name)">删除</el-button>
+        <el-button size="mini" @click="handleEdit(scope.row.custom_uuid)">详情</el-button>
+        <el-button size="mini" type="danger" @click="selectWorkflow(scope.row.custom_uuid)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -46,7 +46,7 @@ import { Component, Vue } from "vue-property-decorator";
 export default class WorkflowJobListView extends Vue {
   tableData = [];
   dialogVisible = false;
-  workflowName = "";
+  custom_uuid = "";
   table_height = 0;
   uniformwidth = 0;
   created() {
@@ -65,7 +65,7 @@ export default class WorkflowJobListView extends Vue {
   }
 
   selectWorkflow(row: string) {
-    this.workflowName = row;
+    this.custom_uuid = row;
     this.dialogVisible = true;
   }
 
@@ -78,9 +78,9 @@ export default class WorkflowJobListView extends Vue {
 
   async handleDelete() {
     try {
-      const { data } = await this.$axios.delete("wfs/workflowJobs/" + this.workflowName,);
+      const { data } = await this.$axios.delete("wfs/workflowJobs/" + this.custom_uuid);
       this.tableData = this.tableData.filter(
-        item => item["workflow_name"] != this.workflowName
+        item => item["custom_uuid"] != this.custom_uuid
       );
     } catch (e) {
       this.$message.error("请求用户数据失败，请稍后再试！");

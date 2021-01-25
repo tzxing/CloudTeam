@@ -5,8 +5,17 @@
       <span>{{node_info}}</span>-->
 
       <el-tooltip class="wf-node-text" effect="dark" :content="node_info" placement="right">
-        <el-button>{{label}}</el-button>
+        <el-button @click="drawer=true">{{label}}</el-button>
       </el-tooltip>
+    </div>
+    <div>
+      <el-drawer :visible.sync="drawer" :with-header="false" :direction="direction">
+         <p>id:{{id}}</p>
+         <p>名称：{{lable}}</p>
+         <p>节点信息:{{node_info}}</p>
+         <p>image:{{image}}</p>
+         <p>类型：{{style_type}}</p>
+      </el-drawer>
     </div>
   </div>
 </template>
@@ -28,6 +37,9 @@ export default class WorkflowChartNodeDetail extends Vue {
 
   @Prop({ required: true, type: String })
   public label!: string;
+  
+  @Prop({ required: true, type: String })
+  public image!: string;
 
   @Prop({ required: false, default: "disable", type: String })
   public style_type!: string;
@@ -41,7 +53,8 @@ export default class WorkflowChartNodeDetail extends Vue {
   private get _style_type(): string {
     return `wf-node-type-${this.style_type}`;
   }
-
+  public drawer :boolean =false;
+  public direction :string ="rtl"
   public mounted() {
     this.jsp_instance.draggable(this.id);
     if (this.enable_edit) {
@@ -59,6 +72,7 @@ export default class WorkflowChartNodeDetail extends Vue {
         paintStyle: { fill: "transparent" }
       });
     }
+
   }
 }
 </script>

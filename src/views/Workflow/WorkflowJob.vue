@@ -24,9 +24,10 @@ export default class WorkflowJobView extends Vue {
   public chart: any;
   public workflow_name: string = "";
   public scheduler: number = 0;
+  private flag = 1;
 
   created() {
-    // console.log(this.$route.query.data)
+    // console.log(this.$route.query.data) data:custom_id
     this.workflow_name = this.$route.query.data.toString();
     // this.scheduler()
   }
@@ -65,8 +66,11 @@ export default class WorkflowJobView extends Vue {
   async getData() {
     console.log("12233"+this.workflow_name);
     const { data } = await this.$axios.get(
-      "wfs/workflowJobs/" + this.workflow_name
+      "wfs/workflowJobs/" + this.workflow_name + "/" + this.flag
     );
+    if (data == 1){
+      return 
+    }
     console.log(typeof '{"result":true, "count":42}');
     console.log(typeof data);
     console.log(data);
@@ -75,6 +79,7 @@ export default class WorkflowJobView extends Vue {
     if (result.phase == "Succeeded") {
       this.stop();
     }
+    this.flag = 0
   }
 
   public stop() {
