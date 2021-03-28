@@ -14,13 +14,13 @@ module.exports = {
         devtool: 'source-map',
         // configure webpack-dev-server behavior
         devServer: {
-            proxy: {
-                "/api": {
-                    target: process.env.VUE_APP_PROXY_ADDRESS,
-                    ws: true,
-                    changeOrigin: true,
-                }
-            },
+            // proxy: {
+            //     "/api": {
+            //         target: process.env.VUE_APP_PROXY_ADDRESS,
+            //         ws: true,
+            //         changeOrigin: true,
+            //     }
+            // },
         }
 
     }

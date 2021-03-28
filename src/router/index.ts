@@ -51,6 +51,27 @@ const routes = [
         ],
     },
     {
+        path: '/prediction', name: 'prediction',
+        component: () => import("@/views/Prediction/Index.vue"),
+        children: [
+            { path: 'dashboard', name: 'dashboard', component: () => import("@/views/Prediction/Dashboard.vue") },
+            { path: 'forecast', name: 'forecast', component: () => import("@/views/Prediction/Forecast.vue") },
+            { path: 'decompose', name: 'decompose', component: () => import("@/views/Prediction/DecomposeList.vue") },
+            { path: 'hard-decompose', name: 'hard-decompose', component: () => import("@/views/Prediction/HardDecomposeList.vue") },
+            { path: 'metrics', name: 'metrics', component: () => import("@/views/Prediction/Metrics.vue") },
+            { path: 'server/:serverName/metrics', name: 'metrics-server', component: () => import("@/views/Prediction/Metrics.vue") },
+            { path: 'userinfo', name: 'userinfo', component: () => import("@/views/Prediction/UserInfo.vue") },
+            { path: 'server-list', name: 'server-list', component: () => import("@/views/Prediction/ServerList.vue") },
+            { path: 'server/:serverName/predict', name: 'server-forecast', component: () => import("@/views/Prediction/Forecast.vue") },
+            { path: 'server/:serverName/decompose', name: 'server-decompose', component: () => import("@/views/Prediction/Decompose.vue") },
+            { path: 'server/:serverName/hard-decompose', name: 'server-hard-decompose', component: () => import("@/views/Prediction/HardDecompose.vue") },
+            { path: 'vm/:vmName/decompose', name: 'vm-decompose', component: () => import("@/views/Prediction/Decompose.vue") },
+            { path: 'vm-list/:vmName', name: 'vm-list', component: () => import("@/views/Prediction/VmList.vue") },
+            { path: 'pod-list/:podName', name: 'pod-list', component: () => import("@/views/Prediction/PodList.vue") },
+            { path: 'pod/:podName/predict', name: 'pod', component: () => import("@/views/Prediction/Forecast.vue") },
+        ]
+    },
+    {
         path: "/login",
         name: "login",
         component: LoginPage,
