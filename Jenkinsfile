@@ -6,7 +6,7 @@ pipeline {
   stages {
         stage('Cloning Git') {
             steps {
-                git branch: 'master', url: 'gitea@git.cloudcontrolsystems.cn:wg/FrontendCore.git'
+                git branch: 'master', url: 'gitea@git.cloudcontrolsystems.cn:CloudTeam/FrontendCore.git'
             }
         }
         stage('Building image') {
