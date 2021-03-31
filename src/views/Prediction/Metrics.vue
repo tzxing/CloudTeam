@@ -63,9 +63,13 @@ import axios from "axios";
 export default class DashboardView extends Vue {
 
   qosList: number[] = [] as any[];
+  dcValueList: number[] = [] as any[];
   startTimestamp: string = '1'
   endTimestamp: string = '20'
+  startDCTimestamp: string = '1'
+  endDCTimestamp: string = '10'
   qosNum: never = 0 as never;
+  dcValue: never = 0 as never;
   timer: number = 0
 
   async getQoSListInit() {
@@ -86,6 +90,29 @@ export default class DashboardView extends Vue {
       let url = 'http://10.160.109.63:8081/dcevaluate/' + this.startTimestamp + '/' + this.endTimestamp +'/qos/brb/' + this.$route.params.serverName;
       const {data} = await axios.get(url);
       this.qosNum = data.values[0] as never;
+    } catch (e) {
+      this.$message.error("请求数据失败，请稍后再试！");
+    }
+  }
+
+  async getDCEvaluateListInit() {
+    try {
+      let url = 'http://10.160.109.63:8081/dcevaluate/' + this.startDCTimestamp + '/' + this.endDCTimestamp + '/dc/membership/datacenter/';
+      const {data} = await axios.get(url);
+      this.dcValueList = data.values;
+      this.IORate.series[0].data = this.dcValueList as never;
+      this.startTimestamp = '10';
+      this.endTimestamp = '11'
+    } catch (e) {
+      this.$message.error("请求数据失败，请稍后再试！");
+    }
+  }
+
+  async getDCEvaluateList() {
+    try {
+      let url = 'http://10.160.109.63:8081/dcevaluate/' + this.startDCTimestamp + '/' + this.endDCTimestamp + '/dc/membership/datacenter/';
+      const {data} = await axios.get(url);
+      this.dcValue = data.values[0] as never;
     } catch (e) {
       this.$message.error("请求数据失败，请稍后再试！");
     }
@@ -217,7 +244,7 @@ export default class DashboardView extends Vue {
   };
   public IORate = {
     title: {
-      text: "能量比例(EP)",
+      text: "数据中心能效等级指标",
       left: "center"
     },
     xAxis: {
@@ -225,10 +252,10 @@ export default class DashboardView extends Vue {
       data: (function() {
         let now = new Date();
         let res = [];
-        let len = 15;
+        let len = 9;
         while (len--) {
           res.unshift(now.toLocaleTimeString().replace(/^\D*/, ""));
-          now = new Date(Number(now) - 120000);
+          now = new Date(Number(now) - 1000);
         }
         return res;
       })()
@@ -238,7 +265,7 @@ export default class DashboardView extends Vue {
     },
     series: [
       {
-        data: [81, 82, 83, 84, 84, 83, 80, 81, 85, 79, 80, 82, 83, 81, 76],
+        data: [],
         type: "line",
         showSymbol: false,
         areaStyle: {
@@ -435,6 +462,8 @@ export default class DashboardView extends Vue {
     // console.log(document.getElementById('img'))
     this.getQoSListInit();
     this.getQoSList();
+    this.getDCEvaluateListInit();
+    this.getDCEvaluateList();
     this.timer = window.setInterval(() => {
       let randBase = 30; // 任务基准数目
       let randPM1 = Math.random(); // 任务判断+/-
@@ -446,6 +475,7 @@ export default class DashboardView extends Vue {
       let WorkNum = 0;
       let surate = 0;
       let Qos = 0 as never;
+      let dcValue = 0 as never;
       let axisData = new Date().toLocaleTimeString().replace(/^\D*/, ""); // 当前时间
       if (randPM1 > 0.5) {
         WorkNum = randBase + randBias1;
@@ -460,18 +490,22 @@ export default class DashboardView extends Vue {
       ).toFixed(2);
       this.startTimestamp = this.endTimestamp;
       this.endTimestamp = (parseInt(this.endTimestamp) + 1).toString();
+      this.startDCTimestamp = this.endDCTimestamp;
+      this.endDCTimestamp = (parseInt(this.endDCTimestamp) + 1).toString();
       this.getQoSList();
+      this.getDCEvaluateList();
       Qos = this.qosNum;
+      dcValue = this.dcValue
       this.workLoad1.series[0].data[0].value = parseFloat(wkload);
       this.QoS.series[0].data.shift();
       this.QoS.series[0].data.push(Qos);
       this.QoS.xAxis.data.shift();
       this.QoS.xAxis.data.push(axisData);
       this.IORate.series[0].data.shift();
-      this.IORate.series[0].data.push(parseFloat(wkload));
+      this.IORate.series[0].data.push(dcValue);
       this.IORate.xAxis.data.shift();
       this.IORate.xAxis.data.push(axisData);
-    }, 5000);
+    }, 1000);
     setInterval(() => {
       let realTimeBase = 75;
       let randPM4 = Math.random(); // 判断真实+/-

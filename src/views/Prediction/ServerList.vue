@@ -64,7 +64,7 @@ export default {
     _this = this;
   },
   created() {
-    //
+
   },
   mounted() {
     this.getServerList();
@@ -72,11 +72,6 @@ export default {
   methods: {
     toVmDetail(url){
       window.open(url)
-    },
-    getUser () {
-      this.$axios.get('/users').then(res => {
-        console.log(res);
-      })
     },
     handleSizeChange(val) {
       this.pageSize = val;
