@@ -131,7 +131,10 @@ export default class DashboardView extends Vue {
   public PredictError = {
     legend: {
       data: ["pred", "real", "error"],
-      left: 10
+      orient: 'vertical',
+      x:'left',       //可设定图例在左、右、居中
+      y:'center',     //可设定图例在上、下、居中
+      padding:[0,50,0,0],   //可设定图例[距上方距离，距右方距离，距下方距离，距左方距离]
     },
     title: {
       text: "部署硬件利用比率(DH-UR)",
@@ -167,21 +170,30 @@ export default class DashboardView extends Vue {
         stack: "one",
         emphasis: this.emphasisStyle,
         smooth: true,
-        data: [-69, -70, -65, -74, -69, -70, -63, -75]
+        data: [-69, -70, -65, -74, -69, -70, -63, -75],
+        label: {
+          position: "insideLeft",
+        }
       },
       {
         name: "real",
         type: "bar",
         stack: "one",
         emphasis: this.emphasisStyle,
-        data: [71, 73, 68, 79, 65, 78, 68, 70]
+        data: [71, 73, 68, 79, 65, 78, 68, 70],
+        label: {
+          position: "insideLeft",
+        }
       },
       {
         name: "error",
         type: "bar",
         stack: "one",
         emphasis: this.emphasisStyle,
-        data: [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+        data: [0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
+        label: {
+          position: "insideLeft",
+        }
       }
     ]
   };
