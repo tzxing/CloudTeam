@@ -107,7 +107,6 @@ export default {
       try {
         for (let i=0; i<this.vmList.length; i++) {
           let lidataUrl = "http://10.160.109.63:8081/getPods/" + this.vmList[i]
-          console.log(lidataUrl)
           const {data} = await this.$axios.get(lidataUrl);
           if(data.entities != null){
             for(let j in data.entities) {

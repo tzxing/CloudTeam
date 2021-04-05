@@ -70,7 +70,7 @@ const routes = [
             { path: 'vm-list/:vmName', name: 'vm-list', component: () => import("@/views/Prediction/VmList.vue") },
             { path: 'pod-list/:podName', name: 'pod-list', component: () => import("@/views/Prediction/PodList.vue") },
             { path: 'pod/:podName/predict', name: 'pod', component: () => import("@/views/Prediction/Forecast.vue") },
-            { path: 'pod/:podName/decompose', name: 'pod', component: () => import("@/views/Prediction/Decompose.vue") },
+            { path: 'pod/:podName/decompose', name: 'pod', component: () => import("@/views/Prediction/PodDecompose.vue") },
         ]
     },
     {
