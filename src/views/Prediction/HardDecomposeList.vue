@@ -9,7 +9,7 @@
               <el-button style="float: right; padding: 3px 0" type="text"><router-link style="color: #409EFF" :to="'/prediction/server/' + value + '/hard-decompose'">能耗分解</router-link></el-button>
             </div>
             <div class="text item">
-              <p><router-link style="color: #409EFF" :to="'/internal/prediction/vm-list/' + value">虚拟机列表</router-link></p>
+              <p><router-link style="color: #409EFF" :to="'/prediction/vm-list/' + value">虚拟机列表</router-link></p>
             </div>
           </el-card>
           <br>

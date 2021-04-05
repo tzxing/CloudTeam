@@ -3,9 +3,9 @@
 
     <el-menu
       class="sidebar-el-menu"
-      :default-active="activeIndex"
-      unique-opened
       router
+      :default-active="$route.path"
+      unique-opened
       background-color="#303439"
       text-color="#B0B3C0"
       active-text-color="#409EFF"
