@@ -5,11 +5,8 @@
         <el-col :span="12">
           <el-card :body-style="{ padding: '20px' }" class="box-card">
             <div slot="header" class="clearfix">
-              <span style="font-weight: bolder;font-size: 17px">{{ value}}</span>
-              <el-button style="float: right; padding: 3px 0;margin-left: 10px" type="text"><router-link style="color: #409EFF" :to="'/prediction/pod/' + value + '/predict'">能耗预测</router-link></el-button>
-              <el-button style="float: right; padding: 3px 0;margin-left: 10px" type="text"><router-link style="color: #409EFF" :to="'/prediction/pod/' + value + '/decompose'">能耗分解</router-link></el-button>
-            </div>
-            <div class="text item">
+              <span style="font-weight: bolder;font-size: 17px">{{ value }}</span>
+              <el-button style="float: right; padding: 3px 0" type="text"><router-link style="color: #409EFF" :to="'/prediction/pod/' + value + '/decompose'">能耗分解</router-link></el-button>
             </div>
           </el-card>
           <br>
@@ -25,7 +22,7 @@
           :current-page.sync="currentPage"
           :page-sizes="[1, 2, 3, 4]"
           :page-size="pageSize"
-          :total="totalItems"
+          :total="totalPodItems"
           layout="prev, pager, next, total">
       </el-pagination>
     </el-footer>
@@ -38,7 +35,7 @@ import { mapMutations } from 'vuex';
 import {formatDate} from './formatDate'
 import HighCharts from 'highcharts'
 export default {
-  name: "PodList",
+  name: "HardDecomposeList",
   data() {
     return {
       userName: "",
@@ -49,13 +46,16 @@ export default {
       pageSize: 6,
       records: [],
       arr: [],
-      podList: [],
       fromTime: '',
       flag: false,
       chartData: [],
       timestamp: new Date('2019-09-12 22:44:04'),
       chart: null,
-      totalItems: 0
+      totalItems: 0,
+      totalPodItems: 0,
+      serverList: [],
+      vmList: [],
+      podList: []
     }
   },
   beforeCreate:function(){
@@ -65,6 +65,7 @@ export default {
     //
   },
   mounted() {
+    this.getServerList();
     this.getPodList();
   },
   methods: {
@@ -77,12 +78,44 @@ export default {
     handleCurrentChange: function(currentPage){
       this.currentPage = currentPage;
     },
+    async getVMList() {
+      try {
+        for (let i=0; i<this.serverList.length; i++) {
+          let lidataUrl = "http://10.160.109.63:8081/getVMs/" + this.serverList[i];
+          const {data} = await this.$axios.get(lidataUrl);
+          for(let j in data.entities) {
+            this.vmList.push(data.entities[j]);
+          }
+          this.totalItems += data.entities.length;
+        }
+        this.getPodList()
+      } catch (e) {
+        this.$message.error("请求数据失败，请稍后再试！");
+      }
+    },
+    async getServerList() {
+      try {
+        let lidataUrl = "http://10.160.109.63:8081/getServers";
+        const {data} = await this.$axios.get(lidataUrl);
+        this.serverList = data.entities;
+        this.getVMList();
+      } catch (e) {
+        this.$message.error("请求数据失败，请稍后再试！");
+      }
+    },
     async getPodList() {
       try {
-        let lidataUrl = "http://10.160.109.63:8081/getPods/" + this.$route.params.podName;
-        const {data} = await this.$axios.get(lidataUrl);
-        this.podList = data.entities;
-        this.totalItems = data.entities.length;
+        for (let i=0; i<this.vmList.length; i++) {
+          let lidataUrl = "http://10.160.109.63:8081/getPods/" + this.vmList[i]
+          console.log(lidataUrl)
+          const {data} = await this.$axios.get(lidataUrl);
+          if(data.entities != null){
+            for(let j in data.entities) {
+              this.podList.push(data.entities[j]);
+            }
+            this.totalPodItems += data.entities.length;
+          }
+        }
       } catch (e) {
         this.$message.error("请求数据失败，请稍后再试！");
       }

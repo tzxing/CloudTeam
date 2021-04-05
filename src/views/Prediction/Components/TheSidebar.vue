@@ -23,8 +23,8 @@
 
         <el-submenu index="">
           <template slot="title"><i class="el-icon-s-data"></i>能耗评估</template>
-          <el-menu-item index="/prediction/decompose"
-          >虚拟机能耗分解</el-menu-item>
+          <el-menu-item index="/prediction/decompose">虚拟机能耗分解</el-menu-item>
+          <el-menu-item index="/prediction/pod-decompose">pod能耗分解</el-menu-item>
           <el-menu-item index="/prediction/hard-decompose">物理机硬件能耗分解</el-menu-item>
         </el-submenu>
 

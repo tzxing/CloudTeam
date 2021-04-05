@@ -58,6 +58,7 @@ const routes = [
             { path: 'forecast', name: 'forecast', component: () => import("@/views/Prediction/Forecast.vue") },
             { path: 'decompose', name: 'decompose', component: () => import("@/views/Prediction/DecomposeList.vue") },
             { path: 'hard-decompose', name: 'hard-decompose', component: () => import("@/views/Prediction/HardDecomposeList.vue") },
+            { path: 'pod-decompose', name: 'pod-decompose', component: () => import("@/views/Prediction/PodDecomposeList.vue") },
             { path: 'metrics', name: 'metrics', component: () => import("@/views/Prediction/Metrics.vue") },
             { path: 'server/:serverName/metrics', name: 'metrics-server', component: () => import("@/views/Prediction/Metrics.vue") },
             { path: 'userinfo', name: 'userinfo', component: () => import("@/views/Prediction/UserInfo.vue") },
@@ -69,6 +70,7 @@ const routes = [
             { path: 'vm-list/:vmName', name: 'vm-list', component: () => import("@/views/Prediction/VmList.vue") },
             { path: 'pod-list/:podName', name: 'pod-list', component: () => import("@/views/Prediction/PodList.vue") },
             { path: 'pod/:podName/predict', name: 'pod', component: () => import("@/views/Prediction/Forecast.vue") },
+            { path: 'pod/:podName/decompose', name: 'pod', component: () => import("@/views/Prediction/Decompose.vue") },
         ]
     },
     {

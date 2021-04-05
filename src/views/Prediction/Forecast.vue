@@ -137,7 +137,7 @@ export default {
           }
         },
         title: {
-          text: '物理机能耗预测'
+          text: '能耗预测'
         },
         xAxis: {
           type: 'datetime',
@@ -245,6 +245,7 @@ export default {
     },
     handleSelectHostname(value) {
       this.hostname = value
+      this.option.title.text = this.forecasttype + '能耗预测'
       HighCharts.chart("prediction", this.option).redraw();
     },
     handleSelectTimestamp(value) {
@@ -259,8 +260,10 @@ export default {
       this.forecasttype = value;
       if(value === 'pod') {
         this.choosehostNames = this.podHostNames
+        this.option.title.text = 'pod能耗预测'
       }else if (value === 'server') {
         this.choosehostNames = this.pcHostNames
+        this.option.title.text = '物理机能耗预测'
       }
       HighCharts.chart("prediction", this.option).redraw();
     },
