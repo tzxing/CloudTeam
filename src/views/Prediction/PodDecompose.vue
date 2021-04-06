@@ -11,11 +11,18 @@
               <span style="color: #606266">{{ realPower }}W</span>
             </div>
             <el-date-picker
-                v-model="timestamp"
+                v-model="startTimestamp"
                 style="margin-right: 20px"
                 type="datetime"
                 placeholder="选择日期时间"
-                @change='handleSelectTimestamp'>
+                @change='handleSelectStartTimestamp'>
+            </el-date-picker>
+            <el-date-picker
+                v-model="endTimestamp"
+                style="margin-right: 20px"
+                type="datetime"
+                placeholder="选择日期时间"
+                @change='handleSelectEndTimestamp'>
             </el-date-picker>
             <el-select
                 v-model="algorithm"
@@ -49,7 +56,6 @@
 
 <script>
 var _this = {};
-import { mapMutations } from 'vuex';
 import {formatDate} from './formatDate'
 import HighCharts from 'highcharts'
 export default {
@@ -63,7 +69,8 @@ export default {
       fromTime: '',
       flag: false,
       chartData: [],
-      timestamp: new Date('2019-09-15 09:23:37'),
+      startTimestamp: new Date('2019-09-15 09:23:37'),
+      endTimestamp: new Date('2019-09-15 09:23:40'),
       chart: null,
       vmDetail: [],
       algorithm: 'regtree',
@@ -71,8 +78,9 @@ export default {
       powerList: [],
       hostname: 'linpack11',
       serverIP: "",
-      realPower: 0,
-      xTimestamp: this.getTimestamp(new Date('2019-09-15 09:23:40')) - 1,
+      evalPower: [],
+      xStartTimestamp: this.getTimestamp(new Date('2019-09-15 09:23:37')) - 1,
+      xEndTimestamp: this.getTimestamp(new Date('2019-09-15 09:23:40')) - 1,
       hostNames: [
         {
           value: '选项1',
@@ -90,34 +98,49 @@ export default {
       ],
       container: {
         chart: {
-          type: 'column'
+          type: 'spline',
+          marginRight: 10,
         },
         title: {
-          text: 'pod能耗分解图'
+          text: 'pod能耗分解'
         },
         xAxis: {
-          categories: []
+          type: 'datetime',
+          tickPixelInterval: 150
         },
         yAxis: {
-          min: 0,
           title: {
             text: '能耗值'
           }
         },
         tooltip: {
-          pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b>' +
-              '({point.percentage:.0f}%)<br/>',
-          //:.0f 表示保留 0 位小数，详见教程：https://www.hcharts.cn/docs/basic-labels-string-formatting
-          shared: true
-        },
-        plotOptions: {
-          column : {
-            pointWidth: 60
+          formatter: function () {
+            return '<b>' + this.series.name + '</b><br/>' +
+                HighCharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                HighCharts.numberFormat(this.y, 2);
           }
         },
+        legend: {
+          enabled: false
+        },
         series: [{
-          name: 'Power',
-          data: []
+          name: '预测值',
+          data:  []
+        },{
+          name: '真实值',
+          data: (function () {
+            // 生成随机值
+            var data = [],
+                time = _this.timestamp,
+                i;
+            for (i = -19; i <= 0; i += 1) {
+              data.push({
+                x: time + i * 1000,
+                y: 3
+              });
+            }
+            return data;
+          }())
         }]
       },
       // 选中的选项
@@ -163,26 +186,11 @@ export default {
     },
     async getEvalData() {
       try {
-        let lidataUrl = 'http://10.160.109.63:8081/powerevaluate/' + this.xTimestamp + '/' + this.xTimestamp  + '/pod/' + this.algorithm + '/' + this.hostname;
+        let lidataUrl = 'http://10.160.109.63:8081/powerevaluate/' + this.xStartTimestamp + '/' + this.xEndTimestamp  + '/pod/' + this.algorithm + '/' + this.hostname;
         let localUrl = 'http://localhost:8085/yunprophet/evalution/body/' + this.xTimestamp + '/' + this.algorithm + '/' + this.$route.params.serverName;
-        console.log(lidataUrl);
         const {data} = await this.$axios.get(lidataUrl);
-        console.log(data)
         this.serverIP = data.server;
-        this.realPower = data.podPower[0];
-        this.vmList = [];
-        this.powerList = [];
-        // local
-        // for(const i in data.vmList){
-        //   this.vmList.push(data.vmList[i].vmName);
-        //   this.powerList.push(data.vmList[i].evaluatePower);
-        // }
-        for(const i in data.vmlist){
-          this.vmList.push(data.vmlist[i].vmname);
-          this.powerList.push(data.vmlist[i].evaluatePower[0]);
-        }
-        this.container.xAxis.categories = this.vmList;
-        this.container.series[0].data = this.powerList;
+        this.container.series[0].data = data.podPower;
         HighCharts.chart('container-column-stacked-percent', this.container);
       } catch (e) {
         this.$message.error("请求数据失败，请稍后再试！");
@@ -197,8 +205,13 @@ export default {
     },
     handleClose(key, keyPath) {
     },
-    handleSelectTimestamp() {
-      this.xTimestamp = this.getTimestamp(this.timestamp);
+    handleSelectStartTimestamp(value) {
+      this.xStartTimestamp = this.getTimestamp(value);
+      this.getEvalData();
+      HighCharts.chart('container-column-stacked-percent', this.container);
+    },
+    handleSelectEndTimestamp(value) {
+      this.xEndTimestamp = this.getTimestamp(value);
       this.getEvalData();
       HighCharts.chart('container-column-stacked-percent', this.container);
     },
