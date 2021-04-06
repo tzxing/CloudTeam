@@ -103,7 +103,7 @@ const router = new VueRouter({
     routes,
 });
 
-/*router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
     if (to.path === "/logout") (store.state as any).user.access_token = "";
 
     if ((to.path != "/login" && to.path != "/signup") && (store.state as any).user.access_token === "") {
@@ -113,7 +113,7 @@ const router = new VueRouter({
         next();
     }
 });
-*/
+
 //增加一个后置的钩子，用于改变页面的标题
 // router.afterEach((to, from) => {
 //   store.commit('committitle',to.meta.title) ;
