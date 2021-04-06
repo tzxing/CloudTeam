@@ -71,6 +71,20 @@ const routes = [
             { path: 'pod/:podName/predict', name: 'pod', component: () => import("@/views/Prediction/Forecast.vue") },
         ]
     },
+
+    {
+        path: '/serverstatus', name: 'serverstatus',
+        component: () => import("@/views/ServerStatus/Index.vue"),
+        children: [
+            { path: 'master', name: 'master', component: () => import("@/views/ServerStatus/Master.vue"),},
+            { path: 'server', name: 'ss', component: () => import("@/views/ServerStatus/Server.vue"),},
+            { path: 'snapshot', name: 'snapshot', component: () => import("@/views/ServerStatus/Snapshot.vue"),},
+            
+        ],
+        
+    },
+
+    
     {
         path: "/login",
         name: "login",
@@ -89,7 +103,7 @@ const router = new VueRouter({
     routes,
 });
 
-router.beforeEach((to, from, next) => {
+/*router.beforeEach((to, from, next) => {
     if (to.path === "/logout") (store.state as any).user.access_token = "";
 
     if ((to.path != "/login" && to.path != "/signup") && (store.state as any).user.access_token === "") {
@@ -99,7 +113,7 @@ router.beforeEach((to, from, next) => {
         next();
     }
 });
-
+*/
 //增加一个后置的钩子，用于改变页面的标题
 // router.afterEach((to, from) => {
 //   store.commit('committitle',to.meta.title) ;
