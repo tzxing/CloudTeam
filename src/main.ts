@@ -15,6 +15,7 @@ Vue.config.productionTip = false;
 variablepie(Highcharts)
 Vue.prototype.$echarts = ECharts
 
+Vue.prototype.$axios = axios;
 
 if (!(window as any).ElementUI) Vue.use(ElementUI);
 if (!(window as any).AxiosPlugin) Vue.use(AxiosPlugin);

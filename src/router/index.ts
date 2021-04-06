@@ -73,6 +73,20 @@ const routes = [
             { path: 'pod/:podName/decompose', name: 'pod', component: () => import("@/views/Prediction/PodDecompose.vue") },
         ]
     },
+
+    {
+        path: '/serverstatus', name: 'serverstatus',
+        component: () => import("@/views/ServerStatus/Index.vue"),
+        children: [
+            { path: 'master', name: 'master', component: () => import("@/views/ServerStatus/Master.vue"),},
+            { path: 'server', name: 'ss', component: () => import("@/views/ServerStatus/Server.vue"),},
+            { path: 'snapshot', name: 'snapshot', component: () => import("@/views/ServerStatus/Snapshot.vue"),},
+            
+        ],
+        
+    },
+
+    
     {
         path: "/login",
         name: "login",
