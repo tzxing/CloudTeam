@@ -4,7 +4,7 @@
       <el-container>
           <el-main>
             <div style="margin-bottom: 30px">
-              <span style="color: #606266">{{ this.$route.params.serverName }}</span>
+              <span style="color: #606266">{{ this.$route.params.vmName }}</span>
               <el-divider direction="vertical"></el-divider>
               <span style="color: #606266">{{ serverIP }}</span>
               <el-divider direction="vertical"></el-divider>
@@ -29,7 +29,7 @@
                   :value="item.label">
               </el-option>
             </el-select>
-            <el-select v-model="hostname" placeholder="请选择" @change='handleSelectHostname'>
+            <el-select v-model="hostname" disabled placeholder="请选择" @change='handleSelectHostname'>
               <el-option
                   v-for="item in hostNames"
                   :key="item.value"

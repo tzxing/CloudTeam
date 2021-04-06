@@ -4,11 +4,9 @@
       <el-container>
           <el-main>
             <div style="margin-bottom: 30px">
-              <span style="color: #606266">{{ this.$route.params.serverName }}</span>
+              <span style="color: #606266">{{ this.$route.params.podName }}</span>
               <el-divider direction="vertical"></el-divider>
               <span style="color: #606266">{{ serverIP }}</span>
-              <el-divider direction="vertical"></el-divider>
-              <span style="color: #606266">{{ realPower }}W</span>
             </div>
             <el-date-picker
                 v-model="startTimestamp"
@@ -36,7 +34,7 @@
                   :value="item.label">
               </el-option>
             </el-select>
-            <el-select v-model="hostname" placeholder="请选择" @change='handleSelectHostname'>
+            <el-select v-model="hostname" disabled placeholder="请选择" @change='handleSelectHostname'>
               <el-option
                   v-for="item in hostNames"
                   :key="item.value"
@@ -76,7 +74,7 @@ export default {
       algorithm: 'regtree',
       vmList: [],
       powerList: [],
-      hostname: 'linpack11',
+      hostname: this.$route.params.podName,
       serverIP: "",
       evalPower: [],
       xStartTimestamp: this.getTimestamp(new Date('2019-09-15 09:23:37')) - 1,
@@ -189,9 +187,13 @@ export default {
         let lidataUrl = 'http://10.160.109.63:8081/powerevaluate/' + this.xStartTimestamp + '/' + this.xEndTimestamp  + '/pod/' + this.algorithm + '/' + this.hostname;
         let localUrl = 'http://localhost:8085/yunprophet/evalution/body/' + this.xTimestamp + '/' + this.algorithm + '/' + this.$route.params.serverName;
         const {data} = await this.$axios.get(lidataUrl);
-        this.serverIP = data.server;
-        this.container.series[0].data = data.podPower;
-        HighCharts.chart('container-column-stacked-percent', this.container);
+        if(data.status == 200) {
+          this.serverIP = data.server;
+          this.container.series[0].data = data.podPower;
+          HighCharts.chart('container-column-stacked-percent', this.container);
+        }else {
+          this.$message.error("请求数据失败，请稍后再试！");
+        }
       } catch (e) {
         this.$message.error("请求数据失败，请稍后再试！");
       }

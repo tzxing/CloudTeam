@@ -10,7 +10,8 @@
       text-color="#B0B3C0"
       active-text-color="#409EFF"
     >
-      <el-menu-item index="/prediction/dashboard">
+      <el-menu-item v-show=showuserinfo index="/prediction/server-list">
+        <i class="el-icon-s-platform"></i>
         <span slot="title">首页</span>
       </el-menu-item>
 
@@ -32,12 +33,6 @@
         <el-menu-item v-show=showuserinfo index="/prediction/metrics">
           <i class="el-icon-data-line"></i>
           <span slot="title">指标评估</span>
-        </el-menu-item>
-
-
-        <el-menu-item v-show=showuserinfo index="/prediction/server-list">
-          <i class="el-icon-s-platform"></i>
-          <span slot="title">物理机列表</span>
         </el-menu-item>
 
 

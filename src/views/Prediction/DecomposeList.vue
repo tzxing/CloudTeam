@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-main>
-      <div class="vmList" v-for="(value) in vmList.slice((currentPage-1)*pageSize,currentPage*pageSize)" :key="value" v-loading="loading">
+      <div class="vmList" v-for="(value) in serverList.slice((currentPage-1)*pageSize,currentPage*pageSize)" :key="value" v-loading="loading">
         <el-col :span="12">
           <el-card :body-style="{ padding: '20px' }" class="box-card">
             <div slot="header" class="clearfix">
