@@ -110,7 +110,8 @@ router.beforeEach((to, from, next) => {
 
     if ((to.path != "/login" && to.path != "/signup") && (store.state as any).user.access_token === "") {
         // console.warn("强制转跳到登陆页");
-        next("/login");
+        // next("/login");
+        next();
     } else {
         next();
     }
