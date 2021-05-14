@@ -163,11 +163,12 @@ export default {
     },
     async getEvalData() {
       try {
-        let lidataUrl = 'http://10.160.109.63:8081/powerevaluate/' + this.xTimestamp + '/' + this.xTimestamp  + '/vm/' + this.algorithm + '/' + this.hostname;
-        let localUrl = 'http://localhost:8085/yunprophet/evalution/body/' + this.xTimestamp + '/' + this.algorithm + '/' + this.$route.params.serverName;
+        // let lidataUrl = 'http://10.160.109.63:8081/powerevaluate/' +'/vm/'+ this.hostname+'/'+ this.xTimestamp + '/' + this.xTimestamp ;
+        let lidataUrl = "http://192.168.0.130:8088/powerevaluate" +'/vm/'+ this.hostname+'/'+ this.xTimestamp + '/' + this.xTimestamp ;
         const {data} = await this.$axios.get(lidataUrl);
-        this.serverIP = data.server;
-        this.realPower = data.realPower[0];
+        // this.serverIP = data.server;
+        this.serverIP = "compute01"
+        this.realPower = data.key2ResultList.compute01[0];
         this.vmList = [];
         this.powerList = [];
         // local
@@ -175,10 +176,16 @@ export default {
         //   this.vmList.push(data.vmList[i].vmName);
         //   this.powerList.push(data.vmList[i].evaluatePower);
         // }
-        for(const i in data.vmlist){
-          this.vmList.push(data.vmlist[i].vmname);
-          this.powerList.push(data.vmlist[i].evaluatePower[0]);
-        }
+        // for(const i in data.vmlist){
+        //   this.vmList.push(data.vmlist[i].vmname);
+        //   this.powerList.push(data.vmlist[i].evaluatePower[0]);
+        // }
+
+        this.vmList.push('openstack01');
+        this.powerList.push(data.key2ResultList.openstack01[0]);
+        this.vmList.push('openstack02');
+        this.powerList.push(data.key2ResultList.openstack02[0]);
+
         this.container.xAxis.categories = this.vmList;
         this.container.series[0].data = this.powerList;
         HighCharts.chart('container-column-stacked-percent', this.container);

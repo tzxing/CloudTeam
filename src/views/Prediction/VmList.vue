@@ -75,7 +75,9 @@ export default {
     },
     async getVMList() {
       try {
-        let lidataUrl = "http://10.160.109.63:8081/getVMs/" + this.$route.params.vmName;
+        // let lidataUrl = "http://10.160.109.63:8081/getVMs/" + this.$route.params.vmName;
+        let lidataUrl = "http://192.168.0.130:8088/entityinfo/getVMs/" + this.$route.params.vmName;
+
         const {data} = await this.$axios.get(lidataUrl);
         this.vmList = data.entities;
         this.totalItems = data.entities.length;

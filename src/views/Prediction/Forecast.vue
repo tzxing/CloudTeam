@@ -48,6 +48,7 @@ import { formatDate } from './formatDate'
 import HighCharts from 'highcharts'
 export default {
   name: "Forecast",
+  //data() 是 data:function()的缩写
   data() {
     return {
       userName: "",
@@ -66,14 +67,14 @@ export default {
       hostname: '',
       choosehostNames: "",
       forecasttype: 'pod',
-      xTimestamp: this.getTimestamp(new Date('2019-09-14 13:47:11')) - 1,
+      xTimestamp: this.getTimestamp(new Date('2019-09-14 13:47:11')) - 1,//unix时间戳是从1970年1月1日（UTC/GMT的午夜）开始所经过的秒数，不考虑闰秒
       podHostNames: [
         {
           value: '选项1',
-          label: 'linpack11'
+          label: 'linpack10'
         },{
           value: '选项2',
-          label: 'linpack12'
+          label: 'linpack11'
         },
       ],
       pcHostNames: [
@@ -100,13 +101,13 @@ export default {
           label: 'RF'
         }, {
           value: '选项3',
-          label: 'DA-RNN'
+          label: 'DARNN'
         }, {
           value: '选项4',
           label: 'TCN'
         }, {
           value: '选项5',
-          label: 'LSTM'
+          label: 'LSTMx2'
         }
       ],
       option: {
@@ -115,19 +116,17 @@ export default {
           marginRight: 10,
           events: {
             load: function () {
-              var series = this.series[0];
-              var series2 = this.series[1];
+              var series = this.series[0];//预测值
+              var series2 = this.series[1];//真实值
+              //setInterval() 方法可按照指定的周期（以毫秒计）来调用函数或计算表达式。
               setInterval(function () {
-                // var x = (new Date()).getTime(),     // 当前时间 number
                 var x = new Date(_this.unixTimeToDateTime(_this.xTimestamp)).getTime();
                 var z = _this.real;
                 series2.addPoint([x, z], true, true);
                 _this.xTimestamp = _this.xTimestamp + 1;
                 var v = _this.getPredData(),           // 预测值
                     nx = new Date(_this.unixTimeToDateTime(_this.xTimestamp)).getTime(),           // 时间戳
-                    // y = Math.random();              // 随机值
                     y = _this.pred;
-                // z = _this.real;
                 series.addPoint([nx, y], true, true);
                 // _this.activeLastPointToolip(chart);
                 // series2.addPoint([x, z], true, true);
@@ -148,14 +147,17 @@ export default {
             text: '能耗值'
           }
         },
+        //数据提示框指的当鼠标悬停在某点上时，以框的形式提示该点的数据，比如该点的值，数据单位等。
+        //数据提示框内提示的信息完全可以通过格式化函数动态指定；通过设置 tooltip.enabled = false 即可不启用提示框。
         tooltip: {
+          //提示框内容格式化回调函数
           formatter: function () {
             return '<b>' + this.series.name + '</b><br/>' +
                 HighCharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
                 HighCharts.numberFormat(this.y, 2);
           }
         },
-        legend: {
+        legend: { //图例
           enabled: false
         },
         series: [{
@@ -232,12 +234,14 @@ export default {
     },
     async getPredData() {
       try {
-        let localUrl = "http://localhost:8085/yunprophet/predict/body/data/" + this.xTimestamp + '/' + this.algorithm + '/' + this.hostname + '/' + this.forecasttype;
-        let lidataUrl = "http://10.160.109.63:8081/powerpredict/" + this.xTimestamp + '/' + this.algorithm + '/' + this.hostname + '/' + this.forecasttype;
+        // let lidataUrl = "http://10.160.109.63:8081/powerpredict/" + this.forecasttype + '/' + this.hostname + '/' + this.xTimestamp + '/' + this.algorithm;
+        let lidataUrl = "http://192.168.0.130:8088/powerpredict/" + this.forecasttype + '/' + this.hostname + '/' + this.xTimestamp + '/' + this.algorithm;
+
         const {data} = await this.$axios.get(lidataUrl);
-        this.pred = data.data.pred;
-        this.real = data.data.real;
-        this.xTimestamp = parseInt(data.data.timestamp);
+
+        this.pred = data.predictValue;
+        this.real = data.realValue;
+        this.xTimestamp = parseInt(data.timestamp);
       } catch (e) {
         this.$message.error("请求数据失败，请稍后再试！");
         HighCharts.chart("prediction", this.option).destroy();

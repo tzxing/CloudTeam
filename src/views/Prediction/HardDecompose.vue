@@ -138,8 +138,9 @@ export default {
     },
     async getHardDecomposeData() {
       try {
-        let lidataUrl = 'http://10.160.109.63:8081/powerevaluate/' + this.xTimestamp + '/'+ this.xTimestamp + '/' + 'hardware/' + this.algorithm + '/' + this.serverName;
-        let localUrl = "http://localhost:8085/yunprophet/decompose/body/data/" + this.xoptionTimestamp + '/' + this.algorithm + '/' + this.$route.params.serverName;
+        // let lidataUrl = 'http://10.160.109.63:8081/powerevaluate/' + this.xTimestamp + '/'+ this.xTimestamp + '/' + 'hardware/' + this.algorithm + '/' + this.serverName;
+        let lidataUrl = 'http://192.168.0.130:8088/powerevaluate/hardware/' + this.serverName+'/'+ this.xTimestamp + '/'+ this.xTimestamp   ;
+
         const {data} = await this.$axios.get(lidataUrl);
         // this.ser = [{
         //   name: 'CPU',
@@ -164,23 +165,23 @@ export default {
         // }];
         this.ser = [{
           name: 'CPU',
-          y: data.cpuPower[0],
+          y: data.key2ResultList.CPU_power[0],
           z: 92.9
         }, {
           name: 'Disk',
-          y: data.diskPower[0],
+          y: data.key2ResultList.Disk_power[0],
           z: 118.7
         }, {
           name: 'Memory',
-          y: data.memPower[0],
+          y: data.key2ResultList.Memory_power[0],
           z: 124.6
         },{
           name: 'Net',
-          y: data.netPower[0],
+          y: data.key2ResultList.Net_power[0],
           z: 124.6
         },{
           name: 'Other',
-          y: data.otherPower[0],
+          y: data.key2ResultList.other_power[0],
           z: 124.6
         }];
         this.container.title.text = '物理机' + this.serverName + '能耗分解';

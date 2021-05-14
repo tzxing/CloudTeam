@@ -73,7 +73,9 @@ export default {
     async getVMList() {
       try {
         for (let i=0; i<this.serverList.length; i++) {
-          let lidataUrl = "http://10.160.109.63:8081/getVMs/" + this.serverList[i];
+          // let lidataUrl = "http://10.160.109.63:8081/getVMs/" + this.serverList[i];
+          let lidataUrl = "http://192.168.0.130:8088/entityinfo/getVMs/" + this.serverList[i];
+
           const {data} = await this.$axios.get(lidataUrl);
           for(let j in data.entities) {
             this.vmList.push(data.entities[j]);
@@ -86,7 +88,9 @@ export default {
     },
     async getServerList() {
       try {
-        let lidataUrl = "http://10.160.109.63:8081/getServers";
+        // let lidataUrl = "http://10.160.109.63:8081/getServers";
+        let lidataUrl ="http://192.168.0.130:8088/entityinfo/getServers"
+
         const {data} = await this.$axios.get(lidataUrl);
         this.serverList = data.entities;
         this.getVMList();

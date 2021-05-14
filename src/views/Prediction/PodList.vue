@@ -79,7 +79,10 @@ export default {
     },
     async getPodList() {
       try {
-        let lidataUrl = "http://10.160.109.63:8081/getPods/" + this.$route.params.podName;
+        // let lidataUrl = "http://10.160.109.63:8081/getPods/" + this.$route.params.podName;
+        let lidataUrl = "http://192.168.0.130:8088/entityinfo/getPods/" + this.$route.params.podName;
+
+
         const {data} = await this.$axios.get(lidataUrl);
         this.podList = data.entities;
         this.totalItems = data.entities.length;

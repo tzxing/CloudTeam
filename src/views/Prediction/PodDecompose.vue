@@ -67,8 +67,8 @@ export default {
       fromTime: '',
       flag: false,
       chartData: [],
-      startTimestamp: new Date('2019-09-15 09:23:37'),
-      endTimestamp: new Date('2019-09-15 09:23:40'),
+      startTimestamp: new Date('2019-09-14 13:46:41'),
+      endTimestamp: new Date('2019-09-14 13:48:20'),
       chart: null,
       vmDetail: [],
       algorithm: 'regtree',
@@ -77,8 +77,8 @@ export default {
       hostname: this.$route.params.podName,
       serverIP: "",
       evalPower: [],
-      xStartTimestamp: this.getTimestamp(new Date('2019-09-15 09:23:37')) - 1,
-      xEndTimestamp: this.getTimestamp(new Date('2019-09-15 09:23:40')) - 1,
+      xStartTimestamp: this.getTimestamp(new Date('2019-09-14 13:46:41')) - 1,
+      xEndTimestamp: this.getTimestamp(new Date('2019-09-14 13:48:20')) - 1,
       hostNames: [
         {
           value: '选项1',
@@ -92,7 +92,10 @@ export default {
         {
           value: '选项1',
           label: 'regtree'
-        }
+        },{
+          value: '选项2',
+          label: 'direct'
+        },
       ],
       container: {
         chart: {
@@ -184,12 +187,13 @@ export default {
     },
     async getEvalData() {
       try {
-        let lidataUrl = 'http://10.160.109.63:8081/powerevaluate/' + this.xStartTimestamp + '/' + this.xEndTimestamp  + '/pod/' + this.algorithm + '/' + this.hostname;
-        let localUrl = 'http://localhost:8085/yunprophet/evalution/body/' + this.xTimestamp + '/' + this.algorithm + '/' + this.$route.params.serverName;
+        // let lidataUrl = 'http://10.160.109.63:8081/powerevaluate/' + this.xStartTimestamp + '/' + this.xEndTimestamp  + '/pod/' + this.algorithm + '/' + this.hostname;
+        let lidataUrl = 'http://192.168.0.130:8088/powerevaluate/' + 'pod/'+ this.hostname+ '/'+this.xStartTimestamp + '/' + this.xEndTimestamp  + '/' + this.algorithm  ;
+
         const {data} = await this.$axios.get(lidataUrl);
-        if(data.status == 200) {
-          this.serverIP = data.server;
-          this.container.series[0].data = data.podPower;
+        if(data.status == "00000") {
+          // this.serverIP = data.server;
+          this.container.series[0].data = Object.values(data.timestamp2Result);
           HighCharts.chart('container-column-stacked-percent', this.container);
         }else {
           this.$message.error("请求数据失败，请稍后再试！");
