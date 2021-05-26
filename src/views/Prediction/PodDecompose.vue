@@ -188,7 +188,7 @@ export default {
     async getEvalData() {
       try {
         // let lidataUrl = 'http://10.160.109.63:8081/powerevaluate/' + this.xStartTimestamp + '/' + this.xEndTimestamp  + '/pod/' + this.algorithm + '/' + this.hostname;
-        let lidataUrl = 'http://192.168.0.130:8088/powerevaluate/' + 'pod/'+ this.hostname+ '/'+this.xStartTimestamp + '/' + this.xEndTimestamp  + '/' + this.algorithm  ;
+        let lidataUrl = 'http://10.160.109.63:8088/powerevaluate/' + 'pod/'+ this.hostname+ '/'+this.xStartTimestamp + '/' + this.xEndTimestamp  + '/' + this.algorithm  ;
 
         const {data} = await this.$axios.get(lidataUrl);
         if(data.status == "00000") {

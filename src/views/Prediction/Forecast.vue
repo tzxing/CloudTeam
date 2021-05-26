@@ -44,8 +44,10 @@
 
 <script>
 var _this = {};
+
 import { formatDate } from './formatDate'
 import HighCharts from 'highcharts'
+
 export default {
   name: "Forecast",
   //data() 是 data:function()的缩写
@@ -120,19 +122,20 @@ export default {
               var series2 = this.series[1];//真实值
               //setInterval() 方法可按照指定的周期（以毫秒计）来调用函数或计算表达式。
               setInterval(function () {
-                var x = new Date(_this.unixTimeToDateTime(_this.xTimestamp)).getTime();
+                var x = new Date(_this.unixTimeToDateTime(_this.xTimestamp+28800)).getTime();
                 var z = _this.real;
                 series2.addPoint([x, z], true, true);
                 _this.xTimestamp = _this.xTimestamp + 1;
                 var v = _this.getPredData(),           // 预测值
-                    nx = new Date(_this.unixTimeToDateTime(_this.xTimestamp)).getTime(),           // 时间戳
+                    nx = new Date(_this.unixTimeToDateTime(_this.xTimestamp+28800)).getTime(),           // 时间戳
                     y = _this.pred;
                 series.addPoint([nx, y], true, true);
                 // _this.activeLastPointToolip(chart);
                 // series2.addPoint([x, z], true, true);
                 // _this.activeLastPointToolip(chart2);
               }, 1000);
-            }
+            },
+
           }
         },
         title: {
@@ -174,7 +177,7 @@ export default {
               });
             }
             return data;
-          }())
+          }()),
         },{
           name: '真实值',
           data: (function () {
@@ -202,9 +205,12 @@ export default {
   },
   beforeCreate:function(){
     _this = this;
+
   },
-  created() {
-    //
+  // created() {
+  // },
+  destroyed() {
+    HighCharts.chart("prediction", this.option).destroy();
   },
   filters: {
     tagsFilter(data) {
@@ -234,11 +240,8 @@ export default {
     },
     async getPredData() {
       try {
-        // let lidataUrl = "http://10.160.109.63:8081/powerpredict/" + this.forecasttype + '/' + this.hostname + '/' + this.xTimestamp + '/' + this.algorithm;
-        let lidataUrl = "http://192.168.0.130:8088/powerpredict/" + this.forecasttype + '/' + this.hostname + '/' + this.xTimestamp + '/' + this.algorithm;
-
+        let lidataUrl = "http://10.160.109.63:8088/powerpredict/" + this.forecasttype + '/' + this.hostname + '/' + this.xTimestamp + '/' + this.algorithm;
         const {data} = await this.$axios.get(lidataUrl);
-
         this.pred = data.predictValue;
         this.real = data.realValue;
         this.xTimestamp = parseInt(data.timestamp);
@@ -250,6 +253,7 @@ export default {
     handleSelectHostname(value) {
       this.hostname = value
       this.option.title.text = this.forecasttype + '能耗预测'
+      this.resetData();
       HighCharts.chart("prediction", this.option).redraw();
     },
     handleSelectTimestamp(value) {
@@ -257,7 +261,8 @@ export default {
       HighCharts.chart("prediction", this.option).redraw();
     },
     handleSelectAlgorithm(value) {
-      this.algorithm = value
+      this.algorithm = value;
+      this.resetData();
       HighCharts.chart("prediction", this.option).redraw();
     },
     handleSelectType(value) {
@@ -269,12 +274,18 @@ export default {
         this.choosehostNames = this.pcHostNames
         this.option.title.text = '物理机能耗预测'
       }
-      HighCharts.chart("prediction", this.option).redraw();
+      HighCharts.chart("prediction", this.option).destroy();
+      this.hostname=null;
+      this.resetData();
     },
     formatDate(time) {
       time = time * 1000
       let date = new Date(time)
       return formatDate(date, 'yyyy-MM-dd hh:mm')
+    },
+    resetData() {
+      this.xTimestamp = this.getTimestamp(this.timestamp);
+
     }
   }
 }

@@ -139,7 +139,7 @@ export default {
     async getHardDecomposeData() {
       try {
         // let lidataUrl = 'http://10.160.109.63:8081/powerevaluate/' + this.xTimestamp + '/'+ this.xTimestamp + '/' + 'hardware/' + this.algorithm + '/' + this.serverName;
-        let lidataUrl = 'http://192.168.0.130:8088/powerevaluate/hardware/' + this.serverName+'/'+ this.xTimestamp + '/'+ this.xTimestamp   ;
+        let lidataUrl = 'http://10.160.109.63/powerevaluate/hardware/' + this.serverName+'/'+ this.xTimestamp + '/'+ this.xTimestamp   ;
 
         const {data} = await this.$axios.get(lidataUrl);
         // this.ser = [{

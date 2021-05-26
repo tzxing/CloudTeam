@@ -3,49 +3,34 @@
     <div class="functions-area">
       <div id="functions">
         <el-card style="grid-area: a; " body-style="height: 100%">
-          <!-- <div slot="header" class="clearfix">
-            <span>部署硬件利用比率DH-UR</span>
-          </div>-->
           <div class="text-item">
             <VueEcharts :option="QoS" :ei.sync="ei1" style="height: 100%" theme="walden"></VueEcharts>
           </div>
         </el-card>
 
         <el-card style="grid-area: b;" body-style="height: 100%">
-          <!-- <div slot="header" class="clearfix">
-            <span>卡片名称</span>
-          </div>-->
           <div class="text-item">
             <VueEcharts :option="IORate" :ei.sync="ei2" style="height: 100%" theme="walden"></VueEcharts>
           </div>
         </el-card>
 
-        <el-card style="grid-area: c;" body-style="height: 100%">
-          <!-- <div slot="header" class="clearfix">
-            <span>卡片名称</span>
-          </div>-->
-          <div class="text-item">
-            <VueEcharts :option="workLoad1" :ei.sync="ei2" style="height: 100%" theme="walden"></VueEcharts>
-          </div>
-        </el-card>
+<!--        <el-card style="grid-area: c;" body-style="height: 100%">-->
+<!--          <div class="text-item">-->
+<!--            <VueEcharts :option="workLoad1" :ei.sync="ei2" style="height: 100%" theme="walden"></VueEcharts>-->
+<!--          </div>-->
+<!--        </el-card>-->
 
-        <el-card style="grid-area: d;" body-style="height: 100%">
-          <!-- <div slot="header" class="clearfix">
-            <span>卡片名称</span>
-          </div>-->
-          <div class="text-item">
-            <VueEcharts :option="workLoad2" :ei.sync="ei4" style="height: 100%" theme="walden"></VueEcharts>
-          </div>
-        </el-card>
+<!--        <el-card style="grid-area: d;" body-style="height: 100%">-->
+<!--          <div class="text-item">-->
+<!--            <VueEcharts :option="workLoad2" :ei.sync="ei4" style="height: 100%" theme="walden"></VueEcharts>-->
+<!--          </div>-->
+<!--        </el-card>-->
 
-        <el-card style="grid-area: e;" body-style="height: 100%">
-          <!-- <div slot="header" class="clearfix">
-            <span>卡片名称</span>
-          </div>-->
-          <div class="text-item">
-            <VueEcharts :option="PredictError" :ei.sync="ei5" style="height: 100%" theme="walden"></VueEcharts>
-          </div>
-        </el-card>
+<!--        <el-card style="grid-area: e;" body-style="height: 100%">-->
+<!--          <div class="text-item">-->
+<!--            <VueEcharts :option="PredictError" :ei.sync="ei5" style="height: 100%" theme="walden"></VueEcharts>-->
+<!--          </div>-->
+<!--        </el-card>-->
       </div>
     </div>
     <!-- <VueEcharts :option="option" :ei.sync="ei"></VueEcharts> -->
@@ -74,9 +59,10 @@ export default class DashboardView extends Vue {
 
   async getQoSListInit() {
     try {
-      let url = 'http://10.160.109.63:8081/dcevaluate/' + this.startTimestamp + '/' + this.endTimestamp +'/qos/brb/' + this.$route.params.serverName;
+      let url = 'http://10.160.109.63:8088/powerevaluate/qos/'+ this.startTimestamp + '/' + this.endTimestamp
+      // let url = 'http://10.160.109.63:8081/dcevaluate/' + this.startTimestamp + '/' + this.endTimestamp +'/qos/brb/' + this.$route.params.serverName;
       const {data} = await axios.get(url);
-      this.qosList = data.values;
+      this.qosList = data.key2ResultList.qos;
       this.QoS.series[0].data = this.qosList as never;
       this.startTimestamp = '20';
       this.endTimestamp = '21'
@@ -87,9 +73,10 @@ export default class DashboardView extends Vue {
 
   async getQoSList() {
     try {
-      let url = 'http://10.160.109.63:8081/dcevaluate/' + this.startTimestamp + '/' + this.endTimestamp +'/qos/brb/' + this.$route.params.serverName;
+      let url = 'http://10.160.109.63:8088/powerevaluate/qos/'+ this.startTimestamp + '/' + this.endTimestamp
+      // let url = 'http://10.160.109.63:8081/qos/' + this.startTimestamp + '/' + this.endTimestamp +'/qos/brb/' + this.$route.params.serverName;
       const {data} = await axios.get(url);
-      this.qosNum = data.values[0] as never;
+      this.qosNum = data.key2ResultList.qos[0] as never;
     } catch (e) {
       this.$message.error("请求数据失败，请稍后再试！");
     }
@@ -97,9 +84,10 @@ export default class DashboardView extends Vue {
 
   async getDCEvaluateListInit() {
     try {
-      let url = 'http://10.160.109.63:8081/dcevaluate/' + this.startDCTimestamp + '/' + this.endDCTimestamp + '/dc/membership/datacenter/';
+      let url = 'http://10.160.109.63:8088/powerevaluate/dc/'+ this.startTimestamp + '/' + this.endTimestamp
+      // let url = 'http://10.160.109.63:8081/dcevaluate/' + this.startDCTimestamp + '/' + this.endDCTimestamp + '/dc/membership/datacenter/';
       const {data} = await axios.get(url);
-      this.dcValueList = data.values;
+      this.dcValueList = data.key2ResultList.dc;
       this.IORate.series[0].data = this.dcValueList as never;
       this.startTimestamp = '10';
       this.endTimestamp = '11'
@@ -110,9 +98,10 @@ export default class DashboardView extends Vue {
 
   async getDCEvaluateList() {
     try {
-      let url = 'http://10.160.109.63:8081/dcevaluate/' + this.startDCTimestamp + '/' + this.endDCTimestamp + '/dc/membership/datacenter/';
+      let url = 'http://10.160.109.63:8088/powerevaluate/dc/'+ this.startTimestamp + '/' + this.endTimestamp
+      // let url = 'http://10.160.109.63:8081/dcevaluate/' + this.startDCTimestamp + '/' + this.endDCTimestamp + '/dc/membership/datacenter/';
       const {data} = await axios.get(url);
-      this.dcValue = data.values[0] as never;
+      this.dcValue = data.key2ResultList.dc[0] as never;
     } catch (e) {
       this.$message.error("请求数据失败，请稍后再试！");
     }

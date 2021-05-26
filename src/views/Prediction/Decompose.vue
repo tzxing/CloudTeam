@@ -164,7 +164,7 @@ export default {
     async getEvalData() {
       try {
         // let lidataUrl = 'http://10.160.109.63:8081/powerevaluate/' +'/vm/'+ this.hostname+'/'+ this.xTimestamp + '/' + this.xTimestamp ;
-        let lidataUrl = "http://192.168.0.130:8088/powerevaluate" +'/vm/'+ this.hostname+'/'+ this.xTimestamp + '/' + this.xTimestamp ;
+        let lidataUrl = "http://10.160.109.63:8088/powerevaluate" +'/vm/'+ this.hostname+'/'+ this.xTimestamp + '/' + this.xTimestamp ;
         const {data} = await this.$axios.get(lidataUrl);
         // this.serverIP = data.server;
         this.serverIP = "compute01"

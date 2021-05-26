@@ -8,9 +8,9 @@
               <span style="font-weight: bolder;font-size: 17px">{{ value}}</span>
               <el-button style="float: right; padding: 3px 0" type="text"><router-link style="color: #409EFF" :to="'/prediction/vm/' + value + '/decompose'">虚拟机能耗分解</router-link></el-button>
             </div>
-            <div class="text item">
-              <p><router-link style="color: #409EFF" :to="'/prediction/pod-list/' + value">pod列表</router-link></p>
-            </div>
+<!--            <div class="text item">-->
+<!--              <p><router-link style="color: #409EFF" :to="'/prediction/pod-list/' + value">pod列表</router-link></p>-->
+<!--            </div>-->
           </el-card>
           <br>
         </el-col>
@@ -74,7 +74,7 @@ export default {
       try {
         for (let i=0; i<this.serverList.length; i++) {
           // let lidataUrl = "http://10.160.109.63:8081/getVMs/" + this.serverList[i];
-          let lidataUrl = "http://192.168.0.130:8088/entityinfo/getVMs/" + this.serverList[i];
+          let lidataUrl = "http://10.160.109.63:8088/entityinfo/getVMs/" + this.serverList[i];
 
           const {data} = await this.$axios.get(lidataUrl);
           for(let j in data.entities) {
@@ -89,7 +89,7 @@ export default {
     async getServerList() {
       try {
         // let lidataUrl = "http://10.160.109.63:8081/getServers";
-        let lidataUrl ="http://192.168.0.130:8088/entityinfo/getServers"
+        let lidataUrl ="http://10.160.109.63:8088/entityinfo/getServers"
 
         const {data} = await this.$axios.get(lidataUrl);
         this.serverList = data.entities;

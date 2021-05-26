@@ -80,7 +80,7 @@ export default {
     async getServerList() {
       try {
         // let lidataUrl = "http://10.160.109.63:8081/getServers";
-        let lidataUrl ="http://192.168.0.130:8088/entityinfo/getServers"
+        let lidataUrl ="http://10.160.109.63:8088/entityinfo/getServers"
         const {data} = await this.$axios.get(lidataUrl);
         this.serverList = data.entities;
         this.totalItems = data.entities.length;
