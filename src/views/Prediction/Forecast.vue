@@ -284,7 +284,7 @@ export default {
       return formatDate(date, 'yyyy-MM-dd hh:mm')
     },
     resetData() {
-      this.xTimestamp = this.getTimestamp(this.timestamp);
+      // this.xTimestamp = this.getTimestamp(this.timestamp);
 
     }
   }
